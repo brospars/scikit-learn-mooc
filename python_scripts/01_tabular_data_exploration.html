@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -44,11 +44,10 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/sklearn_mooc.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -61,7 +60,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="✅ Quiz" href="../predictive_modeling_pipeline/01_tabular_data_exploration_quiz.html" />
+    <link rel="next" title="📝 Exercise 01" href="01_tabular_data_exploration_ex_01.html" />
     <link rel="prev" title="Tabular data exploration" href="../predictive_modeling_pipeline/01_tabular_data_exploration_index.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -131,6 +130,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="01_tabular_data_exploration_ex_01.html">
+     📝 Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01_tabular_data_exploration_sol_01.html">
+     📃 Solution for Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../predictive_modeling_pipeline/01_tabular_data_exploration_quiz.html">
      ✅ Quiz
     </a>
@@ -147,6 +156,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="02_numerical_pipeline_introduction.html">
      First model with scikit-learn
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02_numerical_pipeline_ex_00.html">
+     📝 Exercise 00
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02_numerical_pipeline_sol_00.html">
+     📃 Solution for Exercise 00
     </a>
    </li>
    <li class="toctree-l2">
@@ -244,44 +263,38 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_slides.html">
-   📰 Overfitting and Underfitting
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/learning_validation_curves_slides.html">
-   📰 Comparing train and test errors
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/learning_validation_curves_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/bias_vs_variance_slides.html">
-   📰 Bias versus Variance
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/bias_vs_variance_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
  <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../overfit/cross_validation_index.html">
-   The cross-validation framework
+  <a class="reference internal" href="../overfit/overfit_overfitting_underfitting_index.html">
+   Overfitting and underfitting
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_slides.html">
+     📰 Overfitting and Underfitting
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_train_test.html">
      The framework and why do we need it
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_quiz.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../overfit/overfit_validation_learning_curves_index.html">
+   Validation and learning curves
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/learning_validation_curves_slides.html">
+     📰 Comparing train and test errors
     </a>
    </li>
    <li class="toctree-l2">
@@ -301,12 +314,41 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_sol_01.html">
-     📃 Solution fo Exercise 01
+     📃 Solution for Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/learning_validation_curves_quiz.html">
+     ✅ Quiz
     </a>
    </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../overfit/overfit_bias_variance_index.html">
+   Bias versus variance trade-off
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/bias_vs_variance_slides.html">
+     📰 Bias versus Variance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/bias_vs_variance_quiz.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../overfit/overfit_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
+  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../overfit/overfit_take_away.html">
@@ -323,16 +365,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../tuning/parameter_tuning_module_intro.html">
    Module overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="parameter_tuning_ex_01.html">
-   📝 Introductory example for hyperparameters tuning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="parameter_tuning_sol_01.html">
-   📃 Solution for introductory example for hyperparameters tuning
   </a>
  </li>
  <li class="toctree-l1 collapsible-parent">
@@ -370,8 +402,18 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="parameter_tuning_automated.html">
-     Automated hyperparameters tuning in scikit-learn
+    <a class="reference internal" href="parameter_tuning_grid_search.html">
+     Hyperparameters tuning by grid-search
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="parameter_tuning_randomized_search.html">
+     Hyperparameters tuning by randomized-search
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="parameter_tuning_nested.html">
+     Cross-validation and hyperparameters tuning
     </a>
    </li>
    <li class="toctree-l2">
@@ -394,6 +436,11 @@
   </i>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../tuning/parameter_tuning_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../tuning/parameter_tuning_module_take_away.html">
    Main take-away
   </a>
@@ -410,10 +457,24 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../linear_models/slides.html">
-   📰 Intuitions on linear models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../linear_models/linear_models_intuitions_index.html">
+   Intuitions on linear models
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../linear_models/slides.html">
+     📰 Intuitions on linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../linear_models/linear_models_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../linear_models/linear_models_regression_index.html">
@@ -552,13 +613,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../linear_models/linear_models_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../linear_models/linear_models_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/linear_models_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../linear_models/linear_models_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -573,15 +634,24 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../trees/slides.html">
-   📰 Intuitions on tree-based models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../trees/trees_intuitions_index.html">
+   Intuitions on tree-based models
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="trees_dataset.html">
-   Presentation of the datasets
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../trees/slides.html">
+     📰 Intuitions on tree-based models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../trees/trees_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../trees/trees_classification_index.html">
@@ -661,13 +731,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../trees/trees_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../trees/trees_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/trees_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../trees/trees_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -682,15 +752,29 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../ensemble/slides.html">
-   📰 Intuitions on ensemble of tree-based models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../ensemble/ensemble_intuitions_index.html">
+   Intuitions on ensemble methods
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ensemble_introduction.html">
-   Introductory example to ensemble models
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ensemble/slides.html">
+     📰 Intuitions on ensemble of tree-based models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ensemble/ensemble_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ensemble_introduction.html">
+     Introductory example to ensemble models
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../ensemble/ensemble_bootstrap_index.html">
@@ -715,11 +799,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ensemble_random_forest.html">
      Random forest
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="ensemble_random_forest.html#midpoint-summary">
-     Midpoint summary
     </a>
    </li>
    <li class="toctree-l2">
@@ -820,13 +899,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../ensemble/ensemble_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../ensemble/ensemble_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/ensemble_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../ensemble/ensemble_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -859,6 +938,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_sol_02.html">
      📃 Solution for Exercise 02
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_01.html">
+     ✅ Quiz
     </a>
    </li>
   </ul>
@@ -900,19 +984,33 @@
      Non i.i.d. data
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_02.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="cross_validation_nested.html">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../evaluation/cross_validation_nested_index.html">
    Nested cross-validation
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../evaluation/cross_validation_quiz.html">
-   ✅ Quiz
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="cross_validation_nested.html">
+     Nested cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_03.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../evaluation/02_metrics.html">
@@ -939,6 +1037,11 @@
      📃 Solution for Exercise 01
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_04.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
@@ -963,14 +1066,14 @@
      📃 Solution for Exercise 02
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_05.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../evaluation/metrics_quiz.html">
-   ✅ Quiz
-  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../evaluation/evaluation_module_take_away.html">
@@ -1051,6 +1154,57 @@
   </a>
  </li>
 </ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Appendix
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../appendix/datasets_intro.html">
+   Datasets description
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="trees_dataset.html">
+     The penguins datasets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/adult_census_description.html">
+     The adult census dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_california_housing.html">
+     The California housing dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_ames_housing.html">
+     The Ames housing dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_blood_transfusion.html">
+     The blood transfusion dataset
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/acknowledgement.html">
+   Acknowledgement
+  </a>
+ </li>
+</ul>
 
 </nav> <!-- To handle the deprecated key -->
 
@@ -1067,21 +1221,21 @@
           
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="row topbar fixed-top container-xl">
-    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
-    </div>
-    <div class="col pl-2 topbar-main">
-        
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-arrow-left"></i>
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        
-        
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
@@ -1099,7 +1253,7 @@
     </div>
 </div>
 
-        <!-- Source interaction buttons -->
+            <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -1120,13 +1274,13 @@
 </div>
 
 
-        <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                title="Fullscreen mode"><i
-                    class="fas fa-expand"></i></button></a>
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
 
-        <!-- Launch buttons -->
+            <!-- Launch buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -1145,13 +1299,14 @@
     </div>
 </div>
 
-    </div>
+        </div>
 
-    <!-- Table of contents -->
-    <div class="d-none d-md-block col-md-2 bd-toc show">
-        
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
+            <i class="fas fa-list"></i>
+            Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
@@ -1174,6 +1329,7 @@
 
         </nav>
         
+        </div>
     </div>
 </div>
     <div id="main-content" class="row">
@@ -1197,6 +1353,12 @@ the dataset.</p></li>
 <h2>Loading the adult census dataset<a class="headerlink" href="#loading-the-adult-census-dataset" title="Permalink to this headline">¶</a></h2>
 <p>We will use data from the “Current Population adult_census” from 1994 that we
 downloaded from <a class="reference external" href="http://openml.org/">OpenML</a>.</p>
+<p>We use pandas to read this dataset.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="https://pandas.pydata.org/">Pandas</a> is a Python library used for
+manipulating 1 and 2 dimensional structured data.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -1214,9 +1376,15 @@ information, etc.</p>
 </div>
 <div class="section" id="the-variables-columns-in-the-dataset">
 <h2>The variables (columns) in the dataset<a class="headerlink" href="#the-variables-columns-in-the-dataset" title="Permalink to this headline">¶</a></h2>
-<p>The data are stored in a pandas dataframe.</p>
-<p>Pandas is a Python library used for manipulating tables
-(which can be seen as Excel sheets): <a class="reference external" href="https://pandas.pydata.org/">https://pandas.pydata.org/</a></p>
+<p>The data are stored in a pandas dataframe. A dataframe is type of structured
+data composed of 2 dimensions. This type of data are also referred as tabular
+data.</p>
+<p>The rows represents a record. In the field of machine learning or descriptive
+statistics, the terms commonly used to refer to rows are “sample”,
+“instance”, or “observation”.</p>
+<p>The columns represents a type of information collected. In the field of
+machined learning and descriptive statistics, the terms commonly used to
+refer to columns are “feature”, “variable”, “attribute”, or “covariate”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adult_census</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>  <span class="c1"># Print the first few lines of our dataframe</span>
@@ -1355,8 +1523,8 @@ information, etc.</p>
 </div></div></div>
 </div>
 <p>The column named <strong>class</strong> is our target variable (i.e., the variable which
-we want to predict). The two possible classes are <code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">50K</span></code> (low-revenue) and
-<code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">50K</span></code> (high-revenue). The resulting prediction problem is therefore a
+we want to predict). The two possible classes are <code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> (low-revenue) and
+<code class="docutils literal notranslate"><span class="pre">&gt;50K</span></code> (high-revenue). The resulting prediction problem is therefore a
 binary classification problem, while we will use the other columns as input
 variables for our model.</p>
 <div class="cell docutils container">
@@ -1376,17 +1544,15 @@ Name: class, dtype: int64
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Classes are slightly imbalanced,
-meaning there are more instances of one or more classes compared to others.
-Class imbalance happens often in practice and may need special techniques
-for machine learning.
-<br />
-For example in a medical setting, if we are trying to predict whether patients
-will develop a rare disease, there will be a lot more healthy patients than ill
-patients in the dataset.</p>
+<p>Classes are slightly imbalanced, meaning there are more samples of one or
+more classes compared to others. Class imbalance happens often in practice
+and may need special techniques when building a predictive model.</p>
+<p>For example in a medical setting, if we are trying to predict whether
+subjects will develop a rare disease, there will be a lot more healthy
+subjects than ill subjects in the dataset.</p>
 </div>
 <p>The dataset contains both numerical and categorical data. Numerical values
-can take continuous values for example <code class="docutils literal notranslate"><span class="pre">age</span></code>. Categorical values can have a
+take continuous values, for example <code class="docutils literal notranslate"><span class="pre">age</span></code>. Categorical values can have a
 finite number of values, for example <code class="docutils literal notranslate"><span class="pre">native-country</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1407,17 +1573,31 @@ finite number of values, for example <code class="docutils literal notranslate">
 <p>Note that for simplicity, we have ignored the “fnlwgt” (final weight) column
 that was crafted by the creators of the dataset when sampling the dataset to
 be representative of the full census database.</p>
-<p>We can check the number of samples and the number of features available in
+<p>We can check the number of samples and the number of columns available in
 the dataset:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The dataset contains </span><span class="si">{</span><span class="n">adult_census</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> samples and &quot;</span>
-      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">adult_census</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> features&quot;</span><span class="p">)</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">adult_census</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columns&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The dataset contains 48842 samples and 14 features
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The dataset contains 48842 samples and 14 columns
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can compute the number of features by counting the number of columns and
+subtract 1, since of the column is the target.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The dataset contains </span><span class="si">{</span><span class="n">adult_census</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> features.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The dataset contains 13 features.
 </pre></div>
 </div>
 </div>
@@ -1425,8 +1605,7 @@ the dataset:</p>
 </div>
 <div class="section" id="visual-inspection-of-the-data">
 <h2>Visual inspection of the data<a class="headerlink" href="#visual-inspection-of-the-data" title="Permalink to this headline">¶</a></h2>
-<p>Before building a machine learning model, it is a good idea to look at the
-data:</p>
+<p>Before building a predictive model, it is a good idea to look at the data:</p>
 <ul class="simple">
 <li><p>maybe the task you are trying to achieve can be solved without machine
 learning;</p></li>
@@ -1437,27 +1616,23 @@ arise during data collection (for example, malfunctioning sensor or missing
 values), or from the way the data is processed afterwards (for example
 capped values).</p></li>
 </ul>
-<p>Let’s look at the distribution of individual variables, to get some insights
+<p>Let’s look at the distribution of individual features, to get some insights
 about the data. We can start by plotting histograms, note that this only
-works for numerical variables:</p>
+works for features containing numerical values:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;talk&quot;</span><span class="p">)</span>
-
-<span class="n">_</span> <span class="o">=</span> <span class="n">adult_census</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">adult_census</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_tabular_data_exploration_16_0.png" src="../_images/01_tabular_data_exploration_16_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/pandas/plotting/_matplotlib/tools.py:400: MatplotlibDeprecationWarning: 
+The is_first_col function was deprecated in Matplotlib 3.4 and will be removed two minor releases later. Use ax.get_subplotspec().is_first_col() instead.
+  if ax.is_first_col():
+</pre></div>
 </div>
+<img alt="../_images/01_tabular_data_exploration_18_1.png" src="../_images/01_tabular_data_exploration_18_1.png" />
 </div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>In the code cell, we are using <code class="docutils literal notranslate"><span class="pre">sns.set_context</span></code> to globally change
-the rendering of the figure with larger fonts and line. We will use this
-call in all notebooks.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -1468,14 +1643,14 @@ interested in.</p>
 </div>
 <p>We can already make a few comments about some of the variables:</p>
 <ul class="simple">
-<li><p>age: there are not that many points for ‘age &gt; 70’. The dataset description
-does indicate that retired people have been filtered out
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code>: there are not that many points for ‘age &gt; 70’. The dataset
+description does indicate that retired people have been filtered out
 (<code class="docutils literal notranslate"><span class="pre">hours-per-week</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>);</p></li>
-<li><p>education-num: peak at 10 and 13, hard to tell what it corresponds to
+<li><p><code class="docutils literal notranslate"><span class="pre">education-num</span></code>: peak at 10 and 13, hard to tell what it corresponds to
 without looking much further. We’ll do that later in this notebook;</p></li>
-<li><p>hours per week peaks at 40, this was very likely the standard number of
+<li><p><code class="docutils literal notranslate"><span class="pre">hours-per-week</span></code> peaks at 40, this was very likely the standard number of
 working hours at the time of the data collection;</p></li>
-<li><p>most values of capital-gain and capital-loss are close to zero.</p></li>
+<li><p>most values of <code class="docutils literal notranslate"><span class="pre">capital-gain</span></code> and <code class="docutils literal notranslate"><span class="pre">capital-loss</span></code> are close to zero.</p></li>
 </ul>
 <p>For categorical variables, we can look at the distribution of values:</p>
 <div class="cell docutils container">
@@ -1896,18 +2071,25 @@ of years of education.</p>
 </table>
 </div></div></div>
 </div>
-<p>This shows that education and education-num gives you the same information.
-For example, <code class="docutils literal notranslate"><span class="pre">education-num=2</span></code> is equivalent to <code class="docutils literal notranslate"><span class="pre">education='1st-4th'</span></code>. In
-practice that means we can remove <code class="docutils literal notranslate"><span class="pre">education-num</span></code> without losing information.
-Note that having redundant (or highly correlated) columns can be a problem
-for machine learning algorithms.</p>
-<p>Another way to inspect the data is to do a pairplot and show how each
+<p>This shows that <code class="docutils literal notranslate"><span class="pre">education</span></code> and <code class="docutils literal notranslate"><span class="pre">education-num</span></code> gives you the same
+information. For example, <code class="docutils literal notranslate"><span class="pre">education-num=2</span></code> is equivalent to
+<code class="docutils literal notranslate"><span class="pre">education='1st-4th'</span></code>. In practice that means we can remove <code class="docutils literal notranslate"><span class="pre">education-num</span></code>
+without losing information. Note that having redundant (or highly correlated)
+columns can be a problem for machine learning algorithms.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the upcoming notebooks, we will only keep the <code class="docutils literal notranslate"><span class="pre">education</span></code> variable,
+excluding the <code class="docutils literal notranslate"><span class="pre">education-num</span></code> variable.</p>
+</div>
+<p>Another way to inspect the data is to do a <code class="docutils literal notranslate"><span class="pre">pairplot</span></code> and show how each
 variable differs according to our target, <code class="docutils literal notranslate"><span class="pre">class</span></code>. Plots along the diagonal
 show the distribution of individual variables for each <code class="docutils literal notranslate"><span class="pre">class</span></code>. The plots on
 the off-diagonal can reveal interesting interactions between variables.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_samples_to_plot</span> <span class="o">=</span> <span class="mi">5000</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">n_samples_to_plot</span> <span class="o">=</span> <span class="mi">5000</span>
 <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;education-num&#39;</span><span class="p">,</span> <span class="s1">&#39;hours-per-week&#39;</span><span class="p">]</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">adult_census</span><span class="p">[:</span><span class="n">n_samples_to_plot</span><span class="p">],</span> <span class="nb">vars</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
                  <span class="n">hue</span><span class="o">=</span><span class="n">target_column</span><span class="p">,</span> <span class="n">plot_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">},</span>
@@ -1916,18 +2098,18 @@ the off-diagonal can reveal interesting interactions between variables.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/01_tabular_data_exploration_25_0.png" src="../_images/01_tabular_data_exploration_25_0.png" />
+<img alt="../_images/01_tabular_data_exploration_28_0.png" src="../_images/01_tabular_data_exploration_28_0.png" />
 </div>
 </div>
 <p>By looking at the data you could infer some hand-written rules to predict the
 class:</p>
 <ul class="simple">
 <li><p>if you are young (less than 25 year-old roughly), you are in the
-<code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">50K</span></code> class;</p></li>
+<code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> class;</p></li>
 <li><p>if you are old (more than 70 year-old roughly), you are in the
-<code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">50K</span></code> class;</p></li>
+<code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> class;</p></li>
 <li><p>if you work part-time (less than 40 hours roughly) you are in the
-<code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">50K</span></code> class.</p></li>
+<code class="docutils literal notranslate"><span class="pre">&lt;=50K</span></code> class.</p></li>
 </ul>
 <p>These hand-written rules could work reasonably well without the need for any
 machine learning. Note however that it is not very easy to create rules for
@@ -2017,15 +2199,15 @@ interaction, so be aware of non-linear relationships in your data.</p></li>
 
               </div>
               
-        </div>
-    </div>
-    
-    
-    <div class='prev-next-bottom'>
         
+        <div class='prev-next-bottom'>
+            
     <a class='left-prev' id="prev-link" href="../predictive_modeling_pipeline/01_tabular_data_exploration_index.html" title="previous page">Tabular data exploration</a>
-    <a class='right-next' id="next-link" href="../predictive_modeling_pipeline/01_tabular_data_exploration_quiz.html" title="next page">✅ Quiz</a>
+    <a class='right-next' id="next-link" href="01_tabular_data_exploration_ex_01.html" title="next page">📝 Exercise 01</a>
 
+        </div>
+        
+        </div>
     </div>
     <footer class="footer mt-5 mt-md-0">
     <div class="container">

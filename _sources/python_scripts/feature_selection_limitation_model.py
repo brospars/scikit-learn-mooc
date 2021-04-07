@@ -16,7 +16,7 @@
 # %%
 from sklearn.datasets import make_classification
 
-X, y = make_classification(
+data, target = make_classification(
     n_samples=5000,
     n_features=100,
     n_informative=2,
@@ -43,7 +43,7 @@ import pandas as pd
 from sklearn.model_selection import cross_validate
 
 cv_results_without_selection = cross_validate(
-    model_without_selection, X, y, cv=5)
+    model_without_selection, data, target, cv=5)
 cv_results_without_selection = pd.DataFrame(cv_results_without_selection)
 
 # %% [markdown]
@@ -59,11 +59,12 @@ model_with_selection = make_pipeline(
     feature_selector, RandomForestClassifier())
 
 # %%
-cv_results_with_selection = cross_validate(model_with_selection, X, y, cv=5)
+cv_results_with_selection = cross_validate(model_with_selection, data, target,
+                                           cv=5)
 cv_results_with_selection = pd.DataFrame(cv_results_with_selection)
 
 # %% [markdown]
-# We can compare the generalization score of the two models. For this matter,
+# We can compare the testing score of the two models. For this matter,
 # we are combining results in a single dataframe.
 
 # %%
@@ -74,23 +75,13 @@ cv_results = pd.concat(
 ).swaplevel(axis="columns")
 
 # %% [markdown]
-# Finally, we can check the generalization score of each the model.
+# Finally, we can check the testing score of each the model.
 
 # %%
 import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set_context("talk")
 
-# Define the style of the box style
-boxplot_property = {
-    "vert": False, "whis": 100, "patch_artist": True, "widths": 0.3,
-    "boxprops": dict(linewidth=3, color='black', alpha=0.9),
-    "medianprops": dict(linewidth=2.5, color='black', alpha=0.9),
-    "whiskerprops": dict(linewidth=3, color='black', alpha=0.9),
-    "capprops": dict(linewidth=3, color='black', alpha=0.9),
-}
-
-cv_results["test_score"].plot.box(**boxplot_property)
+color = {"whiskers": "black", "medians": "black", "caps": "black"}
+cv_results["test_score"].plot.box(color=color, vert=False)
 plt.xlabel("Accuracy")
 _ = plt.title("Limitation of using a random forest for feature selection")
 

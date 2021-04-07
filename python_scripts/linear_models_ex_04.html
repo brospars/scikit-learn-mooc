@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -44,11 +44,10 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/sklearn_mooc.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -131,6 +130,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="01_tabular_data_exploration_ex_01.html">
+     📝 Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01_tabular_data_exploration_sol_01.html">
+     📃 Solution for Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../predictive_modeling_pipeline/01_tabular_data_exploration_quiz.html">
      ✅ Quiz
     </a>
@@ -147,6 +156,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="02_numerical_pipeline_introduction.html">
      First model with scikit-learn
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02_numerical_pipeline_ex_00.html">
+     📝 Exercise 00
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02_numerical_pipeline_sol_00.html">
+     📃 Solution for Exercise 00
     </a>
    </li>
    <li class="toctree-l2">
@@ -244,44 +263,38 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_slides.html">
-   📰 Overfitting and Underfitting
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/learning_validation_curves_slides.html">
-   📰 Comparing train and test errors
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/learning_validation_curves_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/bias_vs_variance_slides.html">
-   📰 Bias versus Variance
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/bias_vs_variance_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
  <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../overfit/cross_validation_index.html">
-   The cross-validation framework
+  <a class="reference internal" href="../overfit/overfit_overfitting_underfitting_index.html">
+   Overfitting and underfitting
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_slides.html">
+     📰 Overfitting and Underfitting
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_train_test.html">
      The framework and why do we need it
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_quiz.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../overfit/overfit_validation_learning_curves_index.html">
+   Validation and learning curves
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/learning_validation_curves_slides.html">
+     📰 Comparing train and test errors
     </a>
    </li>
    <li class="toctree-l2">
@@ -301,12 +314,41 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_sol_01.html">
-     📃 Solution fo Exercise 01
+     📃 Solution for Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/learning_validation_curves_quiz.html">
+     ✅ Quiz
     </a>
    </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../overfit/overfit_bias_variance_index.html">
+   Bias versus variance trade-off
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/bias_vs_variance_slides.html">
+     📰 Bias versus Variance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/bias_vs_variance_quiz.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../overfit/overfit_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
+  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../overfit/overfit_take_away.html">
@@ -323,16 +365,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../tuning/parameter_tuning_module_intro.html">
    Module overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="parameter_tuning_ex_01.html">
-   📝 Introductory example for hyperparameters tuning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="parameter_tuning_sol_01.html">
-   📃 Solution for introductory example for hyperparameters tuning
   </a>
  </li>
  <li class="toctree-l1 collapsible-parent">
@@ -370,8 +402,18 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="parameter_tuning_automated.html">
-     Automated hyperparameters tuning in scikit-learn
+    <a class="reference internal" href="parameter_tuning_grid_search.html">
+     Hyperparameters tuning by grid-search
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="parameter_tuning_randomized_search.html">
+     Hyperparameters tuning by randomized-search
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="parameter_tuning_nested.html">
+     Cross-validation and hyperparameters tuning
     </a>
    </li>
    <li class="toctree-l2">
@@ -394,6 +436,11 @@
   </i>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../tuning/parameter_tuning_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../tuning/parameter_tuning_module_take_away.html">
    Main take-away
   </a>
@@ -410,10 +457,24 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../linear_models/slides.html">
-   📰 Intuitions on linear models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../linear_models/linear_models_intuitions_index.html">
+   Intuitions on linear models
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../linear_models/slides.html">
+     📰 Intuitions on linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../linear_models/linear_models_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../linear_models/linear_models_regression_index.html">
@@ -552,13 +613,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../linear_models/linear_models_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../linear_models/linear_models_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/linear_models_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../linear_models/linear_models_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -573,15 +634,24 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../trees/slides.html">
-   📰 Intuitions on tree-based models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../trees/trees_intuitions_index.html">
+   Intuitions on tree-based models
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="trees_dataset.html">
-   Presentation of the datasets
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../trees/slides.html">
+     📰 Intuitions on tree-based models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../trees/trees_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../trees/trees_classification_index.html">
@@ -661,13 +731,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../trees/trees_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../trees/trees_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/trees_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../trees/trees_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -682,15 +752,29 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../ensemble/slides.html">
-   📰 Intuitions on ensemble of tree-based models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../ensemble/ensemble_intuitions_index.html">
+   Intuitions on ensemble methods
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ensemble_introduction.html">
-   Introductory example to ensemble models
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ensemble/slides.html">
+     📰 Intuitions on ensemble of tree-based models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ensemble/ensemble_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ensemble_introduction.html">
+     Introductory example to ensemble models
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../ensemble/ensemble_bootstrap_index.html">
@@ -715,11 +799,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ensemble_random_forest.html">
      Random forest
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="ensemble_random_forest.html#midpoint-summary">
-     Midpoint summary
     </a>
    </li>
    <li class="toctree-l2">
@@ -820,13 +899,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../ensemble/ensemble_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../ensemble/ensemble_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/ensemble_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../ensemble/ensemble_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -859,6 +938,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_sol_02.html">
      📃 Solution for Exercise 02
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_01.html">
+     ✅ Quiz
     </a>
    </li>
   </ul>
@@ -900,19 +984,33 @@
      Non i.i.d. data
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_02.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="cross_validation_nested.html">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../evaluation/cross_validation_nested_index.html">
    Nested cross-validation
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../evaluation/cross_validation_quiz.html">
-   ✅ Quiz
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="cross_validation_nested.html">
+     Nested cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_03.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../evaluation/02_metrics.html">
@@ -939,6 +1037,11 @@
      📃 Solution for Exercise 01
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_04.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
@@ -963,14 +1066,14 @@
      📃 Solution for Exercise 02
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_05.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../evaluation/metrics_quiz.html">
-   ✅ Quiz
-  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../evaluation/evaluation_module_take_away.html">
@@ -1051,6 +1154,57 @@
   </a>
  </li>
 </ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Appendix
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../appendix/datasets_intro.html">
+   Datasets description
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="trees_dataset.html">
+     The penguins datasets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/adult_census_description.html">
+     The adult census dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_california_housing.html">
+     The California housing dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_ames_housing.html">
+     The Ames housing dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_blood_transfusion.html">
+     The blood transfusion dataset
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/acknowledgement.html">
+   Acknowledgement
+  </a>
+ </li>
+</ul>
 
 </nav> <!-- To handle the deprecated key -->
 
@@ -1067,21 +1221,21 @@
           
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="row topbar fixed-top container-xl">
-    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
-    </div>
-    <div class="col pl-2 topbar-main">
-        
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-arrow-left"></i>
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        
-        
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
@@ -1099,7 +1253,7 @@
     </div>
 </div>
 
-        <!-- Source interaction buttons -->
+            <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -1120,19 +1274,20 @@
 </div>
 
 
-        <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                title="Fullscreen mode"><i
-                    class="fas fa-expand"></i></button></a>
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
 
-        <!-- Launch buttons -->
+            <!-- Launch buttons -->
 
-    </div>
+        </div>
 
-    <!-- Table of contents -->
-    <div class="d-none d-md-block col-md-2 bd-toc show">
-        
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
     </div>
 </div>
     <div id="main-content" class="row">
@@ -1142,156 +1297,86 @@
                 
   <div class="section" id="exercise-04">
 <h1>📝 Exercise 04<a class="headerlink" href="#exercise-04" title="Permalink to this headline">¶</a></h1>
-<p>In the previous notebook, we illustrated how a regularization parameter of
-ridge model need to be optimized by hand. However, this way of optimizing
-hyperparameters is not effective: only a single split was used while
-cross-validation could be used.</p>
-<p>This exercise will make you implement the same search but using the class
-<code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>.</p>
-<p>First, we will:</p>
-<ul class="simple">
-<li><p>load the California housing dataset;</p></li>
-<li><p>split the data into a training and testing set;</p></li>
-<li><p>create a machine learning pipeline composed of a standard scaler to
-normalize the data, and a ridge regression as a linear model.</p></li>
-</ul>
+<p>In the previous notebook, we saw the effect of applying some regularization
+on the coefficient of a linear model.</p>
+<p>In this exercise, we will study the advantage of using some regularization
+when dealing with correlated features.</p>
+<p>We will first create a regression dataset. This dataset will contain 2,000
+samples and 5 features from which only 2 features will be informative.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_california_housing</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_regression</span>
 
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fetch_california_housing</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>MedInc</th>
-      <th>HouseAge</th>
-      <th>AveRooms</th>
-      <th>AveBedrms</th>
-      <th>Population</th>
-      <th>AveOccup</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>8.3252</td>
-      <td>41.0</td>
-      <td>6.984127</td>
-      <td>1.023810</td>
-      <td>322.0</td>
-      <td>2.555556</td>
-      <td>37.88</td>
-      <td>-122.23</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>8.3014</td>
-      <td>21.0</td>
-      <td>6.238137</td>
-      <td>0.971880</td>
-      <td>2401.0</td>
-      <td>2.109842</td>
-      <td>37.86</td>
-      <td>-122.22</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>7.2574</td>
-      <td>52.0</td>
-      <td>8.288136</td>
-      <td>1.073446</td>
-      <td>496.0</td>
-      <td>2.802260</td>
-      <td>37.85</td>
-      <td>-122.24</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>5.6431</td>
-      <td>52.0</td>
-      <td>5.817352</td>
-      <td>1.073059</td>
-      <td>558.0</td>
-      <td>2.547945</td>
-      <td>37.85</td>
-      <td>-122.25</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>3.8462</td>
-      <td>52.0</td>
-      <td>6.281853</td>
-      <td>1.081081</td>
-      <td>565.0</td>
-      <td>2.181467</td>
-      <td>37.85</td>
-      <td>-122.25</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">coef</span> <span class="o">=</span> <span class="n">make_regression</span><span class="p">(</span>
+    <span class="n">n_samples</span><span class="o">=</span><span class="mi">2_000</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_informative</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">coef</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>When creating the dataset, <code class="docutils literal notranslate"><span class="pre">make_regression</span></code> returns the true coefficient
+used to generate the dataset. Let’s plot this information.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span><span class="p">,</span> <span class="n">StandardScaler</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">ridge</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">Ridge</span><span class="p">())</span>
+<span class="n">feature_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Features </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span>
+<span class="n">coef</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">barh</span><span class="p">()</span>
+<span class="n">coef</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Features 0     9.566665
+Features 1    40.192077
+Features 2     0.000000
+Features 3     0.000000
+Features 4     0.000000
+dtype: float64
+</pre></div>
+</div>
+<img alt="../_images/linear_models_ex_04_3_1.png" src="../_images/linear_models_ex_04_3_1.png" />
+</div>
+</div>
+<p>Create a <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> regressor and fit on the entire dataset and
+check the value of the coefficients. Are the coefficients of the linear
+regressor close to the coefficients used to generate the dataset?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">linear_regression</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">linear_regression</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">linear_regression</span><span class="o">.</span><span class="n">coef_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([10.89587004, 40.41128042, -0.20542454, -0.18954462,  0.11129768])
 </pre></div>
 </div>
 </div>
 </div>
-<p>Now the exercise is to use a <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> estimator to optimize the
-parameter <code class="docutils literal notranslate"><span class="pre">alpha</span></code> of the ridge regressor. We redefine all the regularization
-parameter candidates that we saw in the previous notebook.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Features </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">linear_regression</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">feature_names</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">coef</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">barh</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/linear_models_ex_04_6_0.png" src="../_images/linear_models_ex_04_6_0.png" />
 </div>
-<p>You can refer to the documentation of <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>
-<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">here</a>
-to check how to use this estimator.
-First, train the grid-search using the previous machine learning pipeline and
-check what is the value of the best parameters found.</p>
+</div>
+<p>We see that the coefficients are close to the coefficients used to generate
+the dataset. The dispersion is indeed cause by the noise injected during the
+dataset generation.</p>
+<p>Now, create a new dataset that will be the same as <code class="docutils literal notranslate"><span class="pre">data</span></code> with 4 additional
+columns that will repeat twice features 0 and 1. This procedure will create
+perfectly correlated features.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code here.</span>
@@ -1299,8 +1384,8 @@ check what is the value of the best parameters found.</p>
 </div>
 </div>
 </div>
-<p>Once that you found the best parameter <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, use the grid-search estimator
-that you created to predict and estimate the <span class="math notranslate nohighlight">\(R^2\)</span> score of this model.</p>
+<p>Fit again the linear regressor on this new dataset and check the
+coefficients. What do you observe?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code here.</span>
@@ -1308,14 +1393,17 @@ that you created to predict and estimate the <span class="math notranslate nohig
 </div>
 </div>
 </div>
-<p>It is also interesting to know that several regressors and classifiers
-in scikit-learn are optimized to make this parameter tuning. They usually
-finish with the term “CV” for “Cross Validation” (e.g. <code class="docutils literal notranslate"><span class="pre">RidgeCV</span></code>).
-They are more efficient than using <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> and you should use them
-instead.</p>
-<p>Repeat the previous exercise but using <code class="docutils literal notranslate"><span class="pre">RidgeCV</span></code> estimator instead of a
-grid-search. Refer to the documentation of <code class="docutils literal notranslate"><span class="pre">RidgeCV</span></code> to have more information
-on how to use it.</p>
+<p>Create a ridge regressor and fit on the same dataset. Check the coefficients.
+What do you observe?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Can you find the relationship between the ridge coefficients and the original
+coefficients?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write your code here.</span>
@@ -1347,15 +1435,15 @@ on how to use it.</p>
 
               </div>
               
-        </div>
-    </div>
-    
-    
-    <div class='prev-next-bottom'>
         
+        <div class='prev-next-bottom'>
+            
     <a class='left-prev' id="prev-link" href="linear_models_regularization.html" title="previous page">Regularization of linear regression model</a>
     <a class='right-next' id="next-link" href="linear_models_sol_04.html" title="next page">📃 Solution for Exercise 04</a>
 
+        </div>
+        
+        </div>
     </div>
     <footer class="footer mt-5 mt-md-0">
     <div class="container">

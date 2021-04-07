@@ -1,27 +1,33 @@
 # %% [markdown]
 # # 📃 Solution for Exercise 01
 #
-# The aim of this exercise is three-fold:
+# The aim of this exercise is two-fold:
 #
 # * understand the parametrization of a linear model;
-# * quantify the goodness of fit of a set of such model.
+# * quantify the fitting accuracy of a set of such models.
 #
 # We will reuse part of the code of the course to:
 #
 # * load data;
 # * create the function representing a linear model.
 #
-# ## Prerequisite
+# ## Prerequisites
 #
 # ### Data loading
+
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
 
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/penguins_regression.csv")
+penguins = pd.read_csv("../datasets/penguins_regression.csv")
 feature_name = "Flipper Length (mm)"
 target_name = "Body Mass (g)"
-X, y = data[[feature_name]], data[target_name]
+data, target = penguins[[feature_name]], penguins[target_name]
 
 # %% [markdown]
 # ### Model definition
@@ -46,27 +52,25 @@ def linear_model_flipper_mass(
 # %%
 import numpy as np
 
-flipper_length_range = np.linspace(X.min(), X.max(), num=300)
+flipper_length_range = np.linspace(data.min(), data.max(), num=300)
 
 # %%
 import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set_context("talk")
 
 weights = [-40, 45, 90]
 intercepts = [15000, -5000, -14000]
 
-_, ax = plt.subplots()
-sns.scatterplot(data=data, x=feature_name, y=target_name, ax=ax)
+ax = sns.scatterplot(data=penguins, x=feature_name, y=target_name,
+                     color="black", alpha=0.5)
 
+label = "{0:.2f} (g / mm) * flipper length + {1:.2f} (g)"
 for weight, intercept in zip(weights, intercepts):
     predicted_body_mass = linear_model_flipper_mass(
         flipper_length_range, weight, intercept)
 
-    label = "{0:.2f} (g / mm) * flipper length + {1:.2f} (g)"
     ax.plot(flipper_length_range, predicted_body_mass,
-            label=label.format(weight, intercept),
-            linewidth=4)
+            label=label.format(weight, intercept))
 _ = ax.legend(loc='center left', bbox_to_anchor=(-0.25, 1.25), ncol=1)
 
 # %% [markdown]
@@ -96,9 +100,7 @@ def goodness_fit_measure(true_values, predictions):
 
 # %%
 for model_idx, (weight, intercept) in enumerate(zip(weights, intercepts)):
-    y_pred = linear_model_flipper_mass(X, weight, intercept)
+    target_predicted = linear_model_flipper_mass(data, weight, intercept)
     print(f"Model #{model_idx}:")
     print(f"{weight:.2f} (g / mm) * flipper length + {intercept:.2f} (g)")
-    print(f"Error: {goodness_fit_measure(y, y_pred):.3f}\n")
-
-# %%
+    print(f"Error: {goodness_fit_measure(target, target_predicted):.3f}\n")

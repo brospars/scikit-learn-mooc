@@ -6,17 +6,17 @@
 # a cross-validation framework in order to inspect internal parameters found
 # via grid-search.
 #
-# We will use the california housing dataset.
+# We will use the California housing dataset.
 
 # %%
 from sklearn.datasets import fetch_california_housing
 
-X, y = fetch_california_housing(return_X_y=True, as_frame=True)
+data, target = fetch_california_housing(return_X_y=True, as_frame=True)
+target *= 100  # rescale the target in k$
 
 # %% [markdown]
-# First, create a histogram gradient boosting regressor. You can set the number
-# of trees to be large enough. Indeed, you fix the parameter such that model
-# will use early-stopping.
+# First, create a histogram gradient boosting regressor. You can set the
+# trees number to be large, and configure the model to use early-stopping.
 
 # %%
 from sklearn.experimental import enable_hist_gradient_boosting
@@ -33,8 +33,8 @@ hist_gbdt = HistGradientBoostingRegressor(
 # * `max_leaf_nodes: [15, 31]`;
 # * `learning_rate: [0.1, 1]`.
 #
-# Feel free to explore more the space with additional values. Create the
-# grid-search providing the previous gradient boosting instance as model.
+# Feel free to explore the space with additional values. Create the
+# grid-search providing the previous gradient boosting instance as the model.
 
 # %%
 from sklearn.model_selection import GridSearchCV
@@ -49,10 +49,10 @@ search = GridSearchCV(hist_gbdt, params)
 
 # %% [markdown]
 # Finally, we will run our experiment through cross-validation. In this regard,
-# define a 5-fold cross-validation. Besides, be sure to shuffle the the data.
+# define a 5-fold cross-validation. Besides, be sure to shuffle the data.
 # Subsequently, use the function `sklearn.model_selection.cross_validate`
-# to run the cross-validation. You should as well set `return_estimator=True`,
-# such that we can investigate the inner model trained via cross-validation.
+# to run the cross-validation. You should also set `return_estimator=True`,
+# so that we can investigate the inner model trained via cross-validation.
 
 # %%
 from sklearn.model_selection import cross_validate
@@ -60,10 +60,10 @@ from sklearn.model_selection import KFold
 
 cv = KFold(n_splits=5, shuffle=True, random_state=0)
 results = cross_validate(
-    search, X, y, cv=cv, return_estimator=True, n_jobs=-1)
+    search, data, target, cv=cv, return_estimator=True, n_jobs=-1)
 
 # %% [markdown]
-# We got the results of the cross-validation. First check what is the mean and
+# Now that we got the cross-validation results, print out the mean and
 # standard deviation score.
 
 # %%
@@ -103,21 +103,19 @@ for cv_idx, estimator in enumerate(results["estimator"]):
         columns={"mean_test_score": f"CV {cv_idx}"})
     inner_cv_results.append(search_cv_results)
 inner_cv_results = pd.concat(inner_cv_results, axis=1).T
-inner_cv_results.columns = inner_cv_results.columns.to_flat_index()
 
 # %%
-import seaborn as sns
-sns.set_context("talk")
+import matplotlib.pyplot as plt
 
-ax = sns.boxplot(
-    data=inner_cv_results, orient="h", color="tab:blue", whis=100)
-ax.set_xlabel("R2 score")
-ax.set_ylabel("Parameters")
-_ = ax.set_title("Inner CV results with parameters\n"
-                 "(max_depth, max_leaf_nodes, learning_rate)")
+color = {"whiskers": "black", "medians": "black", "caps": "black"}
+inner_cv_results.plot.box(vert=False, color=color)
+plt.xlabel("R2 score")
+plt.ylabel("Parameters")
+_ = plt.title("Inner CV results with parameters\n"
+              "(max_depth, max_leaf_nodes, learning_rate)")
 
 # %% [markdown]
-# We see that the first 4 first ranked set of parameters are very close.
-# Indeed, one would select any of these 4 combinations just due to random
-# variations. It coincides with the results that we observe when inspecting the
+# We see that the first 4 ranked set of parameters are very close.
+# We could select any of these 4 combinations.
+# It coincides with the results we observe when inspecting the
 # best parameters of the outer CV.

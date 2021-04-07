@@ -8,26 +8,41 @@
 # classifier and to find by yourself the effect of the parameter `C`.
 #
 # We will start by loading the dataset and create the helper function to show
-# the decision separation as in the previous code
+# the decision separation as in the previous code.
+
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
 
 # %%
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-data = pd.read_csv("../datasets/penguins_classification.csv")
+penguins = pd.read_csv("../datasets/penguins_classification.csv")
 # only keep the Adelie and Chinstrap classes
-data = data.set_index("Species").loc[["Adelie", "Chinstrap"]].reset_index()
+penguins = penguins.set_index("Species").loc[
+    ["Adelie", "Chinstrap"]].reset_index()
 
 culmen_columns = ["Culmen Length (mm)", "Culmen Depth (mm)"]
 target_column = "Species"
-X, y = data[culmen_columns], data[target_column]
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, stratify=y, random_state=0,
-)
+# %%
+from sklearn.model_selection import train_test_split
+
+penguins_train, penguins_test = train_test_split(penguins, random_state=0)
+
+data_train = penguins_train[culmen_columns]
+data_test = penguins_test[culmen_columns]
+
+target_train = penguins_train[target_column]
+target_test = penguins_test[target_column]
+
 range_features = {
-    feature_name: (X[feature_name].min() - 1, X[feature_name].max() + 1)
-    for feature_name in X
+    feature_name: (penguins[feature_name].min() - 1,
+                   penguins[feature_name].max() + 1)
+    for feature_name in culmen_columns
 }
 
 # %%
@@ -55,7 +70,7 @@ def plot_decision_function(fitted_classifier, range_features, ax=None):
     # make the plot of the boundary and the data samples
     if ax is None:
         _, ax = plt.subplots()
-    ax.contourf(xx, yy, Z, alpha=0.4, cmap="RdBu")
+    ax.contourf(xx, yy, Z, alpha=0.4, cmap="RdBu_r")
     ax.set_xlabel(feature_names[0])
     ax.set_ylabel(feature_names[1])
 
@@ -65,7 +80,7 @@ def plot_decision_function(fitted_classifier, range_features, ax=None):
 # %% [markdown]
 # Given the following candidate for the parameter `C`, find out what is the
 # effect of the value of this parameter on the decision boundary and on the
-# weights magnitude.
+# weights magnitude. First, let's create our predictive model.
 
 # %%
 from sklearn.pipeline import make_pipeline
@@ -76,31 +91,41 @@ Cs = [0.01, 0.1, 1, 10]
 logistic_regression = make_pipeline(
     StandardScaler(), LogisticRegression(penalty="l2"))
 
+# %% [markdown]
+# We can now show the decision boundary.
+
 # %%
 import seaborn as sns
-sns.set_context("talk")
 
-_, axs = plt.subplots(ncols=4, sharey=True, sharex=True, figsize=(16, 4))
-
-weights_ridge = []
-for ax, C in zip(axs, Cs):
+for C in Cs:
     logistic_regression.set_params(logisticregression__C=C)
-    logistic_regression.fit(X_train, y_train)
-    # plot the decision function
+    logistic_regression.fit(data_train, target_train)
+
+    plt.figure()
+    ax = sns.scatterplot(
+        data=penguins_test, x=culmen_columns[0], y=culmen_columns[1],
+        hue=target_column, palette=["tab:red", "tab:blue"])
     plot_decision_function(logistic_regression, range_features, ax=ax)
-    sns.scatterplot(
-        x=X_test.iloc[:, 0], y=X_test.iloc[:, 1], hue=y_test,
-        palette=["tab:red", "tab:blue"], ax=ax)
-    ax.set_title(f"C: {C}")
-    # store the weights
-    weights_ridge.append(pd.Series(
-        logistic_regression[-1].coef_.ravel(), index=X.columns))
-plt.subplots_adjust(wspace=0.35)
+    plt.title(f"C: {C}")
+
+# %% [markdown]
+# We will focus on the impact of the hyperparameter `C` on the magnitude of
+# the weights. Thus, let's collect the weights for the different `C` values
+# and plot these values.
+
+# %%
+weights_ridge = []
+for C in Cs:
+    logistic_regression.set_params(logisticregression__C=C)
+    logistic_regression.fit(data_train, target_train)
+    coefs = logistic_regression[-1].coef_[0]
+    weights_ridge.append(pd.Series(coefs, index=culmen_columns))
 
 # %%
 weights_ridge = pd.concat(
     weights_ridge, axis=1, keys=[f"C: {C}" for C in Cs])
-_ = weights_ridge.plot(kind="barh")
+weights_ridge.plot.barh()
+_ = plt.title("LogisticRegression weights depending of C")
 
 # %% [markdown]
 # We see that a small `C` will shrink the weights values toward zero. It means

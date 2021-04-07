@@ -1,19 +1,24 @@
 # ✅ Quiz
 
 ```{admonition} Question
-By default, a bagging predictor draws:
+By default, a
+[`BaggingClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html)
+or [`BaggingRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingRegressor.html)
+draws:
 
 - a) subsamples with replacement over samples
 - b) subsamples with replacement over features
 - c) subsamples without replacement over samples
-- c) subsamples without replacement over features
+- d) subsamples without replacement over features
 ```
 
 +++
 
 ```{admonition} Question
-In a bagging predictor (TODO put scikit-learn class here or rephrase without
-the parameter name), the parameter `base_estimator` is:
+In a
+[`BaggingClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html)
+or [`BaggingRegressor`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingRegressor.html),
+the parameter `base_estimator` is:
 
 - a) any predictor
 - b) a decision tree predictor

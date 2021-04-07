@@ -1,9 +1,9 @@
 # %% [markdown]
-# # Presentation of the datasets
+# # The penguins datasets
 #
-# Before we present tree-based models, we will make a quick presentation of the
+# In this notebook, we make a quick presentation of the
 # [Palmer penguins dataset](https://allisonhorst.github.io/palmerpenguins/)
-# dataset. We will use this dataset for both classification and regression
+# dataset. We use this dataset for both classification and regression
 # problems by selecting a subset of the features to make our explanations
 # intuitive.
 #
@@ -31,7 +31,7 @@
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/penguins_classification.csv")
+penguins = pd.read_csv("../datasets/penguins_classification.csv")
 
 culmen_columns = ["Culmen Length (mm)", "Culmen Depth (mm)"]
 target_column = "Species"
@@ -40,35 +40,26 @@ target_column = "Species"
 # Let's check the dataset more into details.
 
 # %%
-data.head()
+penguins.head()
 
 # %% [markdown]
 # Since that we have few samples, we can check a scatter plot to observe the
 # samples distribution.
 
 # %%
-import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set_context("talk")
 
-_, axs = plt.subplots(ncols=3, figsize=(16, 4))
-
-sns.scatterplot(x=culmen_columns[0], y=culmen_columns[1], hue=target_column,
-                data=data, ax=axs[0])
-sns.kdeplot(data=data, x=culmen_columns[0], hue=target_column,
-            ax=axs[1])
-sns.kdeplot(data=data, x=culmen_columns[1], hue=target_column,
-            ax=axs[2])
-plt.subplots_adjust(wspace=0.4)
+pairplot_figure = sns.pairplot(penguins, hue="Species")
+pairplot_figure.fig.set_size_inches(9, 6.5)
 
 # %% [markdown]
-# We can first check the feature distributions by looking at the diagonal plots
-# of the pairplot. We can build the following intuitions:
+# First let's check the feature distributions by looking at the diagonal plots
+# of the pairplot. We can deduce the following intuitions:
 #
-# * The Adelie species is separable from the Gentoo and Chinstrap species using
-#   the culmen length;
-# * The Gentoo species is separable from the Adelie and Chinstrap species using
-#   the culmen depth.
+# * The Adelie species can be differentiated from the Gentoo and Chinstrap
+#   species depending on the culmen length;
+# * The Gentoo species can be differentiated from the Adelie and Chinstrap
+#   species depending on the culmen depth.
 #
 # ## Regression dataset
 #
@@ -81,17 +72,17 @@ plt.subplots_adjust(wspace=0.4)
 # length and the body mass of penguins.
 
 # %%
-data = pd.read_csv("../datasets/penguins_regression.csv")
+penguins = pd.read_csv("../datasets/penguins_regression.csv")
 
 data_columns = ["Flipper Length (mm)"]
 target_column = "Body Mass (g)"
 
 # %%
-_ = sns.scatterplot(data=data, x=data_columns[0], y=target_column)
+_ = sns.scatterplot(data=penguins, x=data_columns[0], y=target_column)
 
 # %% [markdown]
 # Here, we deal with a regression problem because our target is a continuous
-# variable ranging from 2.7 kg to 6.3 kg. From the scatter plot above, we can
+# variable ranging from 2.7 kg to 6.3 kg. From the scatter plot above, we
 # observe that we have a linear relationship between the flipper length
 # and the body mass. The longer the flipper of a penguin, the heavier the
 # penguin.

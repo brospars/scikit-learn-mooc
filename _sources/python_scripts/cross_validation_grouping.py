@@ -1,6 +1,6 @@
 # %% [markdown]
 # # Sample grouping
-# We are going to linger into the concept of samples group. As in the previous
+# We are going to linger into the concept of sample groups. As in the previous
 # section, we will give an example to highlight some surprising results. This
 # time, we will use the handwritten digits dataset.
 
@@ -8,11 +8,11 @@
 from sklearn.datasets import load_digits
 
 digits = load_digits()
-X, y = digits.data, digits.target
+data, target = digits.data, digits.target
 
 # %% [markdown]
-# We will use the same model than in the exercise: a logistic regression
-# classifier with scaled data.
+# We will recreate the same model used in the previous exercise:
+# a logistic regression classifier with preprocessor to scale the data.
 
 # %%
 from sklearn.preprocessing import StandardScaler
@@ -29,7 +29,8 @@ model = make_pipeline(StandardScaler(), LogisticRegression())
 from sklearn.model_selection import cross_val_score, KFold
 
 cv = KFold(shuffle=False)
-test_score_no_shuffling = cross_val_score(model, X, y, cv=cv, n_jobs=-1)
+test_score_no_shuffling = cross_val_score(model, data, target, cv=cv,
+                                          n_jobs=-1)
 print(f"The average accuracy is "
       f"{test_score_no_shuffling.mean():.3f} +/- "
       f"{test_score_no_shuffling.std():.3f}")
@@ -40,14 +41,15 @@ print(f"The average accuracy is "
 
 # %%
 cv = KFold(shuffle=True)
-test_score_with_shuffling = cross_val_score(model, X, y, cv=cv, n_jobs=-1)
+test_score_with_shuffling = cross_val_score(model, data, target, cv=cv,
+                                            n_jobs=-1)
 print(f"The average accuracy is "
       f"{test_score_with_shuffling.mean():.3f} +/- "
       f"{test_score_with_shuffling.std():.3f}")
 
 # %% [markdown]
-# We observe that shuffling the data allows to improving the mean accuracy.
-# We could go a little further and plot the distribution of the generalization
+# We observe that shuffling the data improves the mean accuracy.
+# We could go a little further and plot the distribution of the testing
 # score. We can first concatenate the test scores.
 
 # %%
@@ -64,16 +66,17 @@ all_scores = pd.DataFrame(
 # %%
 import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set_context("talk")
 
-sns.kdeplot(data=all_scores)
+all_scores.plot.hist(bins=10, edgecolor="black", density=True, alpha=0.7)
 plt.xlim([0.8, 1.0])
-_ = plt.xlabel("Accuracy score")
+plt.xlabel("Accuracy score")
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
+_ = plt.title("Distribution of the test scores")
 
 # %% [markdown]
-# The cross-validation generalization error that uses the shuffling has less
+# The cross-validation testing error that uses the shuffling has less
 # variance than the one that does not impose any shuffling. It means that some
-# specific fold leads to a low score in the unshuffle case.
+# specific fold leads to a low score in this case.
 
 # %%
 print(test_score_no_shuffling)
@@ -113,7 +116,7 @@ import numpy as np
 # for each writer
 writer_boundaries = [0, 130, 256, 386, 516, 646, 776, 915, 1029,
                      1157, 1287, 1415, 1545, 1667, 1797]
-groups = np.zeros_like(y)
+groups = np.zeros_like(target)
 lower_bounds = writer_boundaries[:-1]
 upper_bounds = writer_boundaries[1:]
 
@@ -124,8 +127,6 @@ for group_id, lb, up in zip(count(), lower_bounds, upper_bounds):
 # We can check the grouping by plotting the indices linked to writer ids.
 
 # %%
-_, ax = plt.subplots(figsize=(6, 5))
-
 plt.plot(groups)
 plt.yticks(np.unique(groups))
 plt.xticks(writer_boundaries, rotation=90)
@@ -141,16 +142,17 @@ _ = plt.title("Underlying writer groups existing in the target")
 from sklearn.model_selection import GroupKFold
 
 cv = GroupKFold()
-test_score = cross_val_score(model, X, y, groups=groups, cv=cv, n_jobs=-1)
+test_score = cross_val_score(model, data, target, groups=groups, cv=cv,
+                             n_jobs=-1)
 print(f"The average accuracy is "
       f"{test_score.mean():.3f} +/- "
       f"{test_score.std():.3f}")
 
 # %% [markdown]
-# We see that this strategy is less optimistic regarding the model performance.
-# However, this is the most reliable if our goal is to make handwritten digits
-# recognition writers independent. Besides, we can as well see that the
-# standard deviation was reduced.
+# We see that this strategy is less optimistic regarding the model statistical
+# performance. However, this is the most reliable if our goal is to make
+# handwritten digits recognition writers independent. Besides, we can as well
+# see that the standard deviation was reduced.
 
 # %%
 all_scores = pd.DataFrame(
@@ -160,9 +162,11 @@ all_scores = pd.DataFrame(
 ).T
 
 # %%
-sns.kdeplot(data=all_scores)
+all_scores.plot.hist(bins=10, edgecolor="black", density=True, alpha=0.7)
 plt.xlim([0.8, 1.0])
-_ = plt.xlabel("Accuracy score")
+plt.xlabel("Accuracy score")
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
+_ = plt.title("Distribution of the test scores")
 
 # %% [markdown]
 # As a conclusion, it is really important to take any sample grouping pattern

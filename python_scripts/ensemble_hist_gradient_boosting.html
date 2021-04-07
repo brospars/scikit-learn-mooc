@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -44,11 +44,10 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/sklearn_mooc.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -131,6 +130,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="01_tabular_data_exploration_ex_01.html">
+     📝 Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01_tabular_data_exploration_sol_01.html">
+     📃 Solution for Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../predictive_modeling_pipeline/01_tabular_data_exploration_quiz.html">
      ✅ Quiz
     </a>
@@ -147,6 +156,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="02_numerical_pipeline_introduction.html">
      First model with scikit-learn
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02_numerical_pipeline_ex_00.html">
+     📝 Exercise 00
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02_numerical_pipeline_sol_00.html">
+     📃 Solution for Exercise 00
     </a>
    </li>
    <li class="toctree-l2">
@@ -244,44 +263,38 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_slides.html">
-   📰 Overfitting and Underfitting
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/learning_validation_curves_slides.html">
-   📰 Comparing train and test errors
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/learning_validation_curves_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/bias_vs_variance_slides.html">
-   📰 Bias versus Variance
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/bias_vs_variance_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
  <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../overfit/cross_validation_index.html">
-   The cross-validation framework
+  <a class="reference internal" href="../overfit/overfit_overfitting_underfitting_index.html">
+   Overfitting and underfitting
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_slides.html">
+     📰 Overfitting and Underfitting
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_train_test.html">
      The framework and why do we need it
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_quiz.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../overfit/overfit_validation_learning_curves_index.html">
+   Validation and learning curves
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/learning_validation_curves_slides.html">
+     📰 Comparing train and test errors
     </a>
    </li>
    <li class="toctree-l2">
@@ -301,12 +314,41 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_sol_01.html">
-     📃 Solution fo Exercise 01
+     📃 Solution for Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/learning_validation_curves_quiz.html">
+     ✅ Quiz
     </a>
    </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../overfit/overfit_bias_variance_index.html">
+   Bias versus variance trade-off
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/bias_vs_variance_slides.html">
+     📰 Bias versus Variance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/bias_vs_variance_quiz.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../overfit/overfit_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
+  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../overfit/overfit_take_away.html">
@@ -323,16 +365,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../tuning/parameter_tuning_module_intro.html">
    Module overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="parameter_tuning_ex_01.html">
-   📝 Introductory example for hyperparameters tuning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="parameter_tuning_sol_01.html">
-   📃 Solution for introductory example for hyperparameters tuning
   </a>
  </li>
  <li class="toctree-l1 collapsible-parent">
@@ -370,8 +402,18 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="parameter_tuning_automated.html">
-     Automated hyperparameters tuning in scikit-learn
+    <a class="reference internal" href="parameter_tuning_grid_search.html">
+     Hyperparameters tuning by grid-search
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="parameter_tuning_randomized_search.html">
+     Hyperparameters tuning by randomized-search
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="parameter_tuning_nested.html">
+     Cross-validation and hyperparameters tuning
     </a>
    </li>
    <li class="toctree-l2">
@@ -394,6 +436,11 @@
   </i>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../tuning/parameter_tuning_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../tuning/parameter_tuning_module_take_away.html">
    Main take-away
   </a>
@@ -410,10 +457,24 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../linear_models/slides.html">
-   📰 Intuitions on linear models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../linear_models/linear_models_intuitions_index.html">
+   Intuitions on linear models
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../linear_models/slides.html">
+     📰 Intuitions on linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../linear_models/linear_models_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../linear_models/linear_models_regression_index.html">
@@ -552,13 +613,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../linear_models/linear_models_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../linear_models/linear_models_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/linear_models_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../linear_models/linear_models_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -573,15 +634,24 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../trees/slides.html">
-   📰 Intuitions on tree-based models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../trees/trees_intuitions_index.html">
+   Intuitions on tree-based models
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="trees_dataset.html">
-   Presentation of the datasets
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../trees/slides.html">
+     📰 Intuitions on tree-based models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../trees/trees_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../trees/trees_classification_index.html">
@@ -661,13 +731,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../trees/trees_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../trees/trees_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/trees_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../trees/trees_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -682,15 +752,29 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../ensemble/slides.html">
-   📰 Intuitions on ensemble of tree-based models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../ensemble/ensemble_intuitions_index.html">
+   Intuitions on ensemble methods
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ensemble_introduction.html">
-   Introductory example to ensemble models
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ensemble/slides.html">
+     📰 Intuitions on ensemble of tree-based models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ensemble/ensemble_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ensemble_introduction.html">
+     Introductory example to ensemble models
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../ensemble/ensemble_bootstrap_index.html">
@@ -715,11 +799,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ensemble_random_forest.html">
      Random forest
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="ensemble_random_forest.html#midpoint-summary">
-     Midpoint summary
     </a>
    </li>
    <li class="toctree-l2">
@@ -820,13 +899,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../ensemble/ensemble_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../ensemble/ensemble_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/ensemble_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../ensemble/ensemble_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -859,6 +938,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_sol_02.html">
      📃 Solution for Exercise 02
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_01.html">
+     ✅ Quiz
     </a>
    </li>
   </ul>
@@ -900,19 +984,33 @@
      Non i.i.d. data
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_02.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="cross_validation_nested.html">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../evaluation/cross_validation_nested_index.html">
    Nested cross-validation
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../evaluation/cross_validation_quiz.html">
-   ✅ Quiz
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="cross_validation_nested.html">
+     Nested cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_03.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../evaluation/02_metrics.html">
@@ -939,6 +1037,11 @@
      📃 Solution for Exercise 01
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_04.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
@@ -963,14 +1066,14 @@
      📃 Solution for Exercise 02
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_05.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../evaluation/metrics_quiz.html">
-   ✅ Quiz
-  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../evaluation/evaluation_module_take_away.html">
@@ -1051,6 +1154,57 @@
   </a>
  </li>
 </ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Appendix
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../appendix/datasets_intro.html">
+   Datasets description
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="trees_dataset.html">
+     The penguins datasets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/adult_census_description.html">
+     The adult census dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_california_housing.html">
+     The California housing dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_ames_housing.html">
+     The Ames housing dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_blood_transfusion.html">
+     The blood transfusion dataset
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/acknowledgement.html">
+   Acknowledgement
+  </a>
+ </li>
+</ul>
 
 </nav> <!-- To handle the deprecated key -->
 
@@ -1067,21 +1221,21 @@
           
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="row topbar fixed-top container-xl">
-    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
-    </div>
-    <div class="col pl-2 topbar-main">
-        
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-arrow-left"></i>
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        
-        
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
@@ -1099,7 +1253,7 @@
     </div>
 </div>
 
-        <!-- Source interaction buttons -->
+            <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -1120,19 +1274,20 @@
 </div>
 
 
-        <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                title="Fullscreen mode"><i
-                    class="fas fa-expand"></i></button></a>
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
 
-        <!-- Launch buttons -->
+            <!-- Launch buttons -->
 
-    </div>
+        </div>
 
-    <!-- Table of contents -->
-    <div class="d-none d-md-block col-md-2 bd-toc show">
-        
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
     </div>
 </div>
     <div id="main-content" class="row">
@@ -1143,70 +1298,75 @@
   <div class="section" id="speeding-up-gradient-boosting">
 <h1>Speeding-up gradient-boosting<a class="headerlink" href="#speeding-up-gradient-boosting" title="Permalink to this headline">¶</a></h1>
 <p>In this notebook, we present a modified version of gradient boosting which
-uses a reduce number of split when building the different trees. This
-algorithm is called histogram gradient boosting in scikit-learn.</p>
+uses a reduced number of splits when building the different trees. This
+algorithm is called “histogram gradient boosting” in scikit-learn.</p>
 <p>We previously mentioned that random-forest is an efficient algorithm since
 each tree of the ensemble can be fitted at the same time independently.
-Therefore, the algorithm scales efficiently with both the number of CPUs and
+Therefore, the algorithm scales efficiently with both the number of cores and
 the number of samples.</p>
 <p>In gradient-boosting, the algorithm is a sequential algorithm. It requires
 the <code class="docutils literal notranslate"><span class="pre">N-1</span></code> trees to have been fit to be able to fit the tree at stage <code class="docutils literal notranslate"><span class="pre">N</span></code>.
 Therefore, the algorithm is quite computationally expensive. The most
-expensive part in this algorithm is the search for the best split in the tree
-which is a brute-force approach: all possible split are evaluated and the
-best one is picked. We explained this process in the notebook “tree in
+expensive part in this algorithm is the search for the best split in the
+tree which is a brute-force approach: all possible split are evaluated and
+the best one is picked. We explained this process in the notebook “tree in
 depth”, which you can refer to.</p>
 <p>To accelerate the gradient-boosting algorithm, one could reduce the number of
-splits to be evaluated. As a consequence, the performance of such a
-tree would be reduced. However, since we are combining several trees in a
-gradient-boosting, we can add more estimators to overcome
-this issue.</p>
+splits to be evaluated. As a consequence, the statistical performance of such
+a tree would be reduced. However, since we are combining several trees in a
+gradient-boosting, we can add more estimators to overcome this issue.</p>
 <p>We will make a naive implementation of such algorithm using building blocks
-from scikit-learn. First, we will load the california housing dataset.</p>
+from scikit-learn. First, we will load the California housing dataset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_california_housing</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fetch_california_housing</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">fetch_california_housing</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">*=</span> <span class="mi">100</span>  <span class="c1"># rescale the target in k$</span>
 </pre></div>
 </div>
 </div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want a deeper overview regarding this dataset, you can refer to the
+Appendix - Datasets description section at the end of this MOOC.</p>
 </div>
 <p>We will make a quick benchmark of the original gradient boosting.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingRegressor</span>
 
 <span class="n">gradient_boosting</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-
-<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-<span class="n">gradient_boosting</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">fit_time_gradient_boosting</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
-
-<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-<span class="n">score_gradient_boosting</span> <span class="o">=</span> <span class="n">gradient_boosting</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">score_time_gradient_boosting</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gradient boosting decision tree&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R2 score: </span><span class="si">{</span><span class="n">score_gradient_boosting</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fit time: </span><span class="si">{</span><span class="n">fit_time_gradient_boosting</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Score time: </span><span class="si">{</span><span class="n">score_time_gradient_boosting</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">cv_results_gbdt</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">gradient_boosting</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gradient Boosting Decision Tree&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R2 score via cross-validation: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_gbdt</span><span class="p">[</span><span class="s1">&#39;test_score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> +/- &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_gbdt</span><span class="p">[</span><span class="s1">&#39;test_score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average fit time: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_gbdt</span><span class="p">[</span><span class="s1">&#39;fit_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average score time: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_gbdt</span><span class="p">[</span><span class="s1">&#39;score_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gradient boosting decision tree
-R2 score: 0.804
-Fit time: 7.44 s
-Score time: 0.02155 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gradient Boosting Decision Tree
+R2 score via cross-validation: 0.679 +/- 0.048
+Average fit time: 7.893 seconds
+Average score time: 0.011 seconds
 </pre></div>
 </div>
 </div>
 </div>
-<p>We recall that a way to accelerate the gradient boosting is to reduce the
+<p>We recall that a way of accelerating the gradient boosting is to reduce the
 number of split considered within the tree building. One way is to bin the
 data before to give them into the gradient boosting. A transformer called
 <code class="docutils literal notranslate"><span class="pre">KBinsDiscretizer</span></code> is doing such transformation. Thus, we can pipeline
@@ -1219,29 +1379,29 @@ this preprocessing with the gradient boosting.</p>
 
 <span class="n">discretizer</span> <span class="o">=</span> <span class="n">KBinsDiscretizer</span><span class="p">(</span>
     <span class="n">n_bins</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">encode</span><span class="o">=</span><span class="s2">&quot;ordinal&quot;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;quantile&quot;</span><span class="p">)</span>
-<span class="n">X_trans</span> <span class="o">=</span> <span class="n">discretizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-<span class="n">X_trans</span>
+<span class="n">data_trans</span> <span class="o">=</span> <span class="n">discretizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data_trans</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.7.9/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 1 are removed. Consider decreasing the number of bins.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 1 are removed. Consider decreasing the number of bins.
   &#39;decreasing the number of bins.&#39; % jj)
-/opt/hostedtoolcache/Python/3.7.9/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 3 are removed. Consider decreasing the number of bins.
+/opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 3 are removed. Consider decreasing the number of bins.
   &#39;decreasing the number of bins.&#39; % jj)
-/opt/hostedtoolcache/Python/3.7.9/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 6 are removed. Consider decreasing the number of bins.
+/opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 6 are removed. Consider decreasing the number of bins.
   &#39;decreasing the number of bins.&#39; % jj)
-/opt/hostedtoolcache/Python/3.7.9/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 7 are removed. Consider decreasing the number of bins.
+/opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 7 are removed. Consider decreasing the number of bins.
   &#39;decreasing the number of bins.&#39; % jj)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[243.,  17., 246., ..., 168., 184.,   6.],
-       [225.,  16., 217., ...,  40.,  15., 210.],
-       [107.,  17., 125., ..., 151.,  96., 147.],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[249.,  39., 231., ...,  83., 162.,  30.],
+       [248.,  19., 203., ...,  28., 161.,  30.],
+       [242.,  49., 249., ..., 125., 160.,  29.],
        ...,
-       [106.,  30.,  18., ...,   8., 110.,  55.],
-       [219.,  33.,  70., ...,  40.,  25., 180.],
-       [  7.,  13.,  31., ..., 205.,  11., 233.]])
+       [ 17.,  15., 126., ...,  49., 200.,  82.],
+       [ 23.,  16., 136., ...,  29., 200.,  77.],
+       [ 53.,  14., 130., ...,  93., 199.,  81.]])
 </pre></div>
 </div>
 </div>
@@ -1249,108 +1409,100 @@ this preprocessing with the gradient boosting.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The code cell above will generate a couple of warnings. Indeed, for some of
-the features, we requested too much bins in regard of the data dispersion for
-those features. The too small bins will be removed.</p>
+the features, we requested too much bins in regard of the data dispersion
+for those features. The smallest bins will be removed.</p>
 </div>
-<p>We see that the discretizer transform the original data into an integer.
+<p>We see that the discretizer transforms the original data into an integer.
 This integer represents the bin index when the distribution by quantile is
 performed. We can check the number of bins per feature.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">col</span><span class="p">))</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">X_trans</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">col</span><span class="p">))</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data_trans</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[256, 50, 256, 254, 256, 256, 210, 235]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[256, 50, 256, 253, 256, 256, 207, 235]
 </pre></div>
 </div>
 </div>
 </div>
 <p>After this transformation, we see that we have at most 256 unique values per
-features. Now, we will use this transformer to discretize data before to
-train the gradient boosting regressor.</p>
+features. Now, we will use this transformer to discretize data before
+training the gradient boosting regressor.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
 
 <span class="n">gradient_boosting</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span>
     <span class="n">discretizer</span><span class="p">,</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">))</span>
-
-<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-<span class="n">gradient_boosting</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">fit_time_gradient_boosting</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
-
-<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-<span class="n">score_gradient_boosting</span> <span class="o">=</span> <span class="n">gradient_boosting</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">score_time_gradient_boosting</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;KBinsDiscritizer + Gradient boosting decision tree&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R2 score: </span><span class="si">{</span><span class="n">score_gradient_boosting</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fit time: </span><span class="si">{</span><span class="n">fit_time_gradient_boosting</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Score time: </span><span class="si">{</span><span class="n">score_time_gradient_boosting</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">cv_results_gbdt</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">gradient_boosting</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gradient Boosting Decision Tree with KBinsDiscretizer&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R2 score via cross-validation: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_gbdt</span><span class="p">[</span><span class="s1">&#39;test_score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> +/- &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_gbdt</span><span class="p">[</span><span class="s1">&#39;test_score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average fit time: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_gbdt</span><span class="p">[</span><span class="s1">&#39;fit_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average score time: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_gbdt</span><span class="p">[</span><span class="s1">&#39;score_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.7.9/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 1 are removed. Consider decreasing the number of bins.
-  &#39;decreasing the number of bins.&#39; % jj)
-/opt/hostedtoolcache/Python/3.7.9/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 3 are removed. Consider decreasing the number of bins.
-  &#39;decreasing the number of bins.&#39; % jj)
-/opt/hostedtoolcache/Python/3.7.9/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 6 are removed. Consider decreasing the number of bins.
-  &#39;decreasing the number of bins.&#39; % jj)
-/opt/hostedtoolcache/Python/3.7.9/x64/lib/python3.7/site-packages/sklearn/preprocessing/_discretization.py:222: UserWarning: Bins whose width are too small (i.e., &lt;= 1e-8) in feature 7 are removed. Consider decreasing the number of bins.
-  &#39;decreasing the number of bins.&#39; % jj)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KBinsDiscritizer + Gradient boosting decision tree
-R2 score: 0.805
-Fit time: 4.56 s
-Score time: 0.02171 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gradient Boosting Decision Tree with KBinsDiscretizer
+R2 score via cross-validation: 0.678 +/- 0.028
+Average fit time: 4.874 seconds
+Average score time: 0.014 seconds
 </pre></div>
 </div>
 </div>
 </div>
-<p>Here, we observe that the fit time have been drastically reduce but that the
-performance of the model are the identical. Scikit-learn provides a specific
-class even more optimized for large dataset called
+<p>Here, we see that the fit time has been drastically reduced but that the
+statistical performance of the model is identical. Scikit-learn provides a
+specific classes which are even more optimized for large dataset, called
 <code class="docutils literal notranslate"><span class="pre">HistGradientBoostingClassifier</span></code> and <code class="docutils literal notranslate"><span class="pre">HistGradientBoostingRegressor</span></code>. Each
-feature in the dataset <code class="docutils literal notranslate"><span class="pre">X</span></code> is first binned by computing histograms which are
-later used to evaluate the potential splits. The number of splits to evaluate
-is then much smaller. This algorithm becomes much more efficient than
-gradient boosting when the dataset has 10,000+ samples.</p>
-<p>Below we will give an example of a large dataset and we can compare
-computation time with the earlier experiment in the previous section.</p>
+feature in the dataset <code class="docutils literal notranslate"><span class="pre">data</span></code> is first binned by computing histograms, which
+are later used to evaluate the potential splits. The number of splits to
+evaluate is then much smaller. This algorithm becomes much more efficient
+than gradient boosting when the dataset has over 10,000 samples.</p>
+<p>Below we will give an example for a large dataset and we will compare
+computation times with the experiment of the previous section.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">from</span> <span class="nn">sklearn.experimental</span> <span class="kn">import</span> <span class="n">enable_hist_gradient_boosting</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.experimental</span> <span class="kn">import</span> <span class="n">enable_hist_gradient_boosting</span>
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">HistGradientBoostingRegressor</span>
 
 <span class="n">histogram_gradient_boosting</span> <span class="o">=</span> <span class="n">HistGradientBoostingRegressor</span><span class="p">(</span>
     <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-<span class="n">histogram_gradient_boosting</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">fit_time_histogram_gradient_boosting</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
-
-<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-<span class="n">score_histogram_gradient_boosting</span> <span class="o">=</span> <span class="n">histogram_gradient_boosting</span><span class="o">.</span><span class="n">score</span><span class="p">(</span>
-    <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">score_time_histogram_gradient_boosting</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Historgram gradient boosting decision tree&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R2 score: </span><span class="si">{</span><span class="n">score_histogram_gradient_boosting</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fit time: </span><span class="si">{</span><span class="n">fit_time_histogram_gradient_boosting</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Score time: </span><span class="si">{</span><span class="n">score_time_histogram_gradient_boosting</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2"> s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">cv_results_hgbdt</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">gradient_boosting</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Histogram Gradient Boosting Decision Tree&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R2 score via cross-validation: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_hgbdt</span><span class="p">[</span><span class="s1">&#39;test_score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> +/- &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_hgbdt</span><span class="p">[</span><span class="s1">&#39;test_score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average fit time: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_hgbdt</span><span class="p">[</span><span class="s1">&#39;fit_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average score time: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cv_results_hgbdt</span><span class="p">[</span><span class="s1">&#39;score_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Historgram gradient boosting decision tree
-R2 score: 0.845
-Fit time: 0.90 s
-Score time: 0.08923 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Histogram Gradient Boosting Decision Tree
+R2 score via cross-validation: 0.681 +/- 0.033
+Average fit time: 4.791 seconds
+Average score time: 0.013 seconds
 </pre></div>
 </div>
 </div>
@@ -1382,15 +1534,15 @@ gradient-boosting will not.</p>
 
               </div>
               
-        </div>
-    </div>
-    
-    
-    <div class='prev-next-bottom'>
         
+        <div class='prev-next-bottom'>
+            
     <a class='left-prev' id="prev-link" href="ensemble_sol_04.html" title="previous page">📃 Solution for Exercise 04</a>
     <a class='right-next' id="next-link" href="../ensemble/ensemble_quiz_02.html" title="next page">✅ Quiz</a>
 
+        </div>
+        
+        </div>
     </div>
     <footer class="footer mt-5 mt-md-0">
     <div class="container">

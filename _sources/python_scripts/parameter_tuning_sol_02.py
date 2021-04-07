@@ -16,7 +16,7 @@
 # # 📃 Solution for Exercise 01
 #
 # The goal is to write an exhaustive search to find the best parameters
-# combination maximizing the model performance.
+# combination maximizing the model statistical performance.
 #
 # Here we use a small subset of the Adult Census dataset to make to code
 # fast to execute. Once your code works on the small subset, try to
@@ -28,29 +28,25 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 
-df = pd.read_csv("../datasets/adult-census.csv")
+adult_census = pd.read_csv("../datasets/adult-census.csv")
 
 target_name = "class"
-target = df[target_name]
-data = df.drop(columns=[target_name, "fnlwgt"])
+target = adult_census[target_name]
+data = adult_census.drop(columns=[target_name, "fnlwgt", "education-num"])
 
-df_train, df_test, target_train, target_test = train_test_split(
+data_train, data_test, target_train, target_test = train_test_split(
     data, target, train_size=0.2, random_state=42)
 
+# %%
 from sklearn.compose import ColumnTransformer
+from sklearn.compose import make_column_selector as selector
 from sklearn.preprocessing import OrdinalEncoder
 
-categorical_columns = [
-    'workclass', 'education', 'marital-status', 'occupation',
-    'relationship', 'race', 'native-country', 'sex']
-
-categories = [data[column].unique()
-              for column in data[categorical_columns]]
-
-categorical_preprocessor = OrdinalEncoder(categories=categories)
-
+categorical_preprocessor = OrdinalEncoder(handle_unknown="use_encoded_value",
+                                          unknown_value=-1)
 preprocessor = ColumnTransformer(
-    [('cat-preprocessor', categorical_preprocessor, categorical_columns)],
+    [('cat-preprocessor', categorical_preprocessor,
+      selector(dtype_include=object))],
     remainder='passthrough', sparse_threshold=0)
 
 # This line is currently required to import HistGradientBoostingClassifier
@@ -93,7 +89,7 @@ for lr in learning_rate:
             classifier__learning_rate=lr,
             classifier__max_leaf_nodes=mln
         )
-        scores = cross_val_score(model, df_train, target_train, cv=2)
+        scores = cross_val_score(model, data_train, target_train, cv=2)
         mean_score = scores.mean()
         print(f"score: {mean_score:.3f}")
         if mean_score > best_score:

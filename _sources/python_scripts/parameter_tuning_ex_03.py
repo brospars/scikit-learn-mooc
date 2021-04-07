@@ -16,7 +16,7 @@
 # # 📝 Exercise 02
 #
 # The goal is to find the best set of hyperparameters which maximize the
-# performance on a training set.
+# statistical performance on a training set.
 #
 # Here again with limit the size of the training set to make computation
 # run faster. Feel free to increase the `train_size` value if your computer
@@ -26,15 +26,15 @@
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv("../datasets/adult-census.csv")
+adult_census = pd.read_csv("../datasets/adult-census.csv")
 
 target_name = "class"
-target = df[target_name]
-data = df.drop(columns=[target_name, "fnlwgt"])
+target = adult_census[target_name]
+data = adult_census.drop(columns=[target_name, "fnlwgt", "education-num"])
 
 from sklearn.model_selection import train_test_split
 
-df_train, df_test, target_train, target_test = train_test_split(
+data_train, data_test, target_train, target_test = train_test_split(
     data, target, random_state=42)
 
 # %% [markdown]
@@ -72,8 +72,8 @@ from sklearn.linear_model import LogisticRegression
 #
 # Use a `RandomizedSearchCV` to find the best set of hyperparameters by tuning
 # the following parameters for the `LogisticRegression` model:
-# - `C` with values ranging from 0.001 to 10. You can use a reciprocal
-#   distribution (i.e. `scipy.stats.reciprocal`);
+# - `C` with values ranging from 0.001 to 10. You can use a log-uniform
+#   distribution (i.e. `scipy.stats.loguniform`);
 # - `solver` with possible values being `"liblinear"` and `"lbfgs"`;
 # - `penalty` with possible values being `"l2"` and `"l1"`;
 #
@@ -82,9 +82,9 @@ from sklearn.linear_model import LogisticRegression
 # data.
 #
 # Notes: some combinations of the hyperparameters proposed above are invalid.
-# You can make the parameter search accept such failures by setting `error_score`
-# to `np.nan`. The warning messages give more details on which parameter
-# combinations but the computation will proceed.
+# You can make the parameter search accept such failures by setting
+# `error_score` to `np.nan`. The warning messages give more details on which
+# parameter combinations but the computation will proceed.
 #
 # Once the computation has completed, print the best combination of parameters
 # stored in the `best_params_` attribute.

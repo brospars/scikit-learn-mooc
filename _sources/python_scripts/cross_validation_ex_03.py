@@ -1,15 +1,15 @@
 # %% [markdown]
 # # 📝 Introductory exercise regarding stratification
 #
-# The goal of this exercise is to find the limitation blindly a k-fold
-# cross-validation.
+# The goal of this exercise is to highlight one limitation of
+# applying blindly a k-fold cross-validation.
 #
-# We will use the iris dataset to demonstrate one of the issue.
+# In this exercise we will use the iris dataset.
 
 # %%
 from sklearn.datasets import load_iris
 
-X, y = load_iris(return_X_y=True, as_frame=True)
+data, target = load_iris(return_X_y=True, as_frame=True)
 
 # %% [markdown]
 # Create a decision tree classifier that we will use in the next experiments.

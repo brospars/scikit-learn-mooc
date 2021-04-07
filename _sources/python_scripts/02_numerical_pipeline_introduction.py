@@ -20,8 +20,9 @@
 #
 # In particular we will highlight:
 #
-# * the scikit-learn API : `.fit(X, y)`/`.predict(X)`/`.score(X, y)`;
-# * how to evaluate the performance of a model with a train-test split.
+# * the scikit-learn API: `.fit(X, y)`/`.predict(X)`/`.score(X, y)`;
+# * how to evaluate the statistical performance of a model with a train-test
+#   split.
 #
 # ## Loading the dataset with Pandas
 #
@@ -36,13 +37,13 @@
 # %%
 import pandas as pd
 
-df = pd.read_csv("../datasets/adult-census-numeric.csv")
+adult_census = pd.read_csv("../datasets/adult-census-numeric.csv")
 
 # %% [markdown]
 # Let's have a look at the first records of this dataframe:
 
 # %%
-df.head()
+adult_census.head()
 
 # %% [markdown]
 # We see that this CSV file contains all information: the target that we would
@@ -55,16 +56,16 @@ df.head()
 
 # %%
 target_name = "class"
-target = df[target_name]
+target = adult_census[target_name]
 target
 
 # %%
-data = df.drop(columns=[target_name, ])
+data = adult_census.drop(columns=[target_name, ])
 data.head()
 
 # %% [markdown]
 # We can now linger on the variables, also denominated features, that we will
-# use to build our predictive model. In addition, we can as well check how many
+# use to build our predictive model. In addition, we can also check how many
 # samples are available in our dataset.
 
 # %%
@@ -94,11 +95,58 @@ model = KNeighborsClassifier()
 model.fit(data, target)
 
 # %% [markdown]
-# Let's use our model to make some predictions using the same dataset. In a
-# sake of simplicity, we will look at the five first predicted targets.
+# Learning can be represented as follows:
+#
+# ![Predictor fit diagram](../figures/api_diagram-predictor.fit.svg)
+#
+# The method `fit` is composed of two elements: (i) a **learning algorithm**
+# and (ii) some **model states**. The learning algorithm takes the training
+# data and training target as input and set the model states. These model
+# states will be used later to either predict (for classifier and regressor) or
+# transform data (for transformers).
+#
+# Both the learning algorithm and the type of model states are specific to each
+# type of models.
+
+# %% [markdown]
+# ```{caution}
+# Here and later, we use the name `data` and `target` to be explicit. In
+# scikit-learn, documentation `data` is commonly named `X` and `target` is
+# commonly called `y`.
+# ```
+
+# %% [markdown]
+# ```{tip}
+# In the notebook, we will use the following terminology:
+#
+# * predictor: it corresponds to a classifier or a regressor
+# * predictive model or model: it corresponds to a succession of steps made of
+#   some preprocessing steps followed ended by a predictor. Sometimes, no
+#   preprocessing is required.
+# * estimator: it corresponds to any scikit-learn object, transformer,
+#   classifier, or regressor.
+# ```
+
+# %% [markdown]
+# Let's use our model to make some predictions using the same dataset.
 
 # %%
 target_predicted = model.predict(data)
+
+# %% [markdown]
+# We can illustrate the prediction mechanism as follows:
+#
+# ![Predictor predict diagram](../figures/api_diagram-predictor.predict.svg)
+#
+# To predict, a model uses a **prediction function** that will use the input
+# data together with the model states. As for the learning algorithm and the
+# model states, the prediction function is specific for each type of model.
+
+# %% [markdown]
+# Let's now have a look at the predictions computed. For the sake of
+# simplicity, we will look at the five first predicted targets.
+
+# %%
 target_predicted[:5]
 
 # %% [markdown]
@@ -131,29 +179,30 @@ print(f"Number of correct prediction: "
 #
 # ## Train-test data split
 #
-# When building a machine learning model, it is important evaluate the trained
-# model on data that was not used to fit the model, as generalization is more
-# than memorization. It is harder to conclude on instances never seen than on
-# those already seen.
+# When building a machine learning model, it is important to evaluate the
+# trained model on data that was not used to fit it, as generalization is
+# more than memorization (meaning we want a rule that generalizes to new data,
+# without comparing to data we memorized).
+# It is harder to conclude on never-seen instances than on already seen ones.
 #
 # Correct evaluation is easily done by leaving out a subset of the data when
-# training the model and using it after for model evaluation. The data used to
-# fit a model is called training data while the one used to assess a model is
-# called testing data.
+# training the model and using it after for model evaluation.
+# The data used to fit a model is called training data while the one used
+# to assess a model is called testing data.
 #
 # We can load more data, which was actually left-out from the original data
 # set.
 
 # %%
-df_test = pd.read_csv('../datasets/adult-census-numeric-test.csv')
+adult_census_test = pd.read_csv('../datasets/adult-census-numeric-test.csv')
 
 # %% [markdown]
 # From this new data, we separate out input features and the target to predict,
 # as in the beginning of this notebook.
 
 # %%
-target_test = df_test[target_name]
-data_test = df_test.drop(columns=[target_name, ])
+target_test = adult_census_test[target_name]
+data_test = adult_census_test.drop(columns=[target_name, ])
 
 # %% [markdown]
 # We can check the number of features and samples available in this new set.
@@ -163,11 +212,13 @@ print(f"The testing dataset contains {data_test.shape[0]} samples and "
       f"{data_test.shape[1]} features")
 
 # %% [markdown]
-# Note that scikit-learn provides a helper function `train_test_split` which
+# ```{note}
+# Scikit-learn provides a helper function `train_test_split` which
 # can be used to split the dataset into a training and a testing set. It will
 # also ensure that the data are shuffled randomly before splitting the data.
+# ```
 #
-# Instead of computing the prediction and computing manually the average
+# Instead of computing the prediction and manually computing the average
 # success rate, we can use the method `score`. When dealing with classifiers
 # this method returns their performance metric.
 
@@ -179,19 +230,38 @@ print(f"The test accuracy using a {model_name} is "
       f"{accuracy:.3f}")
 
 # %% [markdown]
+# Let's check the underlying mechanism when the `score` method is called:
+#
+# ![Predictor score diagram](../figures/api_diagram-predictor.score.svg)
+#
+# To compute the score, the predictor first computes the predictions (using
+# the `predict` method) and then uses a scoring function to compare the
+# true target `y` and the predictions. Finally, the score is returned.
+
+# %% [markdown]
 # If we compare with the accuracy obtained by wrongly evaluating the model
 # on the training set, we find that this evaluation was indeed optimistic
 # compared to the score obtained on an held-out test set.
 #
-# It shows the importance to always test the performance of predictive models
-# on a different set than the one used to train these models. We will come
-# back more into details regarding how predictive models should be evaluated.
+# It shows the importance to always test the statistical performance of
+# predictive models on a different set than the one used to train these models.
+# We will come back more into details regarding how predictive models should be
+# evaluated.
+
+# %% [markdown]
+# ```{note}
+# In this MOOC, we will refer to **statistical performance** of a model when
+# refering to the score or error obtained by compairing the prediction of a
+# model and the true targets. We will refer to **computational performance** of
+# a predictive model when accessing the computational costs of training or
+# scoring of a predictive model.
+# ```
 
 # %% [markdown]
 # In this notebook we:
 #
 # * fitted a **k-nearest neighbors** model on a training dataset;
-# * evaluated its performance on the testing data;
+# * evaluated its statistical performance on the testing data;
 # * introduced the scikit-learn API `.fit(X, y)` (to train a model),
 #   `.predict(X)` (to make predictions) and `.score(X, y)`
 #   (to evaluate a model).

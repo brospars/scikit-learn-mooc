@@ -26,7 +26,7 @@
 
     
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -44,11 +44,10 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/sklearn_mooc.js"></script>
     <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -131,6 +130,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="01_tabular_data_exploration_ex_01.html">
+     📝 Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="01_tabular_data_exploration_sol_01.html">
+     📃 Solution for Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../predictive_modeling_pipeline/01_tabular_data_exploration_quiz.html">
      ✅ Quiz
     </a>
@@ -147,6 +156,16 @@
    <li class="toctree-l2">
     <a class="reference internal" href="02_numerical_pipeline_introduction.html">
      First model with scikit-learn
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02_numerical_pipeline_ex_00.html">
+     📝 Exercise 00
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="02_numerical_pipeline_sol_00.html">
+     📃 Solution for Exercise 00
     </a>
    </li>
    <li class="toctree-l2">
@@ -244,44 +263,38 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_slides.html">
-   📰 Overfitting and Underfitting
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/learning_validation_curves_slides.html">
-   📰 Comparing train and test errors
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/learning_validation_curves_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/bias_vs_variance_slides.html">
-   📰 Bias versus Variance
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../overfit/bias_vs_variance_quiz.html">
-   ✅ Quiz
-  </a>
- </li>
  <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../overfit/cross_validation_index.html">
-   The cross-validation framework
+  <a class="reference internal" href="../overfit/overfit_overfitting_underfitting_index.html">
+   Overfitting and underfitting
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_slides.html">
+     📰 Overfitting and Underfitting
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_train_test.html">
      The framework and why do we need it
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/overfitting_vs_under_fitting_quiz.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../overfit/overfit_validation_learning_curves_index.html">
+   Validation and learning curves
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/learning_validation_curves_slides.html">
+     📰 Comparing train and test errors
     </a>
    </li>
    <li class="toctree-l2">
@@ -301,12 +314,41 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_sol_01.html">
-     📃 Solution fo Exercise 01
+     📃 Solution for Exercise 01
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/learning_validation_curves_quiz.html">
+     ✅ Quiz
     </a>
    </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../overfit/overfit_bias_variance_index.html">
+   Bias versus variance trade-off
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/bias_vs_variance_slides.html">
+     📰 Bias versus Variance
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../overfit/bias_vs_variance_quiz.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../overfit/overfit_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
+  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../overfit/overfit_take_away.html">
@@ -323,16 +365,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../tuning/parameter_tuning_module_intro.html">
    Module overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="parameter_tuning_ex_01.html">
-   📝 Introductory example for hyperparameters tuning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="parameter_tuning_sol_01.html">
-   📃 Solution for introductory example for hyperparameters tuning
   </a>
  </li>
  <li class="toctree-l1 collapsible-parent">
@@ -370,8 +402,18 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="parameter_tuning_automated.html">
-     Automated hyperparameters tuning in scikit-learn
+    <a class="reference internal" href="parameter_tuning_grid_search.html">
+     Hyperparameters tuning by grid-search
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="parameter_tuning_randomized_search.html">
+     Hyperparameters tuning by randomized-search
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="parameter_tuning_nested.html">
+     Cross-validation and hyperparameters tuning
     </a>
    </li>
    <li class="toctree-l2">
@@ -394,6 +436,11 @@
   </i>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../tuning/parameter_tuning_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../tuning/parameter_tuning_module_take_away.html">
    Main take-away
   </a>
@@ -410,10 +457,24 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../linear_models/slides.html">
-   📰 Intuitions on linear models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../linear_models/linear_models_intuitions_index.html">
+   Intuitions on linear models
   </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../linear_models/slides.html">
+     📰 Intuitions on linear models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../linear_models/linear_models_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../linear_models/linear_models_regression_index.html">
@@ -552,13 +613,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../linear_models/linear_models_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../linear_models/linear_models_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/linear_models_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../linear_models/linear_models_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -573,15 +634,24 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../trees/slides.html">
-   📰 Intuitions on tree-based models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../trees/trees_intuitions_index.html">
+   Intuitions on tree-based models
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="trees_dataset.html">
-   Presentation of the datasets
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../trees/slides.html">
+     📰 Intuitions on tree-based models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../trees/trees_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../trees/trees_classification_index.html">
@@ -661,13 +731,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../trees/trees_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../trees/trees_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/trees_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../trees/trees_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -682,15 +752,29 @@
    Module overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../ensemble/slides.html">
-   📰 Intuitions on ensemble of tree-based models
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../ensemble/ensemble_intuitions_index.html">
+   Intuitions on ensemble methods
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ensemble_introduction.html">
-   Introductory example to ensemble models
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ensemble/slides.html">
+     📰 Intuitions on ensemble of tree-based models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../ensemble/ensemble_quiz_00.html">
+     ✅ Quiz
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ensemble_introduction.html">
+     Introductory example to ensemble models
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1 collapsible-parent">
   <a class="reference internal" href="../ensemble/ensemble_bootstrap_index.html">
@@ -715,11 +799,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="ensemble_random_forest.html">
      Random forest
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="ensemble_random_forest.html#midpoint-summary">
-     Midpoint summary
     </a>
    </li>
    <li class="toctree-l2">
@@ -820,13 +899,13 @@
   </i>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../ensemble/ensemble_module_take_away.html">
-   Main take-away
+  <a class="reference internal" href="../ensemble/ensemble_wrap_up_quiz.html">
+   🏁 Wrap-up quiz
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../final_evaluation/ensemble_questions.html">
-   🏁 Wrap-up quiz
+  <a class="reference internal" href="../ensemble/ensemble_module_take_away.html">
+   Main take-away
   </a>
  </li>
 </ul>
@@ -859,6 +938,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="cross_validation_sol_02.html">
      📃 Solution for Exercise 02
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_01.html">
+     ✅ Quiz
     </a>
    </li>
   </ul>
@@ -900,19 +984,33 @@
      Non i.i.d. data
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_02.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="cross_validation_nested.html">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../evaluation/cross_validation_nested_index.html">
    Nested cross-validation
   </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../evaluation/cross_validation_quiz.html">
-   ✅ Quiz
-  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="cross_validation_nested.html">
+     Nested cross-validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_03.html">
+     ✅ Quiz
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../evaluation/02_metrics.html">
@@ -939,6 +1037,11 @@
      📃 Solution for Exercise 01
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_04.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
@@ -963,14 +1066,14 @@
      📃 Solution for Exercise 02
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../evaluation/evaluation_quiz_05.html">
+     ✅ Quiz
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../evaluation/metrics_quiz.html">
-   ✅ Quiz
-  </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../evaluation/evaluation_module_take_away.html">
@@ -1051,6 +1154,57 @@
   </a>
  </li>
 </ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Appendix
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/glossary.html">
+   Glossary
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../appendix/datasets_intro.html">
+   Datasets description
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="trees_dataset.html">
+     The penguins datasets
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/adult_census_description.html">
+     The adult census dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_california_housing.html">
+     The California housing dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_ames_housing.html">
+     The Ames housing dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="datasets_blood_transfusion.html">
+     The blood transfusion dataset
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/acknowledgement.html">
+   Acknowledgement
+  </a>
+ </li>
+</ul>
 
 </nav> <!-- To handle the deprecated key -->
 
@@ -1067,21 +1221,21 @@
           
 <main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="row topbar fixed-top container-xl">
-    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
-    </div>
-    <div class="col pl-2 topbar-main">
-        
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-            <i class="fas fa-bars"></i>
-            <i class="fas fa-arrow-left"></i>
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        
-        
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
@@ -1099,7 +1253,7 @@
     </div>
 </div>
 
-        <!-- Source interaction buttons -->
+            <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -1120,13 +1274,13 @@
 </div>
 
 
-        <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                title="Fullscreen mode"><i
-                    class="fas fa-expand"></i></button></a>
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
 
-        <!-- Launch buttons -->
+            <!-- Launch buttons -->
 
 <div class="dropdown-buttons-trigger">
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
@@ -1145,24 +1299,20 @@
     </div>
 </div>
 
-    </div>
+        </div>
 
-    <!-- Table of contents -->
-    <div class="d-none d-md-block col-md-2 bd-toc show">
-        
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
         <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
+            <i class="fas fa-list"></i>
+            Contents
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#data-preparation">
    Data preparation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-fitting-without-preprocessing">
-   Model fitting without preprocessing
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1179,6 +1329,7 @@
 
         </nav>
         
+        </div>
     </div>
 </div>
     <div id="main-content" class="row">
@@ -1189,40 +1340,48 @@
   <div class="section" id="preprocessing-for-numerical-features">
 <h1>Preprocessing for numerical features<a class="headerlink" href="#preprocessing-for-numerical-features" title="Permalink to this headline">¶</a></h1>
 <p>In this notebook, we present how to build predictive models on tabular
-datasets, with only numerical features.</p>
+datasets, with only numerical features. By contrast, with the previous
+notebook, we will select the numerical features from the original dataset
+instead to read an external file where the selection has been done
+beforehand.</p>
 <p>In particular we will highlight:</p>
 <ul class="simple">
 <li><p>an example of preprocessing, namely the <strong>scaling numerical variables</strong>;</p></li>
 <li><p>using a scikit-learn <strong>pipeline</strong> to chain preprocessing and model
 training;</p></li>
-<li><p>assessed the performance of our model via <strong>cross-validation</strong> instead of
-a single train-test split.</p></li>
+<li><p>assessing the statistical performance of our model via <strong>cross-validation</strong>
+instead of a single train-test split.</p></li>
 </ul>
 <div class="section" id="data-preparation">
 <h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this headline">¶</a></h2>
-<p>Let’s charge the full adult census dataset and split the target from the
-actual data used for modeling.</p>
+<p>First, let’s load the full adult census dataset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../datasets/adult-census.csv&quot;</span><span class="p">)</span>
+<span class="n">adult_census</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../datasets/adult-census.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>We will first split our dataset to have the target separated from the data
-used to train our predictive model.</p>
+<p>We will now drop the target from the data we will use to train our
+predictive model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_name</span> <span class="o">=</span> <span class="s2">&quot;class&quot;</span>
-<span class="n">target</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_name</span><span class="p">]</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">target_name</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">adult_census</span><span class="p">[</span><span class="n">target_name</span><span class="p">]</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">adult_census</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">target_name</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>We start by selecting only the numerical columns as seen in the previous
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Here and later, we use the name <code class="docutils literal notranslate"><span class="pre">data</span></code> and <code class="docutils literal notranslate"><span class="pre">target</span></code> to be explicit. In
+scikit-learn, documentation <code class="docutils literal notranslate"><span class="pre">data</span></code> is commonly named <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">target</span></code> is
+commonly called <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</div>
+<p>Then, we select only the numerical columns, as seen in the previous
 notebook.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1245,94 +1404,14 @@ notebook.</p>
 </div>
 </div>
 </div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Be aware that we are using a single train-test split instead of a
+cross-validation to present the scikit-learn transformers API. We are not
+interested in evaluating the statistical performance of the predictive model.
+For this latest purpose, it would be required to evaluate via
+cross-validation.</p>
 </div>
-<div class="section" id="model-fitting-without-preprocessing">
-<h2>Model fitting without preprocessing<a class="headerlink" href="#model-fitting-without-preprocessing" title="Permalink to this headline">¶</a></h2>
-<p>We will use the logistic regression classifier as in the previous notebook.
-This time, besides fitting the model, we will also compute the time needed
-to train the model.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">)</span>
-<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-<span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">data_test</span><span class="p">,</span> <span class="n">target_test</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The accuracy using a </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &quot;</span>
-      <span class="sa">f</span><span class="s2">&quot;with a fitting time of </span><span class="si">{</span><span class="n">elapsed_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds &quot;</span>
-      <span class="sa">f</span><span class="s2">&quot;in </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">n_iter_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The accuracy using a LogisticRegression is 0.807 with a fitting time of 0.307 seconds in 59 iterations
-</pre></div>
-</div>
-</div>
-</div>
-<p>We did not have issues with our model training: it converged in 59 iterations
-while we gave maximum number of iterations of 100. However, we can give an
-hint that this model could converge and train faster. In some case, we might
-even get a <code class="docutils literal notranslate"><span class="pre">ConvergenceWarning</span></code> using the above pattern. We will show such
-example by reducing the number of maximum iterations allowed.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">)</span>
-<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.7.9/x64/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:765: ConvergenceWarning: lbfgs failed to converge (status=1):
-STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
-
-Increase the number of iterations (max_iter) or scale the data as shown in:
-    https://scikit-learn.org/stable/modules/preprocessing.html
-Please also refer to the documentation for alternative solver options:
-    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
-  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-<span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">data_test</span><span class="p">,</span> <span class="n">target_test</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The accuracy using a </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &quot;</span>
-      <span class="sa">f</span><span class="s2">&quot;with a fitting time of </span><span class="si">{</span><span class="n">elapsed_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds &quot;</span>
-      <span class="sa">f</span><span class="s2">&quot;in </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">n_iter_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The accuracy using a LogisticRegression is 0.807 with a fitting time of 0.261 seconds in 50 iterations
-</pre></div>
-</div>
-</div>
-</div>
-<p>In this case, the score is closed to the previous case because our algorithm
-is closed to the same solution. The warning suggested by scikit-learn
-provides two solutions to solve this issue:</p>
-<ul class="simple">
-<li><p>increase <code class="docutils literal notranslate"><span class="pre">max_iter</span></code> which is indeed what happens in the former case. We let
-the algorithm converge, it will take more time but we are sure to get an
-optimal model;</p></li>
-<li><p>standardize the data which is expected to improve convergence.</p></li>
-</ul>
-<p>We will investigate the second option.</p>
 </div>
 <div class="section" id="model-fitting-with-preprocessing">
 <h2>Model fitting with preprocessing<a class="headerlink" href="#model-fitting-with-preprocessing" title="Permalink to this headline">¶</a></h2>
@@ -1340,7 +1419,7 @@ optimal model;</p></li>
 the input data before training a model. In our case, we will standardize the
 data and then train a new logistic regression model on that new version of
 the dataset.</p>
-<p>Let’s start by checking some feature statistics or the training data.</p>
+<p>Let’s start by printing some statistics about the training data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_train</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
@@ -1433,40 +1512,120 @@ the dataset.</p>
 </table>
 </div></div></div>
 </div>
-<p>We see that the features of this dataset have very different ranges of values.
-This can be a problem for some machine learning algorithms such as k-nearest
-neighbors and logistic regression. Those algorithms work better if the
-numerical features are preprocessed to use similar scales.</p>
+<p>We see that the dataset’s features span across different ranges. Some
+algorithms have some assumptions regarding the feature distrbutions and
+usually normalizing features will be helpful to address this assumptions.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Here are some reasons for scaling features:</p>
 <ul class="simple">
-<li><p>Models that rely on the distance between a pair of samples (e.g k-nearest
-neighbors) should be trained on normalized features to make each feature
-contribute approximately equally to the distance computations.</p></li>
+<li><p>Models that rely on the distance between a pair of samples, for instance
+k-nearest neighbors, should be trained on normalized features to make each
+feature contribute approximately equally to the distance computations.</p></li>
 <li><p>Many models such as logistic regression use a numerical solver (based on
 gradient descent) to find their optimal parameters. This solver converges
 faster when the features are scaled.</p></li>
-<li><p>Logistic regression uses a strategy called “regularization” to better behave
-on datasets with many features or correlated features and comparatively
-fewer samples. Regularization assumes that features have similar scales.</p></li>
 </ul>
-<p>The use of regularization for linear models will be explained in a dedicated
-notebook, later in the MOOC.</p>
 </div>
 <p>Whether or not a machine learning model requires scaling the features depends
 on the model family. Linear models such as logistic regression generally
-benefit from scaling the features while other models such as decision trees do
-not need such preprocessing.</p>
+benefit from scaling the features while other models such as decision trees
+do not need such preprocessing (but will not suffer from it).</p>
 <p>We show how to apply such normalization using a scikit-learn transformer
-called <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>. This transformer intend to transform feature such
-that each of them will all have a mean value and a unit standard deviation.</p>
+called <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>. This transformer shifts and scales each feature
+individually so that they all have a 0-mean and a unit standard deviation.</p>
+<p>We will investigate different steps used in scikit-learn to achieve such a
+transformation of the data.</p>
+<p>First, one needs to call the method <code class="docutils literal notranslate"><span class="pre">fit</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 
 <span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
-<span class="n">data_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data_train</span><span class="p">)</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>StandardScaler()
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">fit</span></code> method is identical to what a predictor is doing.</p>
+<p><img alt="Transformer fit diagram" src="../_images/api_diagram-transformer.fit.svg" /></p>
+<p>The scaler uses a learning algorithm. In this case, the algorithm needs to
+compute the mean and standard deviation for each feature and store them into
+some NumPy arrays. Here, these statistics are the model states.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The fact that the model states of this scaler are arrays of means and
+standard deviations is specific to the <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>. Other
+scikit-learn transformers will compute different statistics and store them
+as model states, in the same fashion.</p>
+</div>
+<p>We can inspect the computed means and standard deviations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaler</span><span class="o">.</span><span class="n">mean_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([  38.64235211, 1087.07772106,   89.6653108 ,   40.43124676])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaler</span><span class="o">.</span><span class="n">scale_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([  13.72556083, 7522.59025606,  407.10461772,   12.42378265])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Scaling the data is equivalent to subtract the means and divide by the
+standard deviations previously computed. This operation is defining our
+transformation function and is as well specific to each transformer. We can
+operate this transformation function by calling the method <code class="docutils literal notranslate"><span class="pre">transform</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_train</span><span class="p">)</span>
+<span class="n">data_train_scaled</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.17177061, -0.14450843,  5.71188483, -2.28845333],
+       [ 0.02605707, -0.14450843, -0.22025127, -0.27618374],
+       [-0.33822677, -0.14450843, -0.22025127,  0.77019645],
+       ...,
+       [-0.77536738, -0.14450843, -0.22025127, -0.03471139],
+       [ 0.53605445, -0.14450843, -0.22025127, -0.03471139],
+       [ 1.48319243, -0.14450843, -0.22025127, -2.69090725]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s illustrate the internal mechanism of the <code class="docutils literal notranslate"><span class="pre">transform</span></code> method and put it
+to perspective with what we already saw with the predictor.</p>
+<p><img alt="Transformer transform diagram" src="../_images/api_diagram-transformer.transform.svg" /></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">transform</span></code> method for the transformer is similar to the <code class="docutils literal notranslate"><span class="pre">predict</span></code> method
+for the predictor. It uses a predefined function, called a <strong>transformation
+function</strong>, and uses the model states and the input data. However, instead of
+outputing predictions, the job of the <code class="docutils literal notranslate"><span class="pre">transform</span></code> method is to output a
+transformed version of the input data.</p>
+<p>Finally, the method <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> is a shorthand method to call
+successively <code class="docutils literal notranslate"><span class="pre">fit</span></code> and then <code class="docutils literal notranslate"><span class="pre">transform</span></code>.</p>
+<p><img alt="Transformer fit_transform diagram" src="../_images/api_diagram-transformer.fit_transform.svg" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data_train</span><span class="p">)</span>
 <span class="n">data_train_scaled</span>
 </pre></div>
 </div>
@@ -1577,16 +1736,87 @@ that each of them will all have a mean value and a unit standard deviation.</p>
 </table>
 </div></div></div>
 </div>
-<p>We can easily combine one or more transformers and the final classifier with a
-scikit-learn <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code>. The resulting object used like any other classifier
-or regressor. The helper function <code class="docutils literal notranslate"><span class="pre">make_pipeline</span></code> will create a <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code>
-instance by giving as arguments the successive transformations to perform
-followed by the classifier or regressor model.</p>
+<p>We can easily combine these sequential operations with a scikit-learn
+<code class="docutils literal notranslate"><span class="pre">Pipeline</span></code>, which chains together operations and is used as any other
+classifier or regressor. The helper function <code class="docutils literal notranslate"><span class="pre">make_pipeline</span></code> will create a
+<code class="docutils literal notranslate"><span class="pre">Pipeline</span></code>: it takes as arguments the successive transformations to perform,
+followed by the classifier or regressor model, and will assign automatically
+a name at steps based on the name of the classes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This predictive pipeline exposes the same methods as the ending predictor:
+<code class="docutils literal notranslate"><span class="pre">fit</span></code> and <code class="docutils literal notranslate"><span class="pre">predict</span></code> (and additionally <code class="docutils literal notranslate"><span class="pre">predict_proba</span></code>, <code class="docutils literal notranslate"><span class="pre">decision_function</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">score</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">)</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can represent the internal mechanism of a pipeline when calling <code class="docutils literal notranslate"><span class="pre">fit</span></code>
+by the following diagram:</p>
+<p><img alt="pipeline fit diagram" src="../_images/api_diagram-pipeline.fit.svg" /></p>
+<p>When calling <code class="docutils literal notranslate"><span class="pre">model.fit</span></code>, the method <code class="docutils literal notranslate"><span class="pre">fit_transform</span></code> from each underlying
+transformer in the pipeline will be called to: (i) learn their internal
+model states and (ii) transform the training data. Finally, the preprocessed
+data are provided to train the predictor.</p>
+<p>To predict the targets given a test set, one uses the <code class="docutils literal notranslate"><span class="pre">predict</span></code> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predicted_target</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_test</span><span class="p">)</span>
+<span class="n">predicted_target</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39; &lt;=50K&#39;, &#39; &lt;=50K&#39;, &#39; &gt;50K&#39;, &#39; &lt;=50K&#39;, &#39; &lt;=50K&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s show the underlying mechanism:</p>
+<p><img alt="pipeline predict diagram" src="../_images/api_diagram-pipeline.predict.svg" /></p>
+<p>The method <code class="docutils literal notranslate"><span class="pre">transform</span></code> of each transformer is called to preprocess the data.
+Note that there is no need to call the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method for these transformers
+because we are using the internal model states computed when calling
+<code class="docutils literal notranslate"><span class="pre">model.fit</span></code>. The preprocessed data is then provided to the predictor that
+will output the predicted target by calling its method <code class="docutils literal notranslate"><span class="pre">predict</span></code>.</p>
+<p>As a shorthand, we can check the score of the full predictive pipeline
+calling the method <code class="docutils literal notranslate"><span class="pre">model.score</span></code>. Thus, let’s check the computational and
+statistical performance of such a predictive pipeline.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">data_test</span><span class="p">,</span> <span class="n">target_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The accuracy using a </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;with a fitting time of </span><span class="si">{</span><span class="n">elapsed_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;in </span><span class="si">{</span><span class="n">model</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">n_iter_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The accuracy using a Pipeline is 0.807 with a fitting time of 0.091 seconds in 12 iterations
+</pre></div>
+</div>
+</div>
+</div>
+<p>We could compare this predictive model with the predictive model used in
+the previous notebook which was not scaling feature.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">target_train</span><span class="p">)</span>
 <span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
@@ -1600,57 +1830,86 @@ followed by the classifier or regressor model.</p>
 <span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">data_test</span><span class="p">,</span> <span class="n">target_test</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The accuracy using a </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> &quot;</span>
       <span class="sa">f</span><span class="s2">&quot;with a fitting time of </span><span class="si">{</span><span class="n">elapsed_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds &quot;</span>
-      <span class="sa">f</span><span class="s2">&quot;in </span><span class="si">{</span><span class="n">model</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">n_iter_</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
+      <span class="sa">f</span><span class="s2">&quot;in </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">n_iter_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The accuracy using a Pipeline is 0.807 with a fitting time of 0.117 seconds in [12] iterations
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The accuracy using a LogisticRegression is 0.807 with a fitting time of 0.195 seconds in 59 iterations
 </pre></div>
 </div>
 </div>
 </div>
-<p>We can see that the training time and the number of iterations is much
-shorter while the predictive performance (accuracy) slightly improved.</p>
+<p>We see that scaling the data before to train the logistic regression was
+beneficial in terms of computational performance. Indeed, the number of
+iterations decreased as well as the training time. The statistical
+performance did not change since both models converged.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Working with non-scaled will potentially force the algorithm to iterate
+more as we showed in the example above. There is also catastrophic scenario
+where the number of iterations required are more than the maximum number of
+iterations allowed by the predictor (controlled by the <code class="docutils literal notranslate"><span class="pre">max_iter</span></code>) parameter.
+Therefore, before to increase <code class="docutils literal notranslate"><span class="pre">max_iter</span></code>, make sure that the data are well
+scaled.</p>
+</div>
 </div>
 <div class="section" id="model-evaluation-using-cross-validation">
 <h2>Model evaluation using cross-validation<a class="headerlink" href="#model-evaluation-using-cross-validation" title="Permalink to this headline">¶</a></h2>
-<p>In the previous example, we split the original data into a training set
-and a testing set. This strategy has several issues: in the setting where
-the amount of data is limited, the subset of data used to train or test will
-be small; and the splitting was done in a random manner and we have no
+<p>In the previous example, we split the original data into a training set and a
+testing set. This strategy has several issues: in the setting where the
+amount of data is limited, the subset used to train or test will be small.
+Moreover, if the splitting was done in a random manner, we do not have
 information regarding the confidence of the results obtained.</p>
 <p>Instead, we can use cross-validation. Cross-validation consists of repeating
 this random splitting into training and testing sets and aggregating the
-model performance. By repeating the experiment, one can get an estimate of
-the variability of the model performance.</p>
-<p>The function <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code> allows for such experimental protocol by
-giving the model, the data and the target. Since there exists several
-cross-validation strategies, <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code> takes a parameter <code class="docutils literal notranslate"><span class="pre">cv</span></code> which
+model statistical performance. By repeating the experiment, one can get an
+estimate of the variability of the model statistical performance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We will go into details regarding cross-validation in the upcoming module
+“Selecting the best model”.</p>
+</div>
+<p>The function <code class="docutils literal notranslate"><span class="pre">cross_validate</span></code> allows for such experimental protocol by
+providing the model, the data, and the target. Since there exists several
+cross-validation strategies, <code class="docutils literal notranslate"><span class="pre">cross_validate</span></code> takes a parameter <code class="docutils literal notranslate"><span class="pre">cv</span></code> which
 defines the splitting strategy.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
 
-<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data_numeric</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">scores</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="n">cv_result</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data_numeric</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">cv_result</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1.18 s, sys: 461 ms, total: 1.64 s
-Wall time: 853 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 952 ms, sys: 321 ms, total: 1.27 s
+Wall time: 660 ms
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.79557785, 0.80049135, 0.79965192, 0.79873055, 0.80436118])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;fit_time&#39;: array([0.09925079, 0.09518385, 0.09756804, 0.09652591, 0.09615541]),
+ &#39;score_time&#39;: array([0.020015  , 0.01984096, 0.02062464, 0.01978755, 0.02041364]),
+ &#39;test_score&#39;: array([0.79557785, 0.80049135, 0.79965192, 0.79873055, 0.80436118])}
 </pre></div>
 </div>
 </div>
 </div>
+<p>The output of <code class="docutils literal notranslate"><span class="pre">cross_validate</span></code> contains by default three entries: (i) the
+time to train the model on the training data for each fold, (ii) the time
+to predict with the model on the testing data for each fold, and (iii) the
+default score on the testing data for each fold.</p>
+<p>Additional can be returned, for instance training scores or the fitted models
+per fold, by passing additional parameters. We will give more details about
+these features in a subsequent notebook.</p>
+<p>Let’s extract the test scores for the dictionary and compute the mean
+accuracy and the variation of the accuracy across folds.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The mean cross-validation accuracy is: &quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="n">cv_result</span><span class="p">[</span><span class="s2">&quot;test_score&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The mean cross-validation accuracy is: &quot;</span>
       <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1677,9 +1936,9 @@ samples at each iteration of the cross-validation procedure:</p>
 concatenation of the red samples and evaluate the score of the model by using
 the blue samples. Cross-validation is therefore computationally intensive
 because it requires training several models instead of one.</p>
-<p>Note that the <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code> method above discards the 5 models that were
-trained on the different overlapping subset of the dataset. The goal of
-cross-validation is not to train a model, but rather to estimate
+<p>Note that by default the <code class="docutils literal notranslate"><span class="pre">cross_validate</span></code> function above discards the 5
+models that were trained on the different overlapping subset of the dataset.
+The goal of cross-validation is not to train a model, but rather to estimate
 approximately the generalization performance of a model that would have been
 trained to the full training set, along with an estimate of the variability
 (uncertainty on the generalization accuracy).</p>
@@ -1687,7 +1946,7 @@ trained to the full training set, along with an estimate of the variability
 <ul class="simple">
 <li><p>seen the importance of <strong>scaling numerical variables</strong>;</p></li>
 <li><p>used a <strong>pipeline</strong> to chain scaling and logistic regression training;</p></li>
-<li><p>assessed the performance of our model via <strong>cross-validation</strong>.</p></li>
+<li><p>assessed the statistical performance of our model via <strong>cross-validation</strong>.</p></li>
 </ul>
 </div>
 </div>
@@ -1714,15 +1973,15 @@ trained to the full training set, along with an estimate of the variability
 
               </div>
               
-        </div>
-    </div>
-    
-    
-    <div class='prev-next-bottom'>
         
+        <div class='prev-next-bottom'>
+            
     <a class='left-prev' id="prev-link" href="02_numerical_pipeline_sol_01.html" title="previous page">📃 Solution for Exercise 01</a>
     <a class='right-next' id="next-link" href="../predictive_modeling_pipeline/02_numerical_pipeline_quiz.html" title="next page">✅ Quiz</a>
 
+        </div>
+        
+        </div>
     </div>
     <footer class="footer mt-5 mt-md-0">
     <div class="container">

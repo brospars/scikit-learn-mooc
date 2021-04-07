@@ -1,9 +1,8 @@
 # %% [markdown]
 # # 📝 Exercise 02
 #
-# As for the exercise for the classification metrics, in this notebook we
-# intend to use the regression metrics within a cross-validation framework
-# to get familiar with the syntax.
+# As with the classification metrics exercise, we will evaluate the regression
+# metrics within a cross-validation framework to get familiar with the syntax.
 #
 # We will use the Ames house prices dataset.
 
@@ -11,10 +10,17 @@
 import pandas as pd
 import numpy as np
 
-data = pd.read_csv("../datasets/house_prices.csv")
-X, y = data.drop(columns="SalePrice"), data["SalePrice"]
-X = X.select_dtypes(np.number)
-y /= 1000
+ames_housing = pd.read_csv("../datasets/house_prices.csv")
+data = ames_housing.drop(columns="SalePrice")
+target = ames_housing["SalePrice"]
+data = data.select_dtypes(np.number)
+target /= 1000
+
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
 
 # %% [markdown]
 # The first step will be to create a linear regression model.
@@ -23,25 +29,25 @@ y /= 1000
 # Write your code here.
 
 # %% [markdown]
-# Then, use the `cross_val_score` to estimate the performance of the model.
-# Use a `KFold` cross-validation with 10 folds. Make it explicit to use the
-# $R^2$ score by assigning the paramater `scoring` even if it is the default
-# score.
+# Then, use the `cross_val_score` to estimate the statistical performance of
+# the model. Use a `KFold` cross-validation with 10 folds. Make the use of the
+# $R^2$ score explicit by assigning the parameter `scoring` (even though it is
+# the default score).
 
 # %%
 # Write your code here.
 
 # %% [markdown]
 # Then, instead of using the $R^2$ score, use the mean absolute error. You need
-# to check the documentation for the `scoring` parameter.
+# to refer to the documentation for the `scoring` parameter.
 
 # %%
 # Write your code here.
 
 # %% [markdown]
-# Finally, use the `cross_validate` function and compute multiple score/error
-# at once by passing a list to the `scoring` parameter. You can compute the
-# $R^2$ score and the mean absolute error.
+# Finally, use the `cross_validate` function and compute multiple scores/errors
+# at once by passing a list of scorers to the `scoring` parameter. You can
+# compute the $R^2$ score and the mean absolute error for instance.
 
 # %%
 # Write your code here.

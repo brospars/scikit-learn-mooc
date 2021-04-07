@@ -2,27 +2,33 @@
 # # Adaptive Boosting (AdaBoost)
 #
 # In this notebook, we present the Adaptive Boosting (AdaBoost) algorithm. The
-# aim is to intuitions regarding the internal machinery of AdaBoost and
-# boosting more in general.
+# aim is to get intuitions regarding the internal machinery of AdaBoost and
+# boosting in general.
 #
-#  We will load the "penguin" dataset used in the "tree in depth" notebook. We
-# will predict penguin species from the features culmen length and depth.
+# We will load the "penguin" dataset. We will predict penguin species from the
+# culmen length and depth features.
 
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/penguins_classification.csv")
+penguins = pd.read_csv("../datasets/penguins_classification.csv")
 culmen_columns = ["Culmen Length (mm)", "Culmen Depth (mm)"]
 target_column = "Species"
 
-X, y = data[culmen_columns], data[target_column]
+data, target = penguins[culmen_columns], penguins[target_column]
 range_features = {
-    feature_name: (X[feature_name].min() - 1, X[feature_name].max() + 1)
-    for feature_name in X.columns}
+    feature_name: (data[feature_name].min() - 1, data[feature_name].max() + 1)
+    for feature_name in data.columns}
 
 # %% [markdown]
-# In addition, we are also using on the function used the previous "tree in
-# depth" notebook to plot the decision function of the tree.
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
+
+# %% [markdown]
+# In addition, we are also using the function used in the previous notebook
+# to plot the decision function of the tree.
 
 # %%
 import numpy as np
@@ -55,73 +61,82 @@ def plot_decision_function(fitted_classifier, range_features, ax=None):
 
 
 # %% [markdown]
-# We will purposely train a shallow decision tree. Since the tree is shallow,
+# We will purposefully train a shallow decision tree. Since it is shallow,
 # it is unlikely to overfit and some of the training examples will even be
-# misclassified on the training set.
+# misclassified.
 
 # %%
 import seaborn as sns
 from sklearn.tree import DecisionTreeClassifier
-sns.set_context("talk")
 
 palette = ["tab:red", "tab:blue", "black"]
 
 tree = DecisionTreeClassifier(max_depth=2, random_state=0)
-tree.fit(X, y)
+tree.fit(data, target)
 
-_, ax = plt.subplots(figsize=(8, 6))
-sns.scatterplot(x=culmen_columns[0], y=culmen_columns[1], hue=target_column,
-                data=data, palette=palette, ax=ax)
-_ = plot_decision_function(tree, range_features, ax=ax)
+# %% [markdown]
+# We can predict on the same dataset and check which samples are misclassified.
 
-# find the misclassified samples
-y_pred = tree.predict(X)
-misclassified_samples_idx = np.flatnonzero(y != y_pred)
+# %%
+target_predicted = tree.predict(data)
+misclassified_samples_idx = np.flatnonzero(target != target_predicted)
+data_misclassified = data.iloc[misclassified_samples_idx]
 
-ax.plot(X.iloc[misclassified_samples_idx, 0],
-        X.iloc[misclassified_samples_idx, 1],
-        "+k", label="Misclassified samples")
-_ = ax.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
+# %%
+# plot the original dataset
+sns.scatterplot(data=penguins, x=culmen_columns[0], y=culmen_columns[1],
+                hue=target_column, palette=palette)
+# plot the misclassified samples
+ax = sns.scatterplot(data=data_misclassified, x=culmen_columns[0],
+                     y=culmen_columns[1], label="Misclassified samples",
+                     marker="+", s=150, color="k")
+plot_decision_function(tree, range_features, ax=ax)
+
+plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
+_ = plt.title("Decision tree predictions \nwith misclassified samples "
+              "highlighted")
 
 # %% [markdown]
 # We observe that several samples have been misclassified by the classifier.
 #
 # We mentioned that boosting relies on creating a new classifier which tries to
-# correct these misclassifications. In scikit-learn, learners support a
-# parameter `sample_weight` which forces the learner to pay more attention to
-# samples with higher weights, during the training.
+# correct these misclassifications. In scikit-learn, learners have a
+# parameter `sample_weight` which forces it to pay more attention to
+# samples with higher weights during the training.
 #
 # This parameter is set when calling
 # `classifier.fit(X, y, sample_weight=weights)`.
 # We will use this trick to create a new classifier by 'discarding' all
 # correctly classified samples and only considering the misclassified samples.
-# Thus, misclassified samples will be assigned a weight of 1 while well
-# classified samples will assigned to a weight of 0.
+# Thus, misclassified samples will be assigned a weight of 1 and well
+# classified samples will be assigned a weight of 0.
 
 # %%
-sample_weight = np.zeros_like(y, dtype=int)
+sample_weight = np.zeros_like(target, dtype=int)
 sample_weight[misclassified_samples_idx] = 1
 
 tree = DecisionTreeClassifier(max_depth=2, random_state=0)
-tree.fit(X, y, sample_weight=sample_weight)
+tree.fit(data, target, sample_weight=sample_weight)
 
-_, ax = plt.subplots(figsize=(8, 6))
-sns.scatterplot(x=culmen_columns[0], y=culmen_columns[1], hue=target_column,
-                data=data, palette=palette, ax=ax)
+# %%
+sns.scatterplot(data=penguins, x=culmen_columns[0], y=culmen_columns[1],
+                hue=target_column, palette=palette)
+ax = sns.scatterplot(data=data_misclassified, x=culmen_columns[0],
+                     y=culmen_columns[1],
+                     label="Previously misclassified samples",
+                     marker="+", s=150, color="k")
 plot_decision_function(tree, range_features, ax=ax)
 
-ax.plot(X.iloc[misclassified_samples_idx, 0],
-        X.iloc[misclassified_samples_idx, 1],
-        "+k", label="Previous misclassified samples")
-_ = ax.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
+plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
+_ = plt.title("Decision tree by changing sample weights")
 
 # %% [markdown]
 # We see that the decision function drastically changed. Qualitatively, we see
 # that the previously misclassified samples are now correctly classified.
 
 # %%
-y_pred = tree.predict(X)
-newly_misclassified_samples_idx = np.flatnonzero(y != y_pred)
+target_predicted = tree.predict(data)
+newly_misclassified_samples_idx = np.flatnonzero(target != target_predicted)
 remaining_misclassified_samples_idx = np.intersect1d(
     misclassified_samples_idx, newly_misclassified_samples_idx
 )
@@ -139,8 +154,8 @@ print(f"Number of samples previously misclassified and "
 
 # %%
 ensemble_weight = [
-    (y.shape[0] - len(misclassified_samples_idx)) / y.shape[0],
-    (y.shape[0] - len(newly_misclassified_samples_idx)) / y.shape[0],
+    (target.shape[0] - len(misclassified_samples_idx)) / target.shape[0],
+    (target.shape[0] - len(newly_misclassified_samples_idx)) / target.shape[0],
 ]
 ensemble_weight
 
@@ -177,28 +192,32 @@ base_estimator = DecisionTreeClassifier(max_depth=3, random_state=0)
 adaboost = AdaBoostClassifier(base_estimator=base_estimator,
                               n_estimators=3, algorithm="SAMME",
                               random_state=0)
-adaboost.fit(X, y)
+adaboost.fit(data, target)
 
-_, axs = plt.subplots(ncols=3, figsize=(18, 6))
-
-for ax, tree in zip(axs, adaboost.estimators_):
-    sns.scatterplot(x=culmen_columns[0], y=culmen_columns[1],
-                    hue=target_column, data=data,
-                    palette=palette, ax=ax)
+# %%
+for boosting_round, tree in enumerate(adaboost.estimators_):
+    plt.figure()
+    ax = sns.scatterplot(x=culmen_columns[0], y=culmen_columns[1],
+                         hue=target_column, data=penguins,
+                         palette=palette)
     plot_decision_function(tree, range_features, ax=ax)
-plt.subplots_adjust(wspace=0.35)
+    plt.legend(bbox_to_anchor=(1.04, 0.5), loc="center left")
+    _ = plt.title(f"Decision tree trained at round {boosting_round}")
 
+# %%
 print(f"Weight of each classifier: {adaboost.estimator_weights_}")
+
+# %%
 print(f"Error of each classifier: {adaboost.estimator_errors_}")
 
 # %% [markdown]
-# We see that AdaBoost has learnt three different classifiers each of which
+# We see that AdaBoost learned three different classifiers, each of which
 # focuses on different samples. Looking at the weights of each learner, we see
 # that the ensemble gives the highest weight to the first classifier. This
 # indeed makes sense when we look at the errors of each classifier. The first
-# classifier also has the highest classification performance.
+# classifier also has the highest classification statistical performance.
 #
-# While AdaBoost is a nice algorithm to demonsrate the internal machinery of
-# boosting algorithms, it is not the most efficient machine-learning algorithm.
-# The most efficient algorithm based on boosting is the gradient-boosting
-# decision tree (GBDT) algorithm which we will discuss after a short exercise.
+# While AdaBoost is a nice algorithm to demonstrate the internal machinery of
+# boosting algorithms, it is not the most efficient.
+# This title is handed to the gradient-boosting decision tree (GBDT) algorithm,
+# which we will discuss after a short exercise.

@@ -19,7 +19,7 @@
 # features used by a given model. We will look at:
 #
 # 1. interpreting the coefficients in a linear model;
-# 2. the attribute `feature_importances_` in RandomForrest;
+# 2. the attribute `feature_importances_` in RandomForest;
 # 3. `permutation feature importance`, which is an inspection technique that
 #    can be used for any fitted model.
 
@@ -37,6 +37,15 @@ from sklearn.datasets import fetch_california_housing
 import pandas as pd
 
 X, y = fetch_california_housing(as_frame=True, return_X_y=True)
+
+# %% [markdown]
+# To speed up the computation, we take the first 10000 samples
+
+# %%
+X = X[:10000]
+y = y[:10000]
+
+# %%
 X.head()
 
 # %% [markdown]
@@ -83,12 +92,15 @@ import seaborn as sns
 train_dataset = X_train.copy()
 train_dataset.insert(0, "MedHouseVal", y_train)
 _ = sns.pairplot(
-    train_dataset[['MedHouseVal', 'Latitude', 'AveRooms', 'MedInc']],
+    train_dataset[['MedHouseVal', 'Latitude', 'AveRooms', 'AveBedrms', 'MedInc']],
     kind='reg', diag_kind='kde', plot_kws={'scatter_kws': {'alpha': 0.1}})
 
 # %% [markdown]
 # We see in the upper right plot that the median income seems to be positively
 # correlated to the median house price (the target).
+#
+# We can also see that the average number of rooms `AveRooms` is very
+# correlated to the average number of bedrooms `AveBedrms`.
 
 # %% [markdown]
 # ## 1. Linear model inspection
@@ -132,7 +144,30 @@ plt.title('Ridge model')
 plt.axvline(x=0, color='.5')
 plt.subplots_adjust(left=.3)
 
+
 # %% [markdown]
+#
+# ### Sign of coefficients
+#
+# ```{admonition} A surprising association?
+# **Why is the coefficient associated to `AveRooms` negative?** Does the
+# price of houses decreases with the number of rooms?
+# ```
+#
+# The coefficients of a linear model are a *conditional* association:
+# they quantify the variation of a the output (the price) when the given
+# feature is varied, **keeping all other features constant**. We should
+# not interpret them as a *marginal* association, characterizing the link
+# between the two quantities ignoring all the rest.
+#
+# The coefficient associated to `AveRooms` is negative because the number
+# of rooms is strongly correlated with the number of bedrooms,
+# `AveBedrms`. What we are seeing here is that for districts where the houses
+# have the same number of bedrooms on average, when there are more rooms
+# (hence non-bedroom rooms), the houses are worth comparatively less.
+#
+# ### Scale of coefficients
+#
 # The `AveBedrms` have the higher coefficient. However, we can't compare the
 # magnitude of these coefficients directly, since they are not scaled. Indeed,
 # `Population` is an integer which can be thousands, while `AveBedrms` is
@@ -225,8 +260,7 @@ coefs = pd.DataFrame(
    columns=X_with_rnd_feat.columns
 )
 plt.figure(figsize=(9, 7))
-sns.swarmplot(data=coefs, orient='h', color='k', alpha=0.5)
-# sns.boxplot(data=coefs, orient='h', color='cyan', saturation=0.5)
+sns.boxplot(data=coefs, orient='h', color='cyan', saturation=0.5)
 plt.axvline(x=0, color='.5')
 plt.xlabel('Coefficient importance')
 plt.title('Coefficient importance and its variability')
@@ -240,13 +274,15 @@ plt.subplots_adjust(left=.3)
 # ### Linear models with sparse coefficients (Lasso)
 
 # %% [markdown]
-# In order to illustrate feature selection with a L1 penalty, let's fit a Lasso
-# model with a strong regularization parameters `alpha`
+# In it important to keep in mind that the associations extracted depend
+# on the model. To illustrate this point we consider a Lasso model, that
+# performs feature selection with a L1 penalty. Let us fit a Lasso model
+# with a strong regularization parameters `alpha`
 
 # %%
 from sklearn.linear_model import Lasso
 
-model = make_pipeline(StandardScaler(), Lasso(alpha=.04))
+model = make_pipeline(StandardScaler(), Lasso(alpha=.015))
 
 model.fit(X_train, y_train)
 
@@ -266,8 +302,40 @@ plt.subplots_adjust(left=.3)
 
 # %% [markdown]
 # Here the model score is a bit lower, because of the strong regularization.
-# However, it has selectioned only 5 non negative coefficients to make its
-# prediction.
+# However, it has zeroed out 3 coefficients, selecting a small number of
+# variables to make its prediction.
+#
+# We can see that out of the two correlated features `AveRooms` and
+# `AveBedrms`, the model has selected one. Note that this choice is
+# partly arbitary: choosing one does not mean that the other is not
+# important for prediction. **Avoid over-interpreting models, as they are
+# imperfect**.
+#
+# As above, we can look at the variability of the coefficients:
+
+# %%
+cv_model = cross_validate(
+   model, X_with_rnd_feat, y, cv=RepeatedKFold(n_splits=5, n_repeats=5),
+   return_estimator=True, n_jobs=-1
+)
+coefs = pd.DataFrame(
+   [model[1].coef_
+    for model in cv_model['estimator']],
+   columns=X_with_rnd_feat.columns
+)
+plt.figure(figsize=(9, 7))
+sns.boxplot(data=coefs, orient='h', color='cyan', saturation=0.5)
+plt.axvline(x=0, color='.5')
+plt.xlabel('Coefficient importance')
+plt.title('Coefficient importance and its variability')
+plt.subplots_adjust(left=.3)
+
+# %% [markdown]
+# We can see that both the coefficients associated to `AveRooms` and
+# `AveBedrms` have a strong variability and that they can both be non
+# zero. Given that they are strongly correlated, the model can pick one
+# or the other to predict well. This choice is a bit arbitary, and must
+# not be over-interpreted.
 
 # %% [markdown]
 # ### Lessons learned
@@ -288,7 +356,7 @@ plt.subplots_adjust(left=.3)
 # ## 2. RandomForest `feature_importances_`
 #
 # On some algorithms, there pre-exist some feature importance method,
-# inherently built within the model. It is the case in RandomForrest models.
+# inherently built within the model. It is the case in RandomForest models.
 # Let's investigate the built-in `feature_importances_` attribute.
 
 # %%
@@ -351,8 +419,9 @@ print(f'model score on testing data: {model.score(X_test, y_test)}')
 
 
 # %% [markdown]
-# The score on the test set is .81, so feature importance shall be relevant
-# here for this model.
+# As the model gives a good prediction, it has captured well the link
+# between X and y. Hence, it is reasonnable to interpret what it has
+# captured from the data.
 
 # %% [markdown]
 # ### Feature importance

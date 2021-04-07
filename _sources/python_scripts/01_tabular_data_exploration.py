@@ -30,6 +30,13 @@
 #
 # We will use data from the "Current Population adult_census" from 1994 that we
 # downloaded from [OpenML](http://openml.org/).
+#
+# We use pandas to read this dataset.
+#
+# ```{note}
+# [Pandas](https://pandas.pydata.org/) is a Python library used for
+# manipulating 1 and 2 dimensional structured data.
+# ```
 
 # %%
 import pandas as pd
@@ -47,18 +54,25 @@ adult_census = pd.read_csv("../datasets/adult-census.csv")
 # %% [markdown]
 # ## The variables (columns) in the dataset
 #
-# The data are stored in a pandas dataframe.
+# The data are stored in a pandas dataframe. A dataframe is type of structured
+# data composed of 2 dimensions. This type of data are also referred as tabular
+# data.
 #
-# Pandas is a Python library used for manipulating tables
-# (which can be seen as Excel sheets): <https://pandas.pydata.org/>
+# The rows represents a record. In the field of machine learning or descriptive
+# statistics, the terms commonly used to refer to rows are "sample",
+# "instance", or "observation".
+#
+# The columns represents a type of information collected. In the field of
+# machined learning and descriptive statistics, the terms commonly used to
+# refer to columns are "feature", "variable", "attribute", or "covariate".
 
 # %%
 adult_census.head()  # Print the first few lines of our dataframe
 
 # %% [markdown]
 # The column named **class** is our target variable (i.e., the variable which
-# we want to predict). The two possible classes are `<= 50K` (low-revenue) and
-# `> 50K` (high-revenue). The resulting prediction problem is therefore a
+# we want to predict). The two possible classes are `<=50K` (low-revenue) and
+# `>50K` (high-revenue). The resulting prediction problem is therefore a
 # binary classification problem, while we will use the other columns as input
 # variables for our model.
 
@@ -68,19 +82,18 @@ adult_census[target_column].value_counts()
 
 # %% [markdown]
 # ```{note}
-# Classes are slightly imbalanced,
-# meaning there are more instances of one or more classes compared to others.
-# Class imbalance happens often in practice and may need special techniques
-# for machine learning.
-# \
-# For example in a medical setting, if we are trying to predict whether patients
-# will develop a rare disease, there will be a lot more healthy patients than ill
-# patients in the dataset.
+# Classes are slightly imbalanced, meaning there are more samples of one or
+# more classes compared to others. Class imbalance happens often in practice
+# and may need special techniques when building a predictive model.
+#
+# For example in a medical setting, if we are trying to predict whether
+# subjects will develop a rare disease, there will be a lot more healthy
+# subjects than ill subjects in the dataset.
 # ```
 
 # %% [markdown]
 # The dataset contains both numerical and categorical data. Numerical values
-# can take continuous values for example `age`. Categorical values can have a
+# take continuous values, for example `age`. Categorical values can have a
 # finite number of values, for example `native-country`.
 
 # %%
@@ -101,17 +114,23 @@ adult_census = adult_census[all_columns]
 # be representative of the full census database.
 
 # %% [markdown]
-# We can check the number of samples and the number of features available in
+# We can check the number of samples and the number of columns available in
 # the dataset:
 
 # %%
 print(f"The dataset contains {adult_census.shape[0]} samples and "
-      f"{adult_census.shape[1]} features")
+      f"{adult_census.shape[1]} columns")
+
+# %% [markdown]
+# We can compute the number of features by counting the number of columns and
+# subtract 1, since of the column is the target.
+
+# %%
+print(f"The dataset contains {adult_census.shape[1] - 1} features.")
 
 # %% [markdown]
 # ## Visual inspection of the data
-# Before building a machine learning model, it is a good idea to look at the
-# data:
+# Before building a predictive model, it is a good idea to look at the data:
 #
 # * maybe the task you are trying to achieve can be solved without machine
 #   learning;
@@ -123,22 +142,14 @@ print(f"The dataset contains {adult_census.shape[0]} samples and "
 #   capped values).
 
 # %% [markdown]
-# Let's look at the distribution of individual variables, to get some insights
+# Let's look at the distribution of individual features, to get some insights
 # about the data. We can start by plotting histograms, note that this only
-# works for numerical variables:
+# works for features containing numerical values:
 
 # %%
-import seaborn as sns
-sns.set_context("talk")
-
 _ = adult_census.hist(figsize=(20, 14))
 
 # %% [markdown]
-# ```{tip}
-# In the code cell, we are using `sns.set_context` to globally change
-# the rendering of the figure with larger fonts and line. We will use this
-# call in all notebooks.
-# ```
 # ```{tip}
 # In the cell, we are calling the following pattern: `_ = func()`. It assigns
 # the output of `func()` into the variable called `_`. By convention, in Python
@@ -148,14 +159,14 @@ _ = adult_census.hist(figsize=(20, 14))
 #
 # We can already make a few comments about some of the variables:
 #
-# * age: there are not that many points for 'age > 70'. The dataset description
-#   does indicate that retired people have been filtered out
+# * `age`: there are not that many points for 'age > 70'. The dataset
+#   description does indicate that retired people have been filtered out
 #   (`hours-per-week > 0`);
-# * education-num: peak at 10 and 13, hard to tell what it corresponds to
+# * `education-num`: peak at 10 and 13, hard to tell what it corresponds to
 #   without looking much further. We'll do that later in this notebook;
-# * hours per week peaks at 40, this was very likely the standard number of
+# * `hours-per-week` peaks at 40, this was very likely the standard number of
 #   working hours at the time of the data collection;
-# * most values of capital-gain and capital-loss are close to zero.
+# * most values of `capital-gain` and `capital-loss` are close to zero.
 
 # %% [markdown]
 # For categorical variables, we can look at the distribution of values:
@@ -177,19 +188,27 @@ pd.crosstab(index=adult_census['education'],
             columns=adult_census['education-num'])
 
 # %% [markdown]
-# This shows that education and education-num gives you the same information.
-# For example, `education-num=2` is equivalent to `education='1st-4th'`. In
-# practice that means we can remove `education-num` without losing information.
-# Note that having redundant (or highly correlated) columns can be a problem
-# for machine learning algorithms.
+# This shows that `education` and `education-num` gives you the same
+# information. For example, `education-num=2` is equivalent to
+# `education='1st-4th'`. In practice that means we can remove `education-num`
+# without losing information. Note that having redundant (or highly correlated)
+# columns can be a problem for machine learning algorithms.
 
 # %% [markdown]
-# Another way to inspect the data is to do a pairplot and show how each
+# ```{note}
+# In the upcoming notebooks, we will only keep the `education` variable,
+# excluding the `education-num` variable.
+# ```
+
+# %% [markdown]
+# Another way to inspect the data is to do a `pairplot` and show how each
 # variable differs according to our target, `class`. Plots along the diagonal
 # show the distribution of individual variables for each `class`. The plots on
 # the off-diagonal can reveal interesting interactions between variables.
 
 # %%
+import seaborn as sns
+
 n_samples_to_plot = 5000
 columns = ['age', 'education-num', 'hours-per-week']
 _ = sns.pairplot(data=adult_census[:n_samples_to_plot], vars=columns,
@@ -202,11 +221,11 @@ _ = sns.pairplot(data=adult_census[:n_samples_to_plot], vars=columns,
 # class:
 #
 # * if you are young (less than 25 year-old roughly), you are in the
-#   `<= 50K` class;
+#   `<=50K` class;
 # * if you are old (more than 70 year-old roughly), you are in the
-#   `<= 50K` class;
+#   `<=50K` class;
 # * if you work part-time (less than 40 hours roughly) you are in the
-#   `<= 50K` class.
+#   `<=50K` class.
 #
 # These hand-written rules could work reasonably well without the need for any
 # machine learning. Note however that it is not very easy to create rules for

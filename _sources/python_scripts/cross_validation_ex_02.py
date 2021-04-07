@@ -1,17 +1,17 @@
 # %% [markdown]
 # # 📝 Exercise 02
 #
-# This notebook aims at building baselines classifier with which we can compare
-# our predictive model. Besides, we will check the differences with the
-# baselines that we saw in regression.
+# This notebook aims at building baseline classifiers, which we'll use to
+# compare our predictive model. Besides, we will check the differences with
+# the baselines that we saw in regression.
 #
-# We will use the adult census dataset but only the numerical features.
+# We will use the adult census dataset, using only the numerical features.
 
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/adult-census-numeric-all.csv")
-X, y = data.drop(columns="class"), data["class"]
+adult_census = pd.read_csv("../datasets/adult-census-numeric-all.csv")
+data, target = adult_census.drop(columns="class"), adult_census["class"]
 
 # %% [markdown]
 # First, define a `ShuffleSplit` cross-validation strategy taking half of the
@@ -60,7 +60,7 @@ X, y = data.drop(columns="class"), data["class"]
 # Write your code here.
 
 # %% [markdown]
-# And finally we plot the distributions of the test scores.
+# Next, plot the distributions of the test scores.
 
 # %%
 # Write your code here.

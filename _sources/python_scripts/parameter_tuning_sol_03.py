@@ -16,7 +16,7 @@
 # # 📃 Solution for Exercise 02
 #
 # The goal is to find the best set of hyperparameters which maximize the
-# performance on a training set.
+# statistical performance on a training set.
 #
 # Here again with limit the size of the training set to make computation
 # run faster. Feel free to increase the `train_size` value if your computer
@@ -26,15 +26,15 @@
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv("../datasets/adult-census.csv")
+adult_census = pd.read_csv("../datasets/adult-census.csv")
 
 target_name = "class"
-target = df[target_name]
-data = df.drop(columns=[target_name, "fnlwgt"])
+target = adult_census[target_name]
+data = adult_census.drop(columns=[target_name, "fnlwgt", "education-num"])
 
 from sklearn.model_selection import train_test_split
 
-df_train, df_test, target_train, target_test = train_test_split(
+data_train, data_test, target_train, target_test = train_test_split(
     data, target, train_size=0.2, random_state=42)
 
 # %% [markdown]
@@ -52,9 +52,6 @@ from sklearn.compose import make_column_selector as selector
 categorical_columns_selector = selector(dtype_include=object)
 categorical_columns = categorical_columns_selector(data)
 
-categories = [data[column].unique()
-              for column in data[categorical_columns]]
-
 numerical_columns_selector = selector(dtype_exclude=object)
 numerical_columns = numerical_columns_selector(data)
 
@@ -62,15 +59,14 @@ numerical_columns = numerical_columns_selector(data)
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 
-categorical_processor = OneHotEncoder(categories=categories,
-                                      drop="if_binary")
+categorical_processor = OneHotEncoder(handle_unknown="ignore")
 numerical_processor = StandardScaler()
 
 # %% [markdown]
 # Subsequently, create a `ColumnTransformer` to redirect the specific columns
 # a preprocessing pipeline.
-# %%
 
+# %%
 from sklearn.compose import ColumnTransformer
 
 preprocessor = ColumnTransformer(
@@ -80,8 +76,8 @@ preprocessor = ColumnTransformer(
 
 # %% [markdown]
 # Finally, concatenate the preprocessing pipeline with a logistic regression.
-# %%
 
+# %%
 from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LogisticRegression
 
@@ -90,8 +86,8 @@ model = make_pipeline(preprocessor, LogisticRegression())
 # %% [markdown]
 # Use a `RandomizedSearchCV` to find the best set of hyperparameters by tuning
 # the following parameters for the `LogisticRegression` model:
-# - `C` with values ranging from 0.001 to 10. You can use a reciprocal
-#   distribution (i.e. `scipy.stats.reciprocal`);
+# - `C` with values ranging from 0.001 to 10. You can use a log-uniform
+#   distribution (i.e. `scipy.stats.loguniform`);
 # - `solver` with possible values being `"liblinear"` and `"lbfgs"`;
 # - `penalty` with possible values being `"l2"` and `"l1"`;
 #
@@ -109,10 +105,10 @@ model = make_pipeline(preprocessor, LogisticRegression())
 
 # %%
 from sklearn.model_selection import RandomizedSearchCV
-from scipy.stats import reciprocal
+from scipy.stats import loguniform
 
 param_distributions = {
-    "logisticregression__C": reciprocal(0.001, 10),
+    "logisticregression__C": loguniform(0.001, 10),
     "logisticregression__solver": ["liblinear", "lbfgs"],
     "logisticregression__penalty": ["l2", "l1"],
     "columntransformer__cat-preprocessor__drop": [None, "first"]
@@ -121,7 +117,7 @@ param_distributions = {
 model_random_search = RandomizedSearchCV(
     model, param_distributions=param_distributions,
     n_iter=20, error_score=np.nan, n_jobs=2, verbose=1)
-model_random_search.fit(df_train, target_train)
+model_random_search.fit(data_train, target_train)
 model_random_search.best_params_
 
 # %% [markdown]

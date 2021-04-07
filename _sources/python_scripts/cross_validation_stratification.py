@@ -1,12 +1,12 @@
 # %% [markdown]
 # # Stratification
 # Let's start with the concept of stratification by giving an example where
-# we can get into trouble if we are not careful. We load the iris dataset.
+# we can get into trouble if we are not careful. Let's load the iris dataset.
 
 # %%
 from sklearn.datasets import load_iris
 
-X, y = load_iris(as_frame=True, return_X_y=True)
+data, target = load_iris(as_frame=True, return_X_y=True)
 
 # %% [markdown]
 # At this point, we create a basic machine-learning model: a logistic
@@ -22,35 +22,35 @@ model = make_pipeline(StandardScaler(), LogisticRegression())
 
 # %% [markdown]
 # Once we created our model, we will use the cross-validation framework to
-# evaluate it. We will use a strategy called `KFold` cross-validation. We give
-# a simple usage example of the `KFold` strategy to get an intuition of how it
-# splits the dataset. We will define a dataset with nine samples and repeat the
-# cross-validation three times (i.e. `n_splits`).
+# evaluate it. We will use the `KFold` cross-validation strategy.
+# We will define a dataset with nine samples and repeat the cross-validation
+# three times (i.e. `n_splits`).
 
 # %%
 import numpy as np
 from sklearn.model_selection import KFold
 
-X_random = np.random.randn(9, 1)
+data_random = np.random.randn(9, 1)
 cv = KFold(n_splits=3)
-for train_index, test_index in cv.split(X_random):
+for train_index, test_index in cv.split(data_random):
     print("TRAIN:", train_index, "TEST:", test_index)
 
 # %% [markdown]
-# By defining three splits, we will use three samples each time for testing and
-# six for training. `KFold` does not shuffle by default. It means that it will
-# select the three first samples for the testing set at the first split, then
-# the three next three samples for the second split, and the three next for the
-# last split. In the end, all samples have been used in testing at least once
-# among the different splits.
+# By defining three splits, we will use three samples for testing and six for
+# training each time. `KFold` does not shuffle by default. It means that it
+# will select the three first samples for the testing set at the first split,
+# then the three next three samples for the second split, and the three next
+# for the last split. In the end, all samples have been used in testing at
+# least once among the different splits.
 #
-# Now, let's apply this strategy to check the performance of our model.
+# Now, let's apply this strategy to check the statistical performance of our
+# model.
 
 # %%
 from sklearn.model_selection import cross_validate
 
 cv = KFold(n_splits=3)
-results = cross_validate(model, X, y, cv=cv)
+results = cross_validate(model, data, target, cv=cv)
 test_score = results["test_score"]
 print(f"The average accuracy is "
       f"{test_score.mean():.3f} +/- {test_score.std():.3f}")
@@ -58,69 +58,75 @@ print(f"The average accuracy is "
 # %% [markdown]
 # It is a real surprise that our model cannot correctly classify any sample in
 # any cross-validation split. We will now check our target's value to
-# understand the issue while we should have started with this step.
+# understand the issue.
 
 # %%
-import seaborn as sns
-sns.set_context("talk")
+import matplotlib.pyplot as plt
 
-ax = y.plot()
-ax.set_xlabel("Sample index")
-ax.set_ylabel("Class")
-ax.set_yticks(y.unique())
-_ = ax.set_title("Class value in target y")
+target.plot()
+plt.xlabel("Sample index")
+plt.ylabel("Class")
+plt.yticks(target.unique())
+_ = plt.title("Class value in target y")
 
 # %% [markdown]
-# We see that the target vector `y` is ordered. It will have some unexpected
-# consequences when using the `KFold` cross-validation. To illustrate the
-# consequences, we will show the class count in each fold of the
+# We see that the target vector `target` is ordered. It will have some
+# unexpected consequences when using the `KFold` cross-validation. To
+# illustrate the consequences, we will show the class count in each fold of the
 # cross-validation in the train and test set.
 #
-# For this matter, we create a function, because we will reuse it, which given
-# a cross-validation object and the data `X` and `y`, is returning a dataframe
-# with the class counts by folds and by split sets.
+# Let's compute the class counts for both the training and testing sets using
+# the `KFold` cross-validation, and plot these information in a bar plot.
+#
+# We will iterate given the number of split and check how many samples of each
+# are present in the training and testing set. We will store the information
+# into two distincts lists; one for the training set and one for the testing
+# set.
 
 # %%
-from collections import Counter
 import pandas as pd
 
+n_splits = 3
+cv = KFold(n_splits=n_splits)
 
-def compute_class_count_cv(cv, X, y):
-    class_probability = []
-    for cv_idx, (train_index, test_index) in enumerate(cv.split(X, y)):
-        # Compute the class probability for the training set
-        train_class = Counter(y[train_index])
-        class_probability += [
-            ["Train set", f"CV #{cv_idx}", klass, proportion]
-            for klass, proportion in train_class.items()
-        ]
-        # Compute the class probability for the test set
-        test_class = Counter(y[test_index])
-        class_probability += [
-            ["Test set", f"CV #{cv_idx}", klass, proportion]
-            for klass, proportion in test_class.items()
-        ]
+train_cv_counts = []
+test_cv_counts = []
+for fold_idx, (train_idx, test_idx) in enumerate(cv.split(data, target)):
+    target_train, target_test = target.iloc[train_idx], target.iloc[test_idx]
 
-    class_probability = pd.DataFrame(
-        class_probability, columns=["Set", "CV", "Class", "Count"])
-    return class_probability
-
+    train_cv_counts.append(target_train.value_counts())
+    test_cv_counts.append(target_test.value_counts())
 
 # %% [markdown]
-# Let's compute the statistics using the `KFold` cross-validation and we will
-# plot these information in a bar plot.
+# To plot the information on a single figure, we will concatenate the
+# information regarding the fold within the same dataset.
 
 # %%
-kfold_class_count = compute_class_count_cv(cv, X, y)
-kfold_class_count
+train_cv_counts = pd.concat(train_cv_counts, axis=1,
+                            keys=[f"Fold #{idx}" for idx in range(n_splits)])
+train_cv_counts.index.name = "Class label"
+train_cv_counts
 
 # %%
-g = sns.FacetGrid(kfold_class_count, col="Set")
-g.map_dataframe(
-    sns.barplot, x="Class", y="Count", hue="CV", palette="tab10")
-g.set_axis_labels("Class", "Count")
-g.add_legend()
-_ = g.fig.suptitle("Class count with K-fold cross-validation", y=1.05)
+test_cv_counts = pd.concat(test_cv_counts, axis=1,
+                           keys=[f"Fold #{idx}" for idx in range(n_splits)])
+test_cv_counts.index.name = "Class label"
+test_cv_counts
+
+# %% [markdown]
+# Now we can represent graphically this information with bar plots.
+
+# %%
+train_cv_counts.plot.bar()
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
+plt.ylabel("Count")
+_ = plt.title("Training set")
+
+# %%
+test_cv_counts.plot.bar()
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
+plt.ylabel("Count")
+_ = plt.title("Test set")
 
 # %% [markdown]
 # We can confirm that in each fold, only two of the three classes are present
@@ -128,12 +134,12 @@ _ = g.fig.suptitle("Class count with K-fold cross-validation", y=1.05)
 # set. So our model is unable to predict this class that was unseen during the
 # training stage.
 #
-# One possibility to solve the issue is to shuffle the data before to split the
-# data into three groups.
+# One possibility to solve the issue is to shuffle the data before splitting
+# the data into three groups.
 
 # %%
 cv = KFold(n_splits=3, shuffle=True, random_state=0)
-results = cross_validate(model, X, y, cv=cv)
+results = cross_validate(model, data, target, cv=cv)
 test_score = results["test_score"]
 print(f"The average accuracy is "
       f"{test_score.mean():.3f} +/- {test_score.std():.3f}")
@@ -146,15 +152,31 @@ print(f"The average accuracy is "
 # model with a class distribution that we will encounter in production.
 
 # %%
-kfold_shuffled_class_count = compute_class_count_cv(cv, X, y)
+train_cv_counts = []
+test_cv_counts = []
+for fold_idx, (train_idx, test_idx) in enumerate(cv.split(data, target)):
+    target_train, target_test = target.iloc[train_idx], target.iloc[test_idx]
 
-g = sns.FacetGrid(kfold_shuffled_class_count, col="Set")
-g.map_dataframe(
-    sns.barplot, x="Class", y="Count", hue="CV", palette="tab10")
-g.set_axis_labels("Class", "Count")
-g.add_legend()
-_ = g.fig.suptitle(
-    "Class count with shuffled K-fold cross-validation", y=1.05)
+    train_cv_counts.append(target_train.value_counts())
+    test_cv_counts.append(target_test.value_counts())
+train_cv_counts = pd.concat(train_cv_counts, axis=1,
+                            keys=[f"Fold #{idx}" for idx in range(n_splits)])
+test_cv_counts = pd.concat(test_cv_counts, axis=1,
+                           keys=[f"Fold #{idx}" for idx in range(n_splits)])
+train_cv_counts.index.name = "Class label"
+test_cv_counts.index.name = "Class label"
+
+# %%
+train_cv_counts.plot.bar()
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
+plt.ylabel("Count")
+_ = plt.title("Training set")
+
+# %%
+test_cv_counts.plot.bar()
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
+plt.ylabel("Count")
+_ = plt.title("Test set")
 
 # %% [markdown]
 # We see that neither the training and testing sets have the same class
@@ -163,7 +185,7 @@ _ = g.fig.suptitle(
 #
 # However, one might want to split our data by preserving the original class
 # frequencies: we want to **stratify** our data by class. In scikit-learn, some
-# cross-validation strategies are implementing the stratification and contains
+# cross-validation strategies implement the stratification; they contain
 # `Stratified` in their names.
 
 # %%
@@ -172,26 +194,42 @@ from sklearn.model_selection import StratifiedKFold
 cv = StratifiedKFold(n_splits=3)
 
 # %%
-results = cross_validate(model, X, y, cv=cv)
+results = cross_validate(model, data, target, cv=cv)
 test_score = results["test_score"]
 print(f"The average accuracy is "
       f"{test_score.mean():.3f} +/- {test_score.std():.3f}")
 
 # %%
-stratified_kfold_class_count = compute_class_count_cv(cv, X, y)
+train_cv_counts = []
+test_cv_counts = []
+for fold_idx, (train_idx, test_idx) in enumerate(cv.split(data, target)):
+    target_train, target_test = target.iloc[train_idx], target.iloc[test_idx]
 
-g = sns.FacetGrid(stratified_kfold_class_count, col="Set")
-g.map_dataframe(
-    sns.barplot, x="Class", y="Count", hue="CV", palette="tab10")
-g.set_axis_labels("Class", "Count")
-g.add_legend()
-_ = g.fig.suptitle(
-    "Class count with stratifiedK-fold cross-validation", y=1.05)
+    train_cv_counts.append(target_train.value_counts())
+    test_cv_counts.append(target_test.value_counts())
+train_cv_counts = pd.concat(train_cv_counts, axis=1,
+                            keys=[f"Fold #{idx}" for idx in range(n_splits)])
+test_cv_counts = pd.concat(test_cv_counts, axis=1,
+                           keys=[f"Fold #{idx}" for idx in range(n_splits)])
+train_cv_counts.index.name = "Class label"
+test_cv_counts.index.name = "Class label"
+
+# %%
+train_cv_counts.plot.bar()
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
+plt.ylabel("Count")
+_ = plt.title("Training set")
+
+# %%
+test_cv_counts.plot.bar()
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
+plt.ylabel("Count")
+_ = plt.title("Test set")
 
 # %% [markdown]
-# In this case, we observe that the class counts either in the train set or the
-# test set are very close. The difference is due to the small number of samples
-# in the iris dataset.
+# In this case, we observe that the class counts are very close both in the
+# train set and the test set. The difference is due to the small number of
+# samples in the iris dataset.
 #
 # In conclusion, this is a good practice to use stratification within the
 # cross-validation framework when dealing with a classification problem.

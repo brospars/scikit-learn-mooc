@@ -1,18 +1,18 @@
 # %% [markdown]
 # # Random forest
 #
-# In this notebook, we will present random forest models and show the
-# differences with a bagging classifiers.
+# In this notebook, we will present the random forest models and
+# show the differences with the bagging classifiers.
 #
-# A random forest, a popular model in machine learning, is a modification of
-# the bagging algorithm. In bagging, any classifier or regressor can be used.
-# In a random forest, the base classifier or regressor must be a decision tree.
-# In our previous example, we used a decision tree but we could have used a
-# linear model as the regressor for our bagging algorithm.
+# Random forests are a popular model in machine learning. They are a
+# modification of the bagging algorithm. In bagging, any classifier or
+# regressor can be used. In random forests, the base classifier or regressor
+# must be a decision tree. In our previous example, we used a decision tree but
+# we could have used a linear model as the regressor for our bagging algorithm.
 #
-# In addition, random forest is different from bagging when used with
+# In addition, random forests are different from bagging when used with
 # classifiers: when searching for the best split, only a subset of the original
-# features are used. By default, this subset of feature is equal to the square
+# features are used. By default, this subset of features is equal to the square
 # root of the total number of features. In regression, the total number of
 # available features will be used.
 #
@@ -21,13 +21,18 @@
 
 # %%
 from sklearn.datasets import fetch_california_housing
-from sklearn.model_selection import train_test_split
 
-X, y = fetch_california_housing(return_X_y=True, as_frame=True)
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, random_state=0, test_size=0.5)
+data, target = fetch_california_housing(return_X_y=True, as_frame=True)
+target *= 100  # rescale the target in k$
+
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
 
 # %%
+from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import BaggingRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
@@ -37,19 +42,20 @@ random_forest = RandomForestRegressor(n_estimators=100, random_state=0,
 
 tree = DecisionTreeRegressor(random_state=0)
 bagging = BaggingRegressor(base_estimator=tree, n_estimators=100,
-                           n_jobs=-1,)
+                           n_jobs=-1)
 
-random_forest.fit(X_train, y_train)
-bagging.fit(X_train, y_train)
+scores_random_forest = cross_val_score(random_forest, data, target)
+scores_bagging = cross_val_score(bagging, data, target)
 
-print(f"Performance of random forest: "
-      f"{random_forest.score(X_test, y_test):.3f}")
-print(f"Performance of bagging: "
-      f"{bagging.score(X_test, y_test):.3f}")
+print(f"Statistical performance of random forest: "
+      f"{scores_random_forest.mean():.3f} +/- "
+      f"{scores_random_forest.std():.3f}")
+print(f"Statistical performance of bagging: "
+      f"{scores_bagging.mean():.3f} +/- {scores_bagging.std():.3f}")
 
 # %% [markdown]
 # Notice that we don't need to provide a `base_estimator` parameter to
-# `RandomForestRegressor`, it is always a tree classifier. Also note that the
+# `RandomForestRegressor`: it is always a tree classifier. Also note that the
 # scores are almost identical. This is because our problem is a regression
 # problem and therefore, the number of features used in random forest and
 # bagging is the same.
@@ -60,14 +66,14 @@ print(f"Performance of bagging: "
 #
 # ## Classifiers details
 #
-# Up to now, we have only focused on regression problems. There is a little
-# difference between regression and classification.
+# Until now, we have focused on regression problems. There are some
+# differences between regression and classification.
 #
-# First, the `base_estimator` should be chosen in line with the problem that
-# is solved: use a classifier with a classification problem and a regressor
-# with a regression problem.
+# First, the `base_estimator` should be chosen depending on the problem that
+# needs to be solved: use a classifier for a classification problem and a
+# regressor for a regression problem.
 #
-# Then, the aggregation method is different in regression and classification:
+# Secondly, the aggregation method is different:
 #
 # - in regression, the average prediction is computed. For instance, if
 #   three learners predict 0.4, 0.3 and 0.31, the aggregation will output 0.33;
@@ -77,7 +83,7 @@ print(f"Performance of bagging: "
 #   and (0.31, 0.69), the aggregation probability is (0.33, 0.67) and the
 #   second class would be predicted.
 #
-# # Midpoint summary
+# ## Summary
 #
 # We saw in this section two algorithms that use bootstrap samples to create
 # an ensemble of classifiers or regressors. These algorithms train several

@@ -21,29 +21,23 @@
 #
 # To do so, let's try to use `OrdinalEncoder` to preprocess the categorical
 # variables. This preprocessor is assembled in a pipeline with
-# `LogisticRegression`. The performance of the pipeline can be evaluated as
-# usual by cross-validation and then compared to the score obtained when using
-# `OneHotEncoder` or to some other baseline score.
+# `LogisticRegression`. The statistical performance of the pipeline can be
+# evaluated as usual by cross-validation and then compared to the score
+# obtained when using `OneHotEncoder` or to some other baseline score.
 #
 # Because `OrdinalEncoder` can raise errors if it sees an unknown category at
-# prediction time, we need to pre-compute the list of all possible categories
-# ahead of time:
-#
-# ```python
-# categories = [data[column].unique()
-#               for column in data[categorical_columns]]
-# OrdinalEncoder(categories=categories)
-# ```
+# prediction time, you can set the `handle_unknown` and `unknown_value`
+# parameters.
 
 # %%
 import pandas as pd
 
-df = pd.read_csv("../datasets/adult-census.csv")
+adult_census = pd.read_csv("../datasets/adult-census.csv")
 
 # %%
 target_name = "class"
-target = df[target_name]
-data = df.drop(columns=[target_name, "fnlwgt", "education-num"])
+target = adult_census[target_name]
+data = adult_census.drop(columns=[target_name, "fnlwgt", "education-num"])
 
 # %% [markdown]
 # We can select the categorical based on the `object` dtype.
@@ -56,29 +50,20 @@ categorical_columns = categorical_columns_selector(data)
 data_categorical = data[categorical_columns]
 
 # %% [markdown]
-# As we saw in the lecture notebook, one of the column has rare categories.
-# Thus, we can make sure to not run into trouble in the cross-validation by
-# specifying the known categories in advance.
-
-# %%
-categories = [
-    data[column].unique() for column in data[categorical_columns]]
-categories
-
-# %% [markdown]
 # Now, let's make our predictive pipeline by encoding categories with an
 # ordinal encoder before to feed a logistic regression.
 
 # %%
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_validate
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.linear_model import LogisticRegression
 
 model = make_pipeline(
-    OrdinalEncoder(categories=categories),
+    OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=-1),
     LogisticRegression(max_iter=500))
-scores = cross_val_score(model, data_categorical, target)
+cv_results = cross_validate(model, data_categorical, target)
+scores = cv_results["test_score"]
 print(f"The different scores obtained are: \n{scores}")
 
 # %%
@@ -90,14 +75,15 @@ print(f"The accuracy is: {scores.mean():.3f} +- {scores.std():.3f}")
 # categories.
 #
 # This prevents the model from learning anything predictive enough and the
-# cross-validated score is even lower that the baseline we obtained by ignoring
-# the input data and just always predict the most frequent class:
+# cross-validated score is even lower than the baseline we obtained by ignoring
+# the input data and just constantly predicting the most frequent class:
 
 # %%
 from sklearn.dummy import DummyClassifier
 
-scores = cross_val_score(DummyClassifier(strategy="most_frequent"),
-                         data_categorical, target)
+cv_results = cross_validate(DummyClassifier(strategy="most_frequent"),
+                            data_categorical, target)
+scores = cv_results["test_score"]
 print(f"The different scores obtained are: \n{scores}")
 print(f"The accuracy is: {scores.mean():.3f} +- {scores.std():.3f}")
 
@@ -109,8 +95,9 @@ print(f"The accuracy is: {scores.mean():.3f} +- {scores.std():.3f}")
 from sklearn.preprocessing import OneHotEncoder
 
 model = make_pipeline(
-    OneHotEncoder(categories=categories, drop="if_binary"),
+    OneHotEncoder(handle_unknown="ignore"),
     LogisticRegression(max_iter=500))
-scores = cross_val_score(model, data_categorical, target)
+cv_results = cross_validate(model, data_categorical, target)
+scores = cv_results["test_score"]
 print(f"The different scores obtained are: \n{scores}")
 print(f"The accuracy is: {scores.mean():.3f} +- {scores.std():.3f}")

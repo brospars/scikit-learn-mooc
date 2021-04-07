@@ -24,20 +24,16 @@
 # - The second question is to evaluate whether it is empirically better (both
 #   from a computational and a statistical perspective) to use integer coded or
 #   one-hot encoded categories.
-#
-# Hint: `HistGradientBoostingClassifier` does not yet support sparse input
-# data. You might want to use `OneHotEncoder(categories=categories,
-# sparse=False)` to force the use a dense representation as a workaround.
 
 # %%
 import pandas as pd
 
-df = pd.read_csv("../datasets/adult-census.csv")
+adult_census = pd.read_csv("../datasets/adult-census.csv")
 
 # %%
 target_name = "class"
-target = df[target_name]
-data = df.drop(columns=[target_name, "fnlwgt", "education-num"])
+target = adult_census[target_name]
+data = adult_census.drop(columns=[target_name, "fnlwgt", "education-num"])
 
 # %% [markdown]
 # As in the previous notebooks, we use the utility `make_column_selector`
@@ -52,9 +48,6 @@ categorical_columns_selector = selector(dtype_include=object)
 numerical_columns = numerical_columns_selector(data)
 categorical_columns = categorical_columns_selector(data)
 
-categories = [
-    data[column].unique() for column in data[categorical_columns]]
-
 # %% [markdown]
 # ## Reference pipeline (no numerical scaling and integer-coded categories)
 #
@@ -63,20 +56,22 @@ categories = [
 
 # %%
 # %%time
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_validate
 from sklearn.pipeline import make_pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingClassifier
 
-categorical_preprocessor = OrdinalEncoder(categories=categories)
+categorical_preprocessor = OrdinalEncoder(handle_unknown="use_encoded_value",
+                                          unknown_value=-1)
 preprocessor = ColumnTransformer([
     ('categorical', categorical_preprocessor, categorical_columns)],
     remainder="passthrough")
 
 model = make_pipeline(preprocessor, HistGradientBoostingClassifier())
-scores = cross_val_score(model, data, target)
+cv_results = cross_validate(model, data, target)
+scores = cv_results["test_score"]
 print(f"The different scores obtained are: \n{scores}")
 print(f"The accuracy is: {scores.mean():.3f} +- {scores.std():.3f}")
 
@@ -99,12 +94,9 @@ print(f"The accuracy is: {scores.mean():.3f} +- {scores.std():.3f}")
 #
 # Let's see if we can get an even better accuracy with `OneHotEncoder`.
 #
-# Reminder: in order to avoid creating fully correlated features it is
-# preferable to use a `OneHotEncoder` using the option `drop="if_binary"`.
-#
 # Hint: `HistGradientBoostingClassifier` does not yet support sparse input
 # data. You might want to use
-# `OneHotEncoder(categories=categories, sparse=False)` to force the use a
+# `OneHotEncoder(handle_unknown="ignore", sparse=False)` to force the use a
 # dense representation as a workaround.
 
 # %%

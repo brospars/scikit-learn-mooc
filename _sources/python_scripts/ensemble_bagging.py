@@ -15,34 +15,35 @@
 import pandas as pd
 import numpy as np
 
-# create a random number generator that
-# will be used to set the randomness
+# create a random number generator that will be used to set the randomness
 rng = np.random.RandomState(0)
 
 
 def generate_data(n_samples=50):
-    """Generate synthetic dataset. Returns `X_train`, `X_test`, `y_train`."""
+    """Generate synthetic dataset. Returns `data_train`, `data_test`,
+    `target_train`."""
     x_max, x_min = 1.4, -1.4
     len_x = x_max - x_min
     x = rng.rand(n_samples) * len_x - len_x / 2
     noise = rng.randn(n_samples) * 0.3
     y = x ** 3 - 0.5 * x ** 2 + noise
 
-    X_train = pd.DataFrame(x, columns=["Feature"])
-    X_test = pd.DataFrame(
+    data_train = pd.DataFrame(x, columns=["Feature"])
+    data_test = pd.DataFrame(
         np.linspace(x_max, x_min, num=300), columns=["Feature"])
-    y_train = pd.Series(y, name="Target")
+    target_train = pd.Series(y, name="Target")
 
-    return X_train, X_test, y_train
+    return data_train, data_test, target_train
 
 
 # %%
+import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set_context("talk")
 
-X_train, X_test, y_train = generate_data(n_samples=50)
-_ = sns.scatterplot(x=X_train["Feature"], y=y_train, color="black",
-                    alpha=0.5)
+data_train, data_test, target_train = generate_data(n_samples=50)
+sns.scatterplot(x=data_train["Feature"], y=target_train, color="black",
+                alpha=0.5)
+_ = plt.title("Synthetic regression dataset")
 
 # %% [markdown]
 # The link between our feature and the target to predict is non-linear.
@@ -52,14 +53,15 @@ _ = sns.scatterplot(x=X_train["Feature"], y=y_train, color="black",
 from sklearn.tree import DecisionTreeRegressor
 
 tree = DecisionTreeRegressor(max_depth=3, random_state=0)
-tree.fit(X_train, y_train)
-y_pred = tree.predict(X_test)
+tree.fit(data_train, target_train)
+y_pred = tree.predict(data_test)
 
 # %%
-ax = sns.scatterplot(x=X_train["Feature"], y=y_train, color="black",
-                     alpha=0.5)
-ax.plot(X_test, y_pred, label="Fitted tree")
-_ = ax.legend()
+sns.scatterplot(x=data_train["Feature"], y=target_train, color="black",
+                alpha=0.5)
+plt.plot(data_test, y_pred, label="Fitted tree")
+plt.legend()
+_ = plt.title("Predictions by a single decision tree")
 
 # %% [markdown]
 # Let's see how we can use bootstraping to learn several trees.
@@ -71,18 +73,20 @@ _ = ax.legend()
 # Thus, the bootstrap sample will contain some data points several times while
 # some of the original data points will not be present.
 #
-# We will create a function that given `X` and `y` will return a bootstrap
-# sample `X_bootstrap` and `y_bootstrap`.
+# We will create a function that given `data` and `target` will return a
+# bootstrap sample `data_bootstrap` and `target_bootstrap`.
 
 
 # %%
-def bootstrap_sample(X, y):
+def bootstrap_sample(data, target):
+    # indices corresponding to a sampling with replacement of the same sample
+    # size than the original data
     bootstrap_indices = rng.choice(
-        np.arange(y.shape[0]), size=y.shape[0], replace=True,
+        np.arange(target.shape[0]), size=target.shape[0], replace=True,
     )
-    X_bootstrap_sample = X.iloc[bootstrap_indices]
-    y_bootstrap_sample = y.iloc[bootstrap_indices]
-    return X_bootstrap_sample, y_bootstrap_sample
+    data_bootstrap_sample = data.iloc[bootstrap_indices]
+    target_bootstrap_sample = target.iloc[bootstrap_indices]
+    return data_bootstrap_sample, target_bootstrap_sample
 
 
 # %% [markdown]
@@ -90,40 +94,60 @@ def bootstrap_sample(X, y):
 # with the original dataset.
 
 # %%
-import matplotlib.pyplot as plt
+bootstraps_illustration = pd.DataFrame()
+bootstraps_illustration["Original"] = data_train["Feature"]
 
 n_bootstrap = 3
-_, ax = plt.subplots(figsize=(8, 6))
-
-for marker, bootstrap_idx in zip(["o", "^", "x"], range(n_bootstrap)):
-    X_bootstrap_sample, y_bootstrap_sample = bootstrap_sample(
-        X_train, y_train)
-
-    sns.scatterplot(x=X_bootstrap_sample["Feature"], y=y_bootstrap_sample,
-                    label=f"Bootstrap sample #{bootstrap_idx}",
-                    marker=marker, alpha=0.5, ax=ax)
-
+for bootstrap_idx in range(n_bootstrap):
+    # draw a bootstrap from the original data
+    bootstrap_data, target_data = bootstrap_sample(data_train, target_train)
+    # store only the bootstrap sample
+    bootstraps_illustration[f"Boostrap sample #{bootstrap_idx + 1}"] = \
+        bootstrap_data["Feature"].to_numpy()
 
 # %% [markdown]
-# We observe that the 3 generated bootstrap samples are all different. To
-# confirm this intuition, we can check the number of unique samples in the
-# bootstrap samples.
+# In the cell above, we generated three bootstrap samples and we stored only
+# the feature values. In this manner, we will plot the features value from each
+# set and check the how different they are.
+#
+# ```{note}
+# In the next cell, we transform the dataframe from wide to long format. The
+# column name become a by row information. `pd.melt` is in charge of doing this
+# transformation. We make this transformation because we will use the seaborn
+# function `sns.swarmplot` that expect long format dataframe.
+# ```
 
 # %%
-# we need to generate a larger set to have a good estimate
-X_huge_train, y_huge_train, X_test_huge = generate_data(n_samples=10000)
-X_bootstrap_sample, y_bootstrap_sample = bootstrap_sample(
-    X_huge_train, y_huge_train)
+bootstraps_illustration = bootstraps_illustration.melt(
+    var_name="Type of data", value_name="Feature")
 
+# %%
+sns.swarmplot(x=bootstraps_illustration["Feature"],
+              y=bootstraps_illustration["Type of data"])
+_ = plt.title("Feature values for the different sets")
+
+# %% [markdown]
+# We observe that the 3 generated bootstrap samples are all different from the
+# original dataset. The sampling with replacement is the cause of this
+# fluctuation. To confirm this intuition, we can check the number of unique
+# samples in the bootstrap samples.
+
+# %%
+data_train_huge, data_test_huge, target_train_huge = generate_data(
+    n_samples=100_000)
+data_bootstrap_sample, target_bootstrap_sample = bootstrap_sample(
+    data_train_huge, target_train_huge)
+
+ratio_unique_sample = (np.unique(data_bootstrap_sample).size /
+                       data_bootstrap_sample.size)
 print(
     f"Percentage of samples present in the original dataset: "
-    f"{np.unique(X_bootstrap_sample).size / X_bootstrap_sample.size * 100:.1f}"
-    f"%"
+    f"{ratio_unique_sample * 100:.1f}%"
 )
 
 # %% [markdown]
-# On average, 63.2% of the original data points of the original dataset will
-# be present in the bootstrap sample. The other 36.8% are just repeated
+# On average, ~63.2% of the original data points of the original dataset will
+# be present in the bootstrap sample. The other ~36.8% are just repeated
 # samples.
 #
 # So, we are able to generate many datasets, all slightly different. Now, we
@@ -131,37 +155,30 @@ print(
 # shall be slightly different as well.
 
 # %%
-_, axs = plt.subplots(ncols=n_bootstrap, figsize=(16, 4),
-                      sharex=True, sharey=True)
-
 forest = []
-for idx, (ax, _) in enumerate(zip(axs, range(n_bootstrap))):
-    X_bootstrap_sample, y_bootstrap_sample = bootstrap_sample(
-        X_train, y_train)
+for bootstrap_idx in range(n_bootstrap):
     tree = DecisionTreeRegressor(max_depth=3, random_state=0)
-    tree.fit(X_bootstrap_sample, y_bootstrap_sample)
+
+    data_bootstrap_sample, target_bootstrap_sample = bootstrap_sample(
+        data_train, target_train)
+    tree.fit(data_bootstrap_sample, target_bootstrap_sample)
     forest.append(tree)
 
-    y_pred = forest[-1].predict(X_test)
-
-    sns.scatterplot(x=X_bootstrap_sample["Feature"], y=y_bootstrap_sample,
-                    ax=ax, color="black", alpha=0.5)
-    ax.plot(X_test, y_pred, linewidth=3, label="Fitted tree")
-    ax.set_title(f"Bootstrap sample #{idx}")
-    ax.legend()
-
 # %% [markdown]
-# We can plot these decision functions on the same plot to see the difference.
+# Now that we created a forest with many different trees, we can use each of
+# the tree to predict on the testing data. They shall give slightly different
+# results.
 
 # %%
-ax = sns.scatterplot(x=X_train["Feature"], y=y_train, color="black", alpha=0.5)
-y_pred_forest = []
+sns.scatterplot(x=data_train["Feature"], y=target_train, color="black",
+                alpha=0.5)
 for tree_idx, tree in enumerate(forest):
-    y_pred = tree.predict(X_test)
-    ax.plot(X_test, y_pred, label=f"Tree #{tree_idx} predictions",
-            linestyle="--", linewidth=3, alpha=0.8)
-    y_pred_forest.append(y_pred)
-_ = plt.legend()
+    target_predicted = tree.predict(data_test)
+    plt.plot(data_test, target_predicted, linestyle="--", alpha=0.8,
+             label=f"Tree #{tree_idx} predictions")
+
+plt.legend()
+_ = plt.title("Predictions of trees trained on different bootstraps")
 
 # %% [markdown]
 # ## Aggregating
@@ -172,19 +189,21 @@ _ = plt.legend()
 # plot the averaged predictions from the previous example.
 
 # %%
-ax = sns.scatterplot(x=X_train["Feature"], y=y_train, color="black",
-                     alpha=0.5)
-y_pred_forest = []
-for tree_idx, tree in enumerate(forest):
-    y_pred = tree.predict(X_test)
-    ax.plot(X_test, y_pred, label=f"Tree #{tree_idx} predictions",
-            linestyle="--", linewidth=3, alpha=0.8)
-    y_pred_forest.append(y_pred)
+sns.scatterplot(x=data_train["Feature"], y=target_train, color="black",
+                alpha=0.5)
 
-y_pred_forest = np.mean(y_pred_forest, axis=0)
-ax.plot(X_test, y_pred_forest, label="Averaged predictions",
-        linestyle="-", linewidth=3, alpha=0.8)
-_ = plt.legend()
+target_predicted_forest = []
+for tree_idx, tree in enumerate(forest):
+    target_predicted = tree.predict(data_test)
+    plt.plot(data_test, target_predicted, linestyle="--", alpha=0.8,
+             label=f"Tree #{tree_idx} predictions")
+    target_predicted_forest.append(target_predicted)
+
+target_predicted_forest = np.mean(target_predicted_forest, axis=0)
+plt.plot(data_test, target_predicted_forest, label="Averaged predictions",
+         linestyle="-")
+plt.legend()
+plt.title("Predictions of individual and combined tree")
 
 # %% [markdown]
 # The unbroken red line shows the averaged predictions, which would be the
@@ -200,15 +219,15 @@ from sklearn.ensemble import BaggingRegressor
 
 bagging = BaggingRegressor(base_estimator=DecisionTreeRegressor(),
                            n_estimators=3)
-bagging.fit(X_train, y_train)
-y_pred_forest = bagging.predict(X_test)
+bagging.fit(data_train, target_train)
+target_predicted_forest = bagging.predict(data_test)
 
 # %%
-ax = sns.scatterplot(x=X_train["Feature"], y=y_train, color="black",
-                     alpha=0.5)
-ax.plot(X_test, y_pred_forest, label="Bag of decision trees",
-        linestyle="-", linewidth=3, alpha=0.8)
-_ = plt.legend()
+sns.scatterplot(x=data_train["Feature"], y=target_train, color="black",
+                alpha=0.5)
+plt.plot(data_test, target_predicted_forest, label="Bag of decision trees")
+plt.legend()
+_ = plt.title("Predictions from a bagging classifier")
 
 # %% [markdown]
 # While we used a decision tree as a base model, nothing prevent us of using
@@ -220,17 +239,16 @@ from sklearn.linear_model import LinearRegression
 
 bagging = BaggingRegressor(base_estimator=LinearRegression(),
                            n_estimators=3)
-bagging.fit(X_train, y_train)
-y_pred_linear = bagging.predict(X_test)
+bagging.fit(data_train, target_train)
+target_predicted_linear = bagging.predict(data_test)
 
 # %%
-ax = sns.scatterplot(x=X_train["Feature"], y=y_train, color="black",
-                     alpha=0.5)
-ax.plot(X_test, y_pred_forest, label="Bag of decision trees",
-        linestyle="-", linewidth=3, alpha=0.8)
-ax.plot(X_test, y_pred_linear, label="Bag of linear regression",
-        linestyle="-", linewidth=3, alpha=0.8)
-_ = plt.legend()
+sns.scatterplot(x=data_train["Feature"], y=target_train, color="black",
+                alpha=0.5)
+plt.plot(data_test, target_predicted_forest, label="Bag of decision trees")
+plt.plot(data_test, target_predicted_linear, label="Bag of linear regression")
+plt.legend()
+_ = plt.title("Bagging classifiers using \ndecision trees and linear models")
 
 # %% [markdown]
 # However, we see that using a bag of linear models is not helpful here because

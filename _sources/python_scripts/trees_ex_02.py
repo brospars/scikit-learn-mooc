@@ -1,8 +1,8 @@
 # %% [markdown]
 # # 📝 Exercise 02
 #
-# The aim of this exercise is to find out whether or not a model is able to
-# extrapolate.
+# The aim of this exercise is to find out whether a decision tree
+# model is able to extrapolate.
 #
 # By extrapolation, we refer to values predicted by a model outside of the
 # range of feature values seen during the training.
@@ -12,12 +12,18 @@
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/penguins_regression.csv")
+penguins = pd.read_csv("../datasets/penguins_regression.csv")
 
 data_columns = ["Flipper Length (mm)"]
 target_column = "Body Mass (g)"
 
-X_train, y_train = data[data_columns], data[target_column]
+data_train, target_train = penguins[data_columns], penguins[target_column]
+
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
 
 # %% [markdown]
 # First, create two models, a linear regression model and a decision tree
@@ -44,7 +50,7 @@ X_train, y_train = data[data_columns], data[target_column]
 
 # %% [markdown]
 # Now, we will check the extrapolation capabilities of each model. Create a
-# dataset containing the value of your previous dataset. Besides add values
+# dataset containing the value of your previous dataset. Besides, add values
 # below and above the minimum and the maximum of the flipper length seen
 # during training.
 

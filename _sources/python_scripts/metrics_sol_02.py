@@ -1,9 +1,8 @@
 # %% [markdown]
 # # 📃 Solution for Exercise 02
 #
-# As for the exercise for the classification metrics, in this notebook we
-# intend to use the regression metrics within a cross-validation framework
-# to get familiar with the syntax.
+# As with the classification metrics exercise, we will evaluate the regression
+# metrics within a cross-validation framework to get familiar with the syntax.
 #
 # We will use the Ames house prices dataset.
 
@@ -11,10 +10,18 @@
 import pandas as pd
 import numpy as np
 
-data = pd.read_csv("../datasets/house_prices.csv")
-X, y = data.drop(columns="SalePrice"), data["SalePrice"]
-X = X.select_dtypes(np.number)
-y /= 1000
+ames_housing = pd.read_csv("../datasets/house_prices.csv")
+data = ames_housing.drop(columns="SalePrice")
+target = ames_housing["SalePrice"]
+data = data.select_dtypes(np.number)
+target /= 1000
+
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
+
 
 # %% [markdown]
 # The first step will be to create a linear regression model.
@@ -25,43 +32,43 @@ from sklearn.linear_model import LinearRegression
 model = LinearRegression()
 
 # %% [markdown]
-# Then, use the `cross_val_score` to estimate the performance of the model.
-# Use a `KFold` cross-validation with 10 folds. Make it explicit to use the
-# $R^2$ score by assigning the paramater `scoring` even if it is the default
-# score.
+# Then, use the `cross_val_score` to estimate the statistical performance of
+# the model. Use a `KFold` cross-validation with 10 folds. Make the use of the
+# $R^2$ score explicit by assigning the parameter `scoring` (even though it is
+# the default score).
 
 # %%
 from sklearn.model_selection import cross_val_score
 
-scores = cross_val_score(model, X, y, cv=10, scoring="r2")
+scores = cross_val_score(model, data, target, cv=10, scoring="r2")
 print(f"R2 score: {scores.mean():.3f} +/- {scores.std():.3f}")
 
 # %% [markdown]
 # Then, instead of using the $R^2$ score, use the mean absolute error. You need
-# to check the documentation for the `scoring` parameter.
+# to refer to the documentation for the `scoring` parameter.
 
 # %%
-scores = cross_val_score(model, X, y, cv=10, scoring="neg_mean_absolute_error")
+scores = cross_val_score(model, data, target, cv=10,
+                         scoring="neg_mean_absolute_error")
 errors = -scores
 print(f"Mean absolute error: "
       f"{errors.mean():.3f} k$ +/- {errors.std():.3f}")
 
 # %% [markdown]
-# The `scoring` parameter in scikit-learn expects score. It means that higher
-# values means a better model. However, errors are the opposite: the smaller,
-# the better. Therefore, the error should be multiply by -1. That's why, the
-# string given the `scoring` starts with `neg_` when dealing with metrics which
-# are errors.
+# The `scoring` parameter in scikit-learn expects score. It means that the
+# higher the values, and the smaller the errors are, the better the model is.
+# Therefore, the error should be multiplied by -1. That's why the string given
+# the `scoring` starts with `neg_` when dealing with metrics which are errors.
 #
-# Finally, use the `cross_validate` function and compute multiple score/error
-# at once by passing a list to the `scoring` parameter. You can compute the
-# $R^2$ score and the mean absolute error.
+# Finally, use the `cross_validate` function and compute multiple scores/errors
+# at once by passing a list of scorers to the `scoring` parameter. You can
+# compute the $R^2$ score and the mean absolute error for instance.
 
 # %%
 from sklearn.model_selection import cross_validate
 
 scoring = ["r2", "neg_mean_absolute_error"]
-cv_results = cross_validate(model, X, y, scoring=scoring)
+cv_results = cross_validate(model, data, target, scoring=scoring)
 
 # %%
 import pandas as pd

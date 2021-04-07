@@ -28,7 +28,7 @@ flexibility, are we more likely to observe:
 
 - a) a wider difference between train and test errors
 - b) a reduction in the difference between train and test errors
-- c) a increase in the train error
+- c) an increase in the train error
 - d) a decrease in the train error
 ```
 
@@ -40,7 +40,7 @@ observations in the training set, are we more likely to observe:
 
 - a) a wider difference between train and test errors
 - b) a reduction in the difference between train and test errors
-- c) a increase in the train error
+- c) an increase in the train error
 - d) a decrease in the train error
 ```
 
@@ -60,6 +60,6 @@ Polynomial models with a high degree parameter:
 ```{admonition} Question
 One can always reach zero test error by:
 
-- a) training models on a training set with a higher number of parameter
-- b) choosing the model parameters to find the best overfitting/underfitting tradeoff
+- a) choosing the model parameters to find the best overfitting/underfitting tradeoff
+- b) day-dreaming ;)
 ```

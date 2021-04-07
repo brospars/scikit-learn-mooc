@@ -12,32 +12,69 @@
 #
 # To make these experiments we will first load the blood transfusion dataset.
 
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
+
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/blood_transfusion.csv")
-X, y = data.drop(columns="Class"), data["Class"]
+blood_transfusion = pd.read_csv("../datasets/blood_transfusion.csv")
+data = blood_transfusion.drop(columns="Class")
+target = blood_transfusion["Class"]
 
 # %% [markdown]
-# Create a machine learning pipeline which will standardize the data and then
-# use a support vector machine with an RBF kernel
+# We will use a support vector machine classifier (SVM). In its most simple
+# form, a SVM classifier is a linear classifier behaving similarly to a
+# logistic regression. Indeed, the optimization used to find the optimal
+# weights of the linear model are different but we don't need to know these
+# details for the exercise.
+#
+# Also, this classifier can become more flexible/expressive by using a
+# so-called kernel. The model becomes non-linear. Again, no requirement
+# regarding the mathematics is required to accomplish this exercise.
+#
+# We will use an RBF kernel where a parameter `gamma` allows to tune the
+# flexibility of the model.
+#
+# First let's create a predictive pipeline made of:
+#
+# * a [`sklearn.preprocessing.StandardScaler`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html)
+#   with default parameter;
+# * a [`sklearn.svm.SVC`](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html)
+#   where the parameter `kernel` could be set to `"rbf"`. Note that this is the
+#   default.
 
 # %%
 # Write your code here.
 
 # %% [markdown]
-# Evaluate the performance of the previous model by cross-validation with a
-# `ShuffleSplit` scheme.
+# Evaluate the statistical performance of your model by cross-validation with a
+# `ShuffleSplit` scheme. Thus, you can use
+# [`sklearn.model_selection.cross_validate`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_validate.html)
+# and pass a [`sklearn.model_selection.ShuffleSplit`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html)
+# to the `cv` parameter. Only fix the `random_state=0` in the `ShuffleSplit`
+# and let the other parameters to the default.
 
 # %%
 # Write your code here.
 
 # %% [markdown]
-# The parameter gamma is one of the parameter controlling under-/over-fitting
-# in support vector machine with an RBF kernel. Compute the validation curve
-# to evaluate the effect of the parameter gamma. You can make vary the value
-# of the parameter gamma between `10e-3` and `10e2` by generating samples on
-# log scale.
+# As previously mentioned, the parameter `gamma` is one of the parameter
+# controlling under/over-fitting in support vector machine with an RBF kernel.
+#
+# Compute the validation curve
+# (using [`sklearn.model_selection.validation_curve`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.validation_curve.html))
+# to evaluate the effect of the parameter `gamma`. You can vary its value
+# between `10e-3` and `10e2` by generating samples on a logarithmic scale.
+# Thus, you can use `np.logspace(-3, 2, num=30)`.
+#
+# Since we are manipulating a `Pipeline` the parameter name will be set to
+# `svc__gamma` instead of only `gamma`. You can retrieve the parameter name
+# using `model.get_params().keys()`. We will go more into details regarding
+# accessing and setting hyperparameter in the next section.
 
 # %%
 # Write your code here.
@@ -49,10 +86,11 @@ X, y = data.drop(columns="Class"), data["Class"]
 # Write your code here.
 
 # %% [markdown]
-# Now, you can make an analysis to check if adding new samples to the dataset
-# could help our model to better generalize. Compute the learning curve by
-# computing the train and test score for different training dataset size.
-# Plot the train and test score in respect with the number of samples.
+# Now, you can perform an analysis to check whether adding new samples to the
+# dataset could help our model to better generalize. Compute the learning curve
+# (using [`sklearn.model_selection.learning_curve`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html))
+# by computing the train and test scores for different training dataset size.
+# Plot the train and test scores with respect to the number of samples.
 
 # %%
 # Write your code here.

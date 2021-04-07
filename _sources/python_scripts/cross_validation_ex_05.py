@@ -1,6 +1,11 @@
 # %% [markdown]
 # # 📝 Introductory exercise for non i.i.d. data
 #
+# ```{note}
+# i.i.d is the acronym of "independent and identically distributed"
+# (as in "independent and identically distributed random variables").
+# ```
+#
 # This exercise aims at showing some aspects to consider when dealing with non
 # i.i.d data, typically time series.
 #
@@ -47,23 +52,22 @@ stocks = generate_random_stock_market()
 stocks.head()
 
 # %%
-import seaborn as sns
+import matplotlib.pyplot as plt
 
-sns.set_context("talk")
-
-ax = stocks.plot()
-ax.set_ylabel("Stock value")
-_ = ax.set_title("Stock values over time")
+stocks.plot()
+plt.ylabel("Stock value")
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
+_ = plt.title("Stock values over time")
 
 # %% [markdown]
-# Because the stocks are generated randomly, there is no possibility for a
+# Because the stocks are generated randomly, it is not possible for a
 # predictive model to be able to predict the value of a stock depending on the
 # other stocks. By using the cross-validation framework from the previous
 # exercise, we will check that we get such expected results.
 #
-# First, let's organise our data into a matrix `X` and a target `y`. Split
-# the data such that the `Stock 0` is the stock that we want to predict and
-# the `Stock 1` and `Stock 2` are stocks used to build our model.
+# First, let's organise our data into a matrix `data` and a vector `target`.
+# Split the data such that the `Stock 0` is the stock that we want to predict
+# and the `Stock 1` and `Stock 2` are stocks used to build our model.
 
 # %%
 # Write your code here.

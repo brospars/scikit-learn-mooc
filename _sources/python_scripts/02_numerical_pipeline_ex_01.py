@@ -15,24 +15,24 @@
 # %% [markdown]
 # # 📝 Exercise 01
 #
-# The goal of this exercise is to compare the performance of our classifier
-# (81% accuracy) to some baseline classifiers that would ignore the input data
-# and instead make constant predictions.
+# The goal of this exercise is to compare the statistical performance of our
+# classifier (81% accuracy) to some baseline classifiers that would ignore the
+# input data and instead make constant predictions.
 #
 # - What would be the score of a model that always predicts `' >50K'`?
-# - What would be the score of a model that always predicts `' <= 50K'`?
+# - What would be the score of a model that always predicts `' <=50K'`?
 # - Is 81% or 82% accuracy a good score for this problem?
 #
 # Use a `DummyClassifier` and do a train-test split to evaluate
 # its accuracy on the test set. This
 # [link](https://scikit-learn.org/stable/modules/model_evaluation.html#dummy-estimators)
-# shows a few examples of how to evaluate the performance of these baseline
-# models.
+# shows a few examples of how to evaluate the statistical performance of these
+# baseline models.
 
 # %%
 import pandas as pd
 
-df = pd.read_csv("../datasets/adult-census.csv")
+adult_census = pd.read_csv("../datasets/adult-census.csv")
 
 # %% [markdown]
 # We will first split our dataset to have the target separated from the data
@@ -40,8 +40,8 @@ df = pd.read_csv("../datasets/adult-census.csv")
 
 # %%
 target_name = "class"
-target = df[target_name]
-data = df.drop(columns=target_name)
+target = adult_census[target_name]
+data = adult_census.drop(columns=target_name)
 
 # %% [markdown]
 # We start by selecting only the numerical columns as seen in the previous

@@ -4,10 +4,16 @@
 # We will illustrate how decision tree fit data with a simple classification
 # problem using the penguins dataset.
 
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
+
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/penguins_classification.csv")
+penguins = pd.read_csv("../datasets/penguins_classification.csv")
 culmen_columns = ["Culmen Length (mm)", "Culmen Depth (mm)"]
 target_column = "Species"
 
@@ -18,12 +24,18 @@ target_column = "Species"
 # %%
 from sklearn.model_selection import train_test_split
 
-X, y = data[culmen_columns], data[target_column]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, random_state=0)
+data, target = penguins[culmen_columns], penguins[target_column]
+data_train, data_test, target_train, target_test = train_test_split(
+    data, target, random_state=0)
 range_features = {
-    feature_name: (X[feature_name].min() - 1, X[feature_name].max() + 1)
-    for feature_name in X.columns}
+    feature_name: (data[feature_name].min() - 1, data[feature_name].max() + 1)
+    for feature_name in data.columns}
+
+# %% [markdown]
+# ```{caution}
+# Here and later, we use the name `data` and `target` to be explicit. In
+# scikit-learn, documentation `data` is commonly named `X` and `target` is
+# commonly called `y`.
 
 # %% [markdown]
 # In a previous notebook, we learnt that a linear classifier will define a
@@ -69,20 +81,23 @@ def plot_decision_function(fitted_classifier, range_features, ax=None):
 # prediction from one class to another.
 
 # %%
-import seaborn as sns
 from sklearn.linear_model import LogisticRegression
-sns.set_context("talk")
+
+linear_model = LogisticRegression()
+linear_model.fit(data_train, target_train)
+
+# %%
+import seaborn as sns
 
 # create a palette to be used in the scatterplot
 palette = ["tab:red", "tab:blue", "black"]
 
-linear_model = LogisticRegression()
-linear_model.fit(X_train, y_train)
-
-_, ax = plt.subplots(figsize=(8, 6))
-sns.scatterplot(x=culmen_columns[0], y=culmen_columns[1], hue=target_column,
-                data=data, palette=palette, ax=ax)
-_ = plot_decision_function(linear_model, range_features, ax=ax)
+ax = sns.scatterplot(data=penguins, x=culmen_columns[0], y=culmen_columns[1],
+                     hue=target_column, palette=palette)
+plot_decision_function(linear_model, range_features, ax=ax)
+# put the legend outside the plot
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+_ = plt.title("Decision boundary using a logistic regression")
 
 # %% [markdown]
 # We see that the lines are a combination of the input features since they are
@@ -90,40 +105,41 @@ _ = plot_decision_function(linear_model, range_features, ax=ax)
 # parametrization that we saw in the previous notebook, controlled by the
 # model's weights and intercept.
 #
-# Besides, it seems that the linear model would be a good candidate model for
+# Besides, it seems that the linear model would be a good candidate for
 # such problem as it gives good accuracy.
 
 # %%
-model_name = linear_model.__class__.__name__
-test_score = linear_model.fit(X_train, y_train).score(X_test, y_test)
-print(f"Accuracy of the {model_name}: {test_score:.2f}")
+linear_model.fit(data_train, target_train)
+test_score = linear_model.score(data_test, target_test)
+print(f"Accuracy of the LogisticRegression: {test_score:.2f}")
 
 # %% [markdown]
 # Unlike linear models, decision trees are non-parametric models: they are not
 # controlled by a mathematical decision function and do not have weights or
 # intercept to be optimized.
 #
-# Indeed, decision trees are based partition will partition the space by
-# considering a single feature at a time. Let's illustrate this behaviour by
-# having a decision tree that only makes a single split to partition the
-# feature space.
+# Indeed, decision trees will partition the space by considering a single
+# feature at a time. Let's illustrate this behaviour by having a decision
+# tree make a single split to partition the feature space.
 
 # %%
 from sklearn.tree import DecisionTreeClassifier
 
 tree = DecisionTreeClassifier(max_depth=1)
-tree.fit(X_train, y_train)
+tree.fit(data_train, target_train)
 
-_, ax = plt.subplots(figsize=(8, 6))
-sns.scatterplot(x=culmen_columns[0], y=culmen_columns[1], hue=target_column,
-                data=data, palette=palette, ax=ax)
-_ = plot_decision_function(tree, range_features, ax=ax)
+# %%
+ax = sns.scatterplot(data=penguins, x=culmen_columns[0], y=culmen_columns[1],
+                     hue=target_column, palette=palette)
+plot_decision_function(tree, range_features, ax=ax)
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+_ = plt.title("Decision boundary using a decision tree")
 
 # %% [markdown]
 # The partitions found by the algorithm separates the data along the axis
 # "Culmen Length", discarding the feature "Culmen Depth". Thus, it highlights
 # that a decision tree does not use a combination of feature when making a
-# split. We can look more in depth the tree structure.
+# split. We can look more in depth at the tree structure.
 
 # %%
 from sklearn.tree import plot_tree
@@ -133,20 +149,27 @@ _ = plot_tree(tree, feature_names=culmen_columns,
               class_names=tree.classes_, impurity=False, ax=ax)
 
 # %% [markdown]
+# ```{tip}
+# We are using the function `fig, ax = plt.subplots(figsize=(8, 6))` to create
+# a figure and an axis with a specific size. Then, we can pass the axis to the
+# `sklearn.tree.plot_tree` function such that the drawing happens in this axis.
+# ```
+
+# %% [markdown]
 # We see that the split was done the culmen length feature. The original
-# dataset was subdivided into 2 sets depending if the culmen depth was
-# inferior or superior to 16.45 mm.
+# dataset was subdivided into 2 sets based on the culmen length
+# (inferior or superior to 16.45 mm).
 #
-# This partition of the dataset is the one that minimize the class diversities
-# in each sub-partitions. This measure is also known as called **criterion**
-# and is a parameter that can be set in trees.
+# This partition of the dataset minimizes the class diversities in each
+# sub-partitions. This measure is also known as a **criterion**,
+# and is a settable parameter.
 #
-# If we look closely at the partition, the sample superior to 16.45 belong
-# mainly to the Adelie class. Looking at the tree structure, we indeed observe
-# 103 Adelie samples. We also count 52 Chinstrap samples and 6 Gentoo samples.
-# We can make similar interpretation for the partition defined by a threshold
-# inferior to 16.45mm. In this case, the most represented class is the Gentoo
-# specie.
+# If we look more closely at the partition, we see that the sample superior to
+# 16.45 belongs mainly to the Adelie class. Looking at the values, we indeed
+# observe 103 Adelie individuals in this space. We also count 52 Chinstrap
+# samples and 6 Gentoo samples. We can make similar interpretation for the
+# partition defined by a threshold inferior to 16.45mm. In this case, the most
+# represented class is the Gentoo species.
 #
 # Let's see how our tree would work as a predictor. Let's start to see the
 # class predicted when the culmen length is inferior to the threshold.
@@ -168,25 +191,30 @@ tree.predict([[0, 17]])
 # represented class within a partition.
 #
 # Since that during the training, we have a count of samples in each partition,
-# we can also compute a probability to belong to a certain class within this
-# partition.
+# we can also compute the probability of belonging to a specific class within
+# this partition.
 
 # %%
-y_proba = pd.Series(tree.predict_proba([[0, 17]])[0],
-                    index=tree.classes_)
-ax = y_proba.plot(kind="bar")
-ax.set_ylabel("Probability")
-_ = ax.set_title("Probability to belong to a penguin class")
+y_pred_proba = tree.predict_proba([[0, 17]])
+y_proba_class_0 = pd.Series(y_pred_proba[0], index=tree.classes_)
+
+# %%
+y_proba_class_0.plot.bar()
+plt.ylabel("Probability")
+_ = plt.title("Probability to belong to a penguin class")
 
 # %% [markdown]
-# We can manually compute the different probability directly from the tree
-# structure
+# We will manually compute the different probability directly from the tree
+# structure.
 
 # %%
+adelie_proba = 103 / 161
+chinstrap_proba = 52 / 161
+gentoo_proba = 6 / 161
 print(f"Probabilities for the different classes:\n"
-      f"Adelie: {103 / 161:.3f}\n"
-      f"Chinstrap: {52 / 161:.3f}\n"
-      f"Gentoo: {6 / 161:.3f}\n")
+      f"Adelie: {adelie_proba:.3f}\n"
+      f"Chinstrap: {chinstrap_proba:.3f}\n"
+      f"Gentoo: {gentoo_proba:.3f}\n")
 
 # %% [markdown]
 # It is also important to note that the culmen depth has been disregarded for
@@ -202,9 +230,9 @@ tree.predict_proba([[10000, 17]])
 # accuracy is low when compared to the linear model.
 
 # %%
-model_name = tree.__class__.__name__
-test_score = tree.fit(X_train, y_train).score(X_test, y_test)
-print(f"Accuracy of the {model_name}: {test_score:.2f}")
+tree.fit(data_train, target_train)
+test_score = tree.score(data_test, target_test)
+print(f"Accuracy of the DecisionTreeClassifier: {test_score:.2f}")
 
 # %% [markdown]
 # Indeed, it is not a surprise. We saw earlier that a single feature will not

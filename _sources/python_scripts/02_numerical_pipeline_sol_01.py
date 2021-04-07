@@ -20,19 +20,19 @@
 # and instead make constant predictions.
 #
 # - What would be the score of a model that always predicts `' >50K'`?
-# - What would be the score of a model that always predicts `' <= 50K'`?
+# - What would be the score of a model that always predicts `' <=50K'`?
 # - Is 81% or 82% accuracy a good score for this problem?
 #
 # Use a `DummyClassifier` and do a train-test split to evaluate
 # its accuracy on the test set. This
 # [link](https://scikit-learn.org/stable/modules/model_evaluation.html#dummy-estimators)
-# shows a few examples of how to evaluate the performance of these baseline
-# models.
+# shows a few examples of how to evaluate the statistical performance of these
+# baseline models.
 
 # %%
 import pandas as pd
 
-df = pd.read_csv("../datasets/adult-census.csv")
+adult_census = pd.read_csv("../datasets/adult-census.csv")
 
 # %% [markdown]
 # We will first split our dataset to have the target separated from the data
@@ -40,8 +40,8 @@ df = pd.read_csv("../datasets/adult-census.csv")
 
 # %%
 target_name = "class"
-target = df[target_name]
-data = df.drop(columns=target_name)
+target = adult_census[target_name]
+data = adult_census.drop(columns=target_name)
 
 # %% [markdown]
 # We start by selecting only the numerical columns as seen in the previous
@@ -64,7 +64,8 @@ data_numeric_train, data_numeric_test, target_train, target_test = \
 
 # %% [markdown]
 # We will first create a dummy classifier which will always predict the
-# high revenue class class, i.e. `" >50K"`, and check the performance.
+# high revenue class, i.e. `" >50K"`, and check the statistical
+# performance.
 
 # %%
 from sklearn.dummy import DummyClassifier
@@ -78,8 +79,8 @@ print(f"Accuracy of a model predicting only high revenue: {score:.3f}")
 
 # %% [markdown]
 # We clearly see that the score is below 0.5 which might be surprising at
-# first. We will now check the performance of a model which always predict the
-# low revenue class, i.e. `" <=50K"`.
+# first. We will now check the statistical performance of a model which always
+# predict the low revenue class, i.e. `" <=50K"`.
 
 # %%
 class_to_predict = " <=50K"
@@ -98,7 +99,7 @@ print(f"Accuracy of a model predicting only low revenue: {score:.3f}")
 # will not be helpful.
 
 # %%
-df["class"].value_counts()
+adult_census["class"].value_counts()
 
 # %%
 (target == " <=50K").mean()

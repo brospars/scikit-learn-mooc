@@ -8,13 +8,20 @@
 # simplify our classification problem by selecting only 2 of the penguin
 # species to solve a binary classification problem.
 
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
+
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/penguins_classification.csv")
+penguins = pd.read_csv("../datasets/penguins_classification.csv")
 
 # only keep the Adelie and Chinstrap classes
-data = data.set_index("Species").loc[["Adelie", "Chinstrap"]].reset_index()
+penguins = penguins.set_index("Species").loc[
+    ["Adelie", "Chinstrap"]].reset_index()
 culmen_columns = ["Culmen Length (mm)", "Culmen Depth (mm)"]
 target_column = "Species"
 
@@ -22,10 +29,14 @@ target_column = "Species"
 # We can quickly start by visualizing the feature distribution by class:
 
 # %%
-import seaborn as sns
-sns.set_context("talk")
+import matplotlib.pyplot as plt
 
-_ = sns.pairplot(data=data, hue="Species", height=3.3)
+for feature_name in culmen_columns:
+    plt.figure()
+    # plot the histogram for each specie
+    penguins.groupby("Species")[feature_name].plot.hist(
+        alpha=0.5, density=True, legend=True)
+    plt.xlabel(feature_name)
 
 # %% [markdown]
 # We can observe that we have quite a simple problem. When the culmen
@@ -39,13 +50,18 @@ _ = sns.pairplot(data=data, hue="Species", height=3.3)
 # %%
 from sklearn.model_selection import train_test_split
 
-X, y = data[culmen_columns], data[target_column]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, stratify=y, random_state=0,
-)
+penguins_train, penguins_test = train_test_split(penguins, random_state=0)
+
+data_train = penguins_train[culmen_columns]
+data_test = penguins_test[culmen_columns]
+
+target_train = penguins_train[target_column]
+target_test = penguins_test[target_column]
+
 range_features = {
-    feature_name: (X[feature_name].min() - 1, X[feature_name].max() + 1)
-    for feature_name in X
+    feature_name: (penguins[feature_name].min() - 1,
+                   penguins[feature_name].max() + 1)
+    for feature_name in culmen_columns
 }
 
 # %% [markdown]
@@ -56,7 +72,6 @@ range_features = {
 
 # %%
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 def plot_decision_function(fitted_classifier, range_features, ax=None):
@@ -79,7 +94,7 @@ def plot_decision_function(fitted_classifier, range_features, ax=None):
     # make the plot of the boundary and the data samples
     if ax is None:
         _, ax = plt.subplots()
-    ax.contourf(xx, yy, Z, alpha=0.4, cmap="RdBu")
+    ax.contourf(xx, yy, Z, alpha=0.4, cmap="RdBu_r")
 
     return ax
 
@@ -101,12 +116,15 @@ from sklearn.linear_model import LogisticRegression
 logistic_regression = make_pipeline(
     StandardScaler(), LogisticRegression(penalty="none")
 )
-logistic_regression.fit(X_train, y_train)
+logistic_regression.fit(data_train, target_train)
 
-ax = plot_decision_function(logistic_regression, range_features)
-_ = sns.scatterplot(
-    x=X_test.iloc[:, 0], y=X_test.iloc[:, 1], hue=y_test,
-    palette=["tab:red", "tab:blue"], ax=ax)
+# %%
+import seaborn as sns
+
+ax = sns.scatterplot(
+    data=penguins_test, x=culmen_columns[0], y=culmen_columns[1],
+    hue=target_column, palette=["tab:red", "tab:blue"])
+_ = plot_decision_function(logistic_regression, range_features, ax=ax)
 
 # %% [markdown]
 # Thus, we see that our decision function is represented by a line separating
@@ -117,8 +135,12 @@ _ = sns.scatterplot(
 # features:
 
 # %%
-weights = pd.Series(logistic_regression[-1].coef_.ravel(), index=X.columns)
-_ = weights.plot(kind="barh")
+coefs = logistic_regression[-1].coef_[0]  # the coefficients is a 2d array
+weights = pd.Series(coefs, index=culmen_columns)
+
+# %%
+weights.plot.barh()
+plt.title("Weights of the logistic regression")
 
 # %% [markdown]
 # Indeed, both coefficients are non-null.

@@ -5,18 +5,24 @@
 # problems. We show differences with the decision trees previously presented in
 # a classification setting.
 #
-# First, we will load the regression dataset presented at the beginning of this
-# chapter.
+# First, we load the penguins dataset specifically for solving a regression
+# problem.
+
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
 
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/penguins_regression.csv")
+penguins = pd.read_csv("../datasets/penguins_regression.csv")
 
 data_columns = ["Flipper Length (mm)"]
 target_column = "Body Mass (g)"
 
-X_train, y_train = data[data_columns], data[target_column]
+data_train, target_train = penguins[data_columns], penguins[target_column]
 
 # %% [markdown]
 # To illustrate how decision trees are predicting in a regression setting, we
@@ -26,15 +32,16 @@ X_train, y_train = data[data_columns], data[target_column]
 # %%
 import numpy as np
 
-X_test = pd.DataFrame(np.arange(X_train[data_columns[0]].min(),
-                                X_train[data_columns[0]].max()),
-                      columns=data_columns)
+data_test = pd.DataFrame(np.arange(data_train[data_columns[0]].min(),
+                                   data_train[data_columns[0]].max()),
+                         columns=data_columns)
 
 # %%
+import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set_context("talk")
 
-_ = sns.scatterplot(data=data, x="Flipper Length (mm)", y="Body Mass (g)")
+sns.scatterplot(data=penguins, x="Flipper Length (mm)", y="Body Mass (g)")
+_ = plt.title("Illustration of the regression dataset used")
 
 # %% [markdown]
 # We will first illustrate the difference between a linear model and a decision
@@ -44,16 +51,16 @@ _ = sns.scatterplot(data=data, x="Flipper Length (mm)", y="Body Mass (g)")
 from sklearn.linear_model import LinearRegression
 
 linear_model = LinearRegression()
-linear_model.fit(X_train, y_train)
-y_pred = linear_model.predict(X_test)
+linear_model.fit(data_train, target_train)
+target_predicted = linear_model.predict(data_test)
 
 # %%
-import matplotlib.pyplot as plt
+sns.scatterplot(data=penguins, x="Flipper Length (mm)", y="Body Mass (g)",
+                color="black", alpha=0.5)
+plt.plot(data_test, target_predicted, label="Linear regression")
+plt.legend()
+_ = plt.title("Prediction function using a LinearRegression")
 
-ax = sns.scatterplot(data=data, x="Flipper Length (mm)", y="Body Mass (g)",
-                     color="black", alpha=0.5)
-ax.plot(X_test, y_pred, linewidth=4, label="Linear regression")
-_ = plt.legend()
 
 # %% [markdown]
 # On the plot above, we see that a non-regularized `LinearRegression` is able
@@ -61,39 +68,41 @@ _ = plt.legend()
 # will be on the line.
 
 # %%
-ax = sns.scatterplot(data=data, x="Flipper Length (mm)", y="Body Mass (g)",
+ax = sns.scatterplot(data=penguins, x="Flipper Length (mm)", y="Body Mass (g)",
                      color="black", alpha=0.5)
-ax.plot(X_test, y_pred, linewidth=4, label="Linear regression")
-ax.plot(X_test[::3], y_pred[::3], label="Test predictions",
-        color="tab:orange", marker=".", markersize=15, linestyle="")
-_ = plt.legend()
+plt.plot(data_test, target_predicted, label="Linear regression")
+plt.scatter(data_test[::3], target_predicted[::3], label="Test predictions",
+            color="tab:orange")
+plt.legend()
+_ = plt.title("Prediction function using a LinearRegression")
 
 # %% [markdown]
-# Contrary to linear models, decision trees are non-parametric models, so they
-# do not make assumptions about the way data are distributed. This will affect
-# the prediction scheme. Repeating the above experiment will highlight the
-# differences.
+# Contrary to linear models, decision trees are non-parametric models:
+# they do not make assumptions about the way data is distributed.
+# This will affect the prediction scheme. Repeating the above experiment
+# will highlight the differences.
 
 # %%
 from sklearn.tree import DecisionTreeRegressor
 
 tree = DecisionTreeRegressor(max_depth=1)
-tree.fit(X_train, y_train)
-y_pred = tree.predict(X_test)
+tree.fit(data_train, target_train)
+target_predicted = tree.predict(data_test)
 
 # %%
-ax = sns.scatterplot(data=data, x="Flipper Length (mm)", y="Body Mass (g)",
-                     color="black", alpha=0.5)
-ax.plot(X_test, y_pred, linewidth=4, label="Decision tree")
-_ = plt.legend()
+sns.scatterplot(data=penguins, x="Flipper Length (mm)", y="Body Mass (g)",
+                color="black", alpha=0.5)
+plt.plot(data_test, target_predicted, label="Decision tree")
+plt.legend()
+_ = plt.title("Prediction function using a DecisionTreeRegressor")
 
 # %% [markdown]
-# We see that the decision tree model does not have a priori distribution for
-# the data and we do not end-up with a straight line to regress flipper length
-# and body mass.
+# We see that the decision tree model does not have an *a priori* distribution
+# for the data and we do not end-up with a straight line to regress flipper
+# length and body mass.
 #
 # Instead, we observe that the predictions of the tree are piecewise constant.
-# Indeed, our feature space was split into two partitions. We can check the
+# Indeed, our feature space was split into two partitions. Let's check the
 # tree structure to see what was the threshold found during the training.
 
 # %%
@@ -108,24 +117,25 @@ _ = plot_tree(tree, feature_names=data_columns, ax=ax)
 # These values corresponds to the mean values of the training samples in each
 # partition.
 #
-# In classification, we saw that increasing the depth of the tree allowed to
-# get more complex decision boundary. We can check the effect of increasing the
-# depth for decision tree in a regression setting.
+# In classification, we saw that increasing the depth of the tree allowed us to
+# get more complex decision boundaries.
+# Let's check the effect of increasing the depth in a regression setting:
 
 # %%
 tree = DecisionTreeRegressor(max_depth=3)
-tree.fit(X_train, y_train)
-y_pred = tree.predict(X_test)
+tree.fit(data_train, target_train)
+target_predicted = tree.predict(data_test)
 
 # %%
-ax = sns.scatterplot(data=data, x="Flipper Length (mm)", y="Body Mass (g)",
-                     color="black", alpha=0.5)
-ax.plot(X_test, y_pred, linewidth=4, label="Decision tree")
-_ = plt.legend()
+sns.scatterplot(data=penguins, x="Flipper Length (mm)", y="Body Mass (g)",
+                color="black", alpha=0.5)
+plt.plot(data_test, target_predicted, label="Decision tree")
+plt.legend()
+_ = plt.title("Prediction function using a DecisionTreeRegressor")
 
 # %% [markdown]
 # Increasing the depth of the tree will increase the number of partition and
 # thus the number of constant values that the tree is capable of predicting.
 #
-# In this notebook, we highlighted the between decision tree in classification
-# and in regression.
+# In this notebook, we highlighted the differences in behavior of a decision
+# tree used in a classification problem in contrast to a regression problem.

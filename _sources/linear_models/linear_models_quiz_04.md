@@ -1,7 +1,7 @@
 # ✅ Quiz
 
 ```{admonition} Question
-By default, a `LogisticRegression` in scikit-learn apply:
+By default, a `LogisticRegression` in scikit-learn applies:
 
 - a) no penalty
 - b) a l2 penalty
@@ -24,6 +24,6 @@ The decision boundaries of a logistic regression:
 The parameter `C` in a logistic regression is:
 
 - a) similar to the parameter `alpha` in a ridge regressor
-- b) similar to `1/alpha` where `alpha` is the parameter of a ridge regressor
+- b) similar to `1 / alpha` where `alpha` is the parameter of a ridge regressor
 - c) not controlling the regularization
 ```

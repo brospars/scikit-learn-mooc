@@ -1,28 +1,34 @@
 # %% [markdown]
 # # 📝 Exercise 04
 #
-# The aim of this exercise is to study:
+# The aim of this exercise is to:
 #
-# * if a GBDT tends to overfit if the number of estimators is not appropriate
-#   as previously saw for AdaBoost;
-# * use the early-stopping strategy which avoid for grid-searching the best
-#   number of parameters.
+# * verify if a GBDT tends to overfit if the number of estimators is not
+#   appropriate as previously seen for AdaBoost;
+# * use the early-stopping strategy to avoid adding unnecessary trees, to
+#   get the best statistical performances.
 #
-# We will use california housing to conduct our experiments
+# We will use the California housing dataset to conduct our experiments.
 
 # %%
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 
-X, y = fetch_california_housing(return_X_y=True, as_frame=True)
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, random_state=0, test_size=0.5
-)
+data, target = fetch_california_housing(return_X_y=True, as_frame=True)
+target *= 100  # rescale the target in k$
+data_train, data_test, target_train, target_test = train_test_split(
+    data, target, random_state=0, test_size=0.5)
+
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
 
 # %% [markdown]
 # Similarly to the previous exercise, create a gradient boosting decision tree
 # and create a validation curve to assess the impact of the number of trees
-# on the performance of the model.
+# on the statistical performance of the model.
 
 # %%
 # Write your code here.
@@ -34,14 +40,14 @@ X_train, X_test, y_train, y_test = train_test_split(
 #
 # To avoid adding new unnecessary tree, gradient boosting offers an
 # early-stopping option. Internally, the algorithm will use an out-of-sample
-# set to compute the performance of the model at each addition of a tree.
-# Thus, if the the performance are not improving for several iterations, one
-# could stop adding tree.
+# set to compute the statistical performance of the model at each addition of a
+# tree. Thus, if the statistical performance are not improving for several
+# iterations, it will stop adding trees.
 #
 # Now, create a gradient-boosting model with `n_estimators=1000`. This number
 # of trees will be too large. Change the parameter `n_iter_no_change` such
 # that the gradient boosting fitting will stop after adding 5 trees that do not
-# allow to improve the overall performance.
+# improve the overall statistical performance.
 
 # %%
 # Write your code here.

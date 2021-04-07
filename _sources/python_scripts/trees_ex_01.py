@@ -15,20 +15,26 @@
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/penguins_classification.csv")
+penguins = pd.read_csv("../datasets/penguins_classification.csv")
 culmen_columns = ["Culmen Length (mm)", "Culmen Depth (mm)"]
 target_column = "Species"
+
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
 
 # %%
 from sklearn.model_selection import train_test_split
 
-X, y = data[culmen_columns], data[target_column]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, random_state=0
+data, target = penguins[culmen_columns], penguins[target_column]
+data_train, data_test, target_train, target_test = train_test_split(
+    data, target, random_state=0
 )
 range_features = {
-    feature_name: (X[feature_name].min() - 1, X[feature_name].max() + 1)
-    for feature_name in X.columns
+    feature_name: (data[feature_name].min() - 1, data[feature_name].max() + 1)
+    for feature_name in data.columns
 }
 
 # %%
@@ -57,8 +63,6 @@ def plot_decision_function(fitted_classifier, range_features, ax=None):
     if ax is None:
         _, ax = plt.subplots()
     ax.contourf(xx, yy, Z, alpha=0.4, cmap="RdBu")
-    ax.set_xlabel(feature_names[0])
-    ax.set_ylabel(feature_names[1])
 
     return ax
 
@@ -72,8 +76,8 @@ def plot_decision_function(fitted_classifier, range_features, ax=None):
 # Write your code here.
 
 # %% [markdown]
-# Did we make use of the feature "Culmen Length"? To get a confirmation, you
-# plot the tree using the function `sklearn.tree.plot_tree`.
+# Did we make use of the feature "Culmen Length"?
+# Plot the tree using the function `sklearn.tree.plot_tree` to find out!
 
 # %%
 # Write your code here.

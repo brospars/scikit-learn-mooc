@@ -5,7 +5,7 @@ Regularization refers to:
 
 - a) constraining the intercept of the linear model to be zero
 - b) shrinking the weights of the linear model towards zero
-- c) use a subset of the available data when fitting a linear model
+- c) using a subset of the available data when fitting a linear model
 ```
 
 +++
@@ -44,7 +44,7 @@ Scaling the data before fitting a model:
 +++
 
 ```{admonition} Question
-The effect of an l2-regularization is to:
+The effect of an l2-regularization (as done in ridge) is to:
 
 - a) shrink all weights towards zero
 - b) make all weights equal

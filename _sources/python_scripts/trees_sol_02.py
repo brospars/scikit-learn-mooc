@@ -1,8 +1,8 @@
 # %% [markdown]
 # # 📃 Solution for Exercise 02
 #
-# The aim of this exercise is to find out whether or not a model is able to
-# extrapolate.
+# The aim of this exercise is to find out whether a decision tree
+# model is able to extrapolate.
 #
 # By extrapolation, we refer to values predicted by a model outside of the
 # range of feature values seen during the training.
@@ -12,12 +12,18 @@
 # %%
 import pandas as pd
 
-data = pd.read_csv("../datasets/penguins_regression.csv")
+penguins = pd.read_csv("../datasets/penguins_regression.csv")
 
 data_columns = ["Flipper Length (mm)"]
 target_column = "Body Mass (g)"
 
-X_train, y_train = data[data_columns], data[target_column]
+data_train, target_train = penguins[data_columns], penguins[target_column]
+
+# %% [markdown]
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
 
 # %% [markdown]
 # First, create two models, a linear regression model and a decision tree
@@ -31,8 +37,8 @@ from sklearn.tree import DecisionTreeRegressor
 linear_regression = LinearRegression()
 tree = DecisionTreeRegressor(max_depth=3)
 
-linear_regression.fit(X_train, y_train)
-tree.fit(X_train, y_train)
+linear_regression.fit(data_train, target_train)
+tree.fit(data_train, target_train)
 
 # %% [markdown]
 # Create a testing dataset, ranging from the minimum to the maximum of the
@@ -42,13 +48,13 @@ tree.fit(X_train, y_train)
 # %%
 import numpy as np
 
-X_test = pd.DataFrame(np.arange(X_train[data_columns[0]].min(),
-                                X_train[data_columns[0]].max()),
-                      columns=data_columns)
+data_test = pd.DataFrame(np.arange(data_train[data_columns[0]].min(),
+                                   data_train[data_columns[0]].max()),
+                         columns=data_columns)
 
 # %%
-y_pred_linear_regression = linear_regression.predict(X_test)
-y_pred_tree = tree.predict(X_test)
+target_predicted_linear_regression = linear_regression.predict(data_test)
+target_predicted_tree = tree.predict(data_test)
 
 # %% [markdown]
 # Create a scatter plot containing the training samples and superimpose the
@@ -57,14 +63,14 @@ y_pred_tree = tree.predict(X_test)
 # %%
 import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set_context("talk")
 
-ax = sns.scatterplot(data=data, x="Flipper Length (mm)", y="Body Mass (g)",
-                     color="black", alpha=0.5)
-ax.plot(X_test, y_pred_linear_regression, linewidth=4,
-        label="Linear regression")
-ax.plot(X_test, y_pred_tree, linewidth=4, label="Decision tree regression")
-_ = plt.legend()
+sns.scatterplot(data=penguins, x="Flipper Length (mm)", y="Body Mass (g)",
+                color="black", alpha=0.5)
+plt.plot(data_test, target_predicted_linear_regression,
+         label="Linear regression")
+plt.plot(data_test, target_predicted_tree, label="Decision tree")
+plt.legend()
+_ = plt.title("Prediction of linear model and a decision tree")
 
 # %% [markdown]
 # The predictions that we got were within the range of feature values seen
@@ -72,34 +78,32 @@ _ = plt.legend()
 # interpolate.
 #
 # Now, we will check the extrapolation capabilities of each model. Create a
-# dataset containing the value of your previous dataset. Besides add values
+# dataset containing the value of your previous dataset. Besides, add values
 # below and above the minimum and the maximum of the flipper length seen
 # during training.
 
 # %%
 offset = 30
-X_test = pd.DataFrame(np.arange(X_train[data_columns[0]].min() - offset,
-                                X_train[data_columns[0]].max() + offset),
-                      columns=data_columns)
+data_test = pd.DataFrame(np.arange(data_train[data_columns[0]].min() - offset,
+                                   data_train[data_columns[0]].max() + offset),
+                         columns=data_columns)
 
 # %% [markdown]
 # Finally, make predictions with both models on this new testing set. Repeat
 # the plotting of the previous exercise.
 
 # %%
-y_pred_linear_regression = linear_regression.predict(X_test)
-y_pred_tree = tree.predict(X_test)
+target_predicted_linear_regression = linear_regression.predict(data_test)
+target_predicted_tree = tree.predict(data_test)
 
 # %%
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-ax = sns.scatterplot(data=data, x="Flipper Length (mm)", y="Body Mass (g)",
-                     color="black", alpha=0.5)
-ax.plot(X_test, y_pred_linear_regression, linewidth=4,
-        label="Linear regression")
-ax.plot(X_test, y_pred_tree, linewidth=4, label="Decision tree regression")
-_ = plt.legend()
+sns.scatterplot(data=penguins, x="Flipper Length (mm)", y="Body Mass (g)",
+                color="black", alpha=0.5)
+plt.plot(data_test, target_predicted_linear_regression,
+         label="Linear regression")
+plt.plot(data_test, target_predicted_tree, label="Decision tree")
+plt.legend()
+_ = plt.title("Prediction of linear model and a decision tree")
 
 # %% [markdown]
 # The linear model will extrapolate using the fitted model for flipper lengths

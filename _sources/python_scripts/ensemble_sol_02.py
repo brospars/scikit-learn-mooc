@@ -2,7 +2,7 @@
 # # 📃 Solution for Exercise 02
 #
 # The aim of this exercise it to explore some attributes available in
-# scikit-learn random forest.
+# scikit-learn's random forest.
 #
 # First, we will fit the penguins regression dataset.
 
@@ -10,58 +10,76 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-data = pd.read_csv("../datasets/penguins_regression.csv")
+penguins = pd.read_csv("../datasets/penguins_regression.csv")
 feature_names = ["Flipper Length (mm)"]
 target_name = "Body Mass (g)"
-X, y = data[feature_names], data[target_name]
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
+data, target = penguins[feature_names], penguins[target_name]
+data_train, data_test, target_train, target_test = train_test_split(
+    data, target, random_state=0)
 
 # %% [markdown]
-# Create a random forest containing only three trees. Train the forest and
-# check the performance on the testing set.
+# ```{note}
+# If you want a deeper overview regarding this dataset, you can refer to the
+# Appendix - Datasets description section at the end of this MOOC.
+# ```
+
+# %% [markdown]
+# Create a random forest containing three trees. Train the forest and
+# check the statistical performance on the testing set.
 
 # %%
 from sklearn.ensemble import RandomForestRegressor
 
 forest = RandomForestRegressor(n_estimators=3)
-forest.fit(X_train, y_train)
-print(f"Accuracy score: {forest.score(X_test, y_test):.3f}")
+forest.fit(data_train, target_train)
+print(f"Accuracy score: {forest.score(data_test, target_test):.3f}")
 
 # %% [markdown]
-# The forest that you created contains three trees that can be accessed with
-# the attribute `estimators_`. You will have to:
+# The next steps of this exercise are to:
 #
-# - create a new dataset containing flipper length between 170 mm and 230 mm;
+# - create a new dataset containing the penguins with a flipper length
+#   between 170 mm and 230 mm;
 # - plot the training data using a scatter plot;
 # - plot the decision of each individual tree by predicting on the newly
 #   created dataset;
 # - plot the decision of the random forest using this newly created dataset.
 
+# ```{tip}
+# The trees contained in the forest that you created can be accessed
+# with the attribute `estimators_`.
+# ```
+
+# %% [markdown]
+# In a first cell, we will collect all the required predictions from the
+# different trees and forest.
+
+# %%
+import numpy as np
+
+data_ranges = pd.DataFrame(np.linspace(170, 235, num=300),
+                           columns=data.columns)
+tree_predictions = []
+for tree in forest.estimators_:
+    tree_predictions.append(tree.predict(data_ranges))
+
+forest_predictions = forest.predict(data_ranges)
+
+# %% [markdown]
+# Now, we can plot the predictions that we collected.
+
 # %%
 import matplotlib.pyplot as plt
-import numpy as np
 import seaborn as sns
 
-sns.set_context("talk")
+sns.scatterplot(data=penguins, x=feature_names[0], y=target_name,
+                color="black", alpha=0.5)
 
-X_ranges = pd.DataFrame(
-    np.linspace(X.iloc[:, 0].min(), X.iloc[:, 0].max(), num=300),
-    columns=X.columns,
-)
+# plot tree predictions
+for tree_idx, predictions in enumerate(tree_predictions):
+    plt.plot(data_ranges, predictions, label=f"Tree #{tree_idx}",
+             linestyle="--", alpha=0.8)
 
-_, ax = plt.subplots(figsize=(8, 6))
-
-sns.scatterplot(
-    data=data, x=feature_names[0], y=target_name, color="black", alpha=0.5
-)
-for tree_idx, tree in enumerate(forest.estimators_):
-    ax.plot(
-        X_ranges,
-        tree.predict(X_ranges),
-        label=f"Tree #{tree_idx}",
-        linestyle="--",
-    )
-ax.plot(X_ranges, forest.predict(X_ranges), label=f"Random forest")
-_ = ax.legend()
+plt.plot(data_ranges, forest_predictions, label=f"Random forest")
+plt.legend()
 
 # %%
