@@ -1,5 +1,12 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
-# # 📃 Solution for Exercise 01
+# # 📃 Solution for Exercise M7.02
 #
 # We presented different classification metrics in the previous notebook.
 # However, we did not use it with a cross-validation. This exercise aims at
@@ -24,6 +31,7 @@ target = blood_transfusion["Class"]
 # First, create a decision tree classifier.
 
 # %%
+# solution
 from sklearn.tree import DecisionTreeClassifier
 
 tree = DecisionTreeClassifier()
@@ -36,19 +44,21 @@ tree = DecisionTreeClassifier()
 # score). Check its documentation to learn how to do that.
 
 # %%
+# solution
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 
 cv = StratifiedKFold(n_splits=10)
 scores = cross_val_score(tree, data, target, cv=cv, scoring="accuracy")
-print(f"Accuracy score: {scores.mean():.3f} +/- {scores.std():.3f}")
+print(f"Accuracy score: {scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
 # Repeat the experiment by computing the `balanced_accuracy`.
 
 # %%
+# solution
 scores = cross_val_score(tree, data, target, cv=cv,
                          scoring="balanced_accuracy")
-print(f"Balanced accuracy score: {scores.mean():.3f} +/- {scores.std():.3f}")
+print(f"Balanced accuracy score: {scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
 # We will now add a bit of complexity. We would like to compute the precision
@@ -59,8 +69,12 @@ print(f"Balanced accuracy score: {scores.mean():.3f} +/- {scores.std():.3f}")
 # label will not be supported by scikit-learn because it is indeed ambiguous.
 
 # %%
+from sklearn.model_selection import cross_val_score
+from sklearn.tree import DecisionTreeClassifier
+
+tree = DecisionTreeClassifier()
 try:
-    scores = cross_val_score(tree, data, target, cv=cv, scoring="precision")
+    scores = cross_val_score(tree, data, target, cv=10, scoring="precision")
 except ValueError as exc:
     print(exc)
 
@@ -76,9 +90,11 @@ except ValueError as exc:
 # So, import `sklearn.metrics.make_scorer` and
 # `sklearn.metrics.precision_score`. Check their documentations for more
 # information.
+# Finally, create a scorer by calling `make_scorer` using the score function
 # `precision_score` and pass the extra parameter `pos_label="donated"`.
 
 # %%
+# solution
 from sklearn.metrics import make_scorer, precision_score
 
 precision = make_scorer(precision_score, pos_label="donated")
@@ -88,8 +104,9 @@ precision = make_scorer(precision_score, pos_label="donated")
 # in the `cross_val_score` call, pass the scorer that you created above.
 
 # %%
+# solution
 scores = cross_val_score(tree, data, target, cv=cv, scoring=precision)
-print(f"Precision score: {scores.mean():.3f} +/- {scores.std():.3f}")
+print(f"Precision score: {scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
 # `cross_val_score` will only compute a single score provided to the `scoring`
@@ -102,13 +119,14 @@ print(f"Precision score: {scores.mean():.3f} +/- {scores.std():.3f}")
 # for both metrics using a box plot.
 
 # %%
+# solution
 from sklearn.model_selection import cross_validate
 scoring = ["accuracy", "balanced_accuracy"]
 
 scores = cross_validate(tree, data, target, cv=cv, scoring=scoring)
 scores
 
-# %%
+# %% tags=["solution"]
 import pandas as pd
 
 color = {"whiskers": "black", "medians": "black", "caps": "black"}
@@ -118,7 +136,7 @@ metrics = pd.DataFrame(
     index=["Accuracy", "Balanced accuracy"]
 ).T
 
-# %%
+# %% tags=["solution"]
 import matplotlib.pyplot as plt
 
 metrics.plot.box(vert=False, color=color)

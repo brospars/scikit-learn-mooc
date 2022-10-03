@@ -1,5 +1,19 @@
+# -*- coding: utf-8 -*-
+# ---
+# jupyter:
+#   jupytext:
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.5
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
-# # 📝 Exercise 02
+# # 📝 Exercise M7.03
 #
 # As with the classification metrics exercise, we will evaluate the regression
 # metrics within a cross-validation framework to get familiar with the syntax.
@@ -22,6 +36,7 @@ target /= 1000
 # Appendix - Datasets description section at the end of this MOOC.
 # ```
 
+
 # %% [markdown]
 # The first step will be to create a linear regression model.
 
@@ -29,7 +44,7 @@ target /= 1000
 # Write your code here.
 
 # %% [markdown]
-# Then, use the `cross_val_score` to estimate the statistical performance of
+# Then, use the `cross_val_score` to estimate the generalization performance of
 # the model. Use a `KFold` cross-validation with 10 folds. Make the use of the
 # $R^2$ score explicit by assigning the parameter `scoring` (even though it is
 # the default score).

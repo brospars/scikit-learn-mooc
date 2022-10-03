@@ -1,3 +1,10 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Speeding-up gradient-boosting
 # In this notebook, we present a modified version of gradient boosting which
@@ -18,7 +25,7 @@
 # depth", which you can refer to.
 #
 # To accelerate the gradient-boosting algorithm, one could reduce the number of
-# splits to be evaluated. As a consequence, the statistical performance of such
+# splits to be evaluated. As a consequence, the generalization performance of such
 # a tree would be reduced. However, since we are combining several trees in a
 # gradient-boosting, we can add more estimators to overcome this issue.
 #
@@ -45,13 +52,16 @@ from sklearn.model_selection import cross_validate
 from sklearn.ensemble import GradientBoostingRegressor
 
 gradient_boosting = GradientBoostingRegressor(n_estimators=200)
-cv_results_gbdt = cross_validate(gradient_boosting, data, target, n_jobs=-1)
+cv_results_gbdt = cross_validate(
+    gradient_boosting, data, target, scoring="neg_mean_absolute_error",
+    n_jobs=2
+)
 
 # %%
 print("Gradient Boosting Decision Tree")
-print(f"R2 score via cross-validation: "
-      f"{cv_results_gbdt['test_score'].mean():.3f} +/- "
-      f"{cv_results_gbdt['test_score'].std():.3f}")
+print(f"Mean absolute error via cross-validation: "
+      f"{-cv_results_gbdt['test_score'].mean():.3f} ± "
+      f"{cv_results_gbdt['test_score'].std():.3f} k$")
 print(f"Average fit time: "
       f"{cv_results_gbdt['fit_time'].mean():.3f} seconds")
 print(f"Average score time: "
@@ -81,8 +91,9 @@ data_trans
 # the features, we requested too much bins in regard of the data dispersion
 # for those features. The smallest bins will be removed.
 # ```
-# We see that the discretizer transforms the original data into an integer.
-# This integer represents the bin index when the distribution by quantile is
+# We see that the discretizer transforms the original data into integral
+# values (even though they are encoded using a floating-point representation).
+# Each value represents the bin index when the distribution by quantile is
 # performed. We can check the number of bins per feature.
 
 # %%
@@ -98,21 +109,24 @@ from sklearn.pipeline import make_pipeline
 
 gradient_boosting = make_pipeline(
     discretizer, GradientBoostingRegressor(n_estimators=200))
-cv_results_gbdt = cross_validate(gradient_boosting, data, target, n_jobs=-1)
+cv_results_gbdt = cross_validate(
+    gradient_boosting, data, target, scoring="neg_mean_absolute_error",
+    n_jobs=2,
+)
 
 # %%
 print("Gradient Boosting Decision Tree with KBinsDiscretizer")
-print(f"R2 score via cross-validation: "
-      f"{cv_results_gbdt['test_score'].mean():.3f} +/- "
-      f"{cv_results_gbdt['test_score'].std():.3f}")
+print(f"Mean absolute error via cross-validation: "
+      f"{-cv_results_gbdt['test_score'].mean():.3f} ± "
+      f"{cv_results_gbdt['test_score'].std():.3f} k$")
 print(f"Average fit time: "
       f"{cv_results_gbdt['fit_time'].mean():.3f} seconds")
 print(f"Average score time: "
       f"{cv_results_gbdt['score_time'].mean():.3f} seconds")
 
 # %% [markdown]
-# Here, we see that the fit time has been drastically reduced but that the
-# statistical performance of the model is identical. Scikit-learn provides a
+# Here, we see that the fit time has been reduced but that the
+# generalization performance of the model is identical. Scikit-learn provides
 # specific classes which are even more optimized for large dataset, called
 # `HistGradientBoostingClassifier` and `HistGradientBoostingRegressor`. Each
 # feature in the dataset `data` is first binned by computing histograms, which
@@ -124,18 +138,20 @@ print(f"Average score time: "
 # computation times with the experiment of the previous section.
 
 # %%
-from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingRegressor
 
 histogram_gradient_boosting = HistGradientBoostingRegressor(
     max_iter=200, random_state=0)
-cv_results_hgbdt = cross_validate(gradient_boosting, data, target, n_jobs=-1)
+cv_results_hgbdt = cross_validate(
+    histogram_gradient_boosting, data, target,
+    scoring="neg_mean_absolute_error", n_jobs=2,
+)
 
 # %%
 print("Histogram Gradient Boosting Decision Tree")
-print(f"R2 score via cross-validation: "
-      f"{cv_results_hgbdt['test_score'].mean():.3f} +/- "
-      f"{cv_results_hgbdt['test_score'].std():.3f}")
+print(f"Mean absolute error via cross-validation: "
+      f"{-cv_results_hgbdt['test_score'].mean():.3f} ± "
+      f"{cv_results_hgbdt['test_score'].std():.3f} k$")
 print(f"Average fit time: "
       f"{cv_results_hgbdt['fit_time'].mean():.3f} seconds")
 print(f"Average score time: "

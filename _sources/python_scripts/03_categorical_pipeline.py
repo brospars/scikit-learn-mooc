@@ -1,14 +1,7 @@
 # ---
 # jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
-#     language: python
 #     name: python3
 # ---
 
@@ -27,18 +20,13 @@
 import pandas as pd
 
 adult_census = pd.read_csv("../datasets/adult-census.csv")
+# drop the duplicated column `"education-num"` as stated in the first notebook
+adult_census = adult_census.drop(columns="education-num")
 
 target_name = "class"
 target = adult_census[target_name]
 
-data = adult_census.drop(columns=[target_name, "fnlwgt"])
-
-# %% [markdown]
-# ```{caution}
-# Here and later, we use the name `data` and `target` to be explicit. In
-# scikit-learn, documentation `data` is commonly named `X` and `target` is
-# commonly called `y`.
-# ```
+data = adult_census.drop(columns=[target_name])
 
 # %% [markdown]
 #
@@ -70,20 +58,6 @@ data.dtypes
 # %% [markdown]
 # If we look at the `"native-country"` column, we observe its data type is
 # `object`, meaning it contains string values.
-#
-# Sometimes, categorical columns could also be encoded with integers. In such
-# case, looking at the data type will not be enough. In a previous notebook,
-# we saw it is the case with the column `"education-num"`.
-
-# %%
-data["education-num"].value_counts()
-
-# %% [markdown]
-# When considering categorical columns, we should include these columns.
-# However, we also saw earlier that `"education-num"` and `"education"`
-# represent the exact same information. Therefore, we can get rid of one of the
-# two. Because in this notebook we will use `"education"` because it represents
-# the original data.
 #
 # ## Select features based on their data type
 #
@@ -118,7 +92,9 @@ print(f"The dataset is composed of {data_categorical.shape[1]} features")
 # machine-learning algorithm.
 
 # %% [markdown]
-# ## Encoding ordinal categories
+# ## Strategies to encode categories
+#
+# ### Encoding ordinal categories
 #
 # The most intuitive strategy is to encode each category with a different
 # number. The `OrdinalEncoder` will transform the data in such manner.
@@ -143,14 +119,11 @@ education_encoded
 encoder.categories_
 
 # %% [markdown]
-#  Now, we can check the encoding applied on all categorical features.
+# Now, we can check the encoding applied on all categorical features.
 
 # %%
 data_encoded = encoder.fit_transform(data_categorical)
 data_encoded[:5]
-
-# %%
-encoder.categories_
 
 # %%
 print(
@@ -161,13 +134,8 @@ print(
 # independently. We also note that the number of features before and after the
 # encoding is the same.
 #
-# ```{tip}
-# This encoding was used by the dataset's publishers on the `"education"`
-# feature, which gave the feature `"education-num"`.
-# ```
-#
 # However, be careful when applying this encoding strategy:
-# using this integer representation lead downstream predictive models
+# using this integer representation leads downstream predictive models
 # to assume that the values are ordered (0 < 1 < 2 < 3... for instance).
 #
 # By default, `OrdinalEncoder` uses a lexicographical strategy to map string
@@ -180,21 +148,18 @@ print(
 # "S", "M", "L", "XL" to 2, 1, 0, 3, by following the alphabetical order.
 #
 # The `OrdinalEncoder` class accepts a `categories` constructor argument to
-# pass categories in the expected ordering explicitly.
+# pass categories in the expected ordering explicitly. You can find more
+# information in the
+# [scikit-learn documentation](https://scikit-learn.org/stable/modules/preprocessing.html#encoding-categorical-features)
+# if needed.
 #
 # If a categorical variable does not carry any meaningful order information
 # then this encoding might be misleading to downstream statistical models and
 # you might consider using one-hot encoding instead (see below).
 #
-# ```{important}
-# Note however that the impact of violating this ordering assumption is really
-# dependent on the downstream models. For instance, linear models will be
-# impacted by misordered categories while decision trees model will not be.
-# ```
+# ### Encoding nominal categories (without assuming any order)
 #
-# ## Encoding nominal categories (without assuming any order)
-#
-# `OneHotEncoder` is an alternative encoder that prevent the dowstream
+# `OneHotEncoder` is an alternative encoder that prevents the downstream
 # models to make a false assumption about the ordering of categories. For a
 # given feature, it will create as many new columns as there are possible
 # categories. For a given sample, the value of the column corresponding to the
@@ -203,12 +168,6 @@ print(
 #
 # We will start by encoding a single feature (e.g. `"education"`) to illustrate
 # how the encoding works.
-#
-# ```{note}
-# We will pass the argument `sparse=False` to the `OneHotEncoder` which will
-# avoid obtaining a sparse matrix, which is less efficient but easier to
-# inspect results for didactic purposes.
-# ```
 
 # %%
 from sklearn.preprocessing import OneHotEncoder
@@ -218,12 +177,23 @@ education_encoded = encoder.fit_transform(education_column)
 education_encoded
 
 # %% [markdown]
+# ```{note}
+# `sparse=False` is used in the `OneHotEncoder` for didactic purposes, namely
+# easier visualization of the data.
+#
+# Sparse matrices are efficient data structures when most of your matrix
+# elements are zero. They won't be covered in detail in this course. If you
+# want more details about them, you can look at
+# [this](https://scipy-lectures.org/advanced/scipy_sparse/introduction.html#why-sparse-matrices).
+# ```
+
+# %% [markdown]
 # We see that encoding a single feature will give a NumPy array full of zeros
 # and ones. We can get a better understanding using the associated feature
 # names resulting from the transformation.
 
 # %%
-feature_names = encoder.get_feature_names(input_features=["education"])
+feature_names = encoder.get_feature_names_out(input_features=["education"])
 education_encoded = pd.DataFrame(education_encoded, columns=feature_names)
 education_encoded
 
@@ -244,29 +214,64 @@ data_encoded[:5]
 
 # %%
 print(
-    f"The dataset encoded contains {data_encoded.shape[1]} features")
+    f"The encoded dataset contains {data_encoded.shape[1]} features")
 
 # %% [markdown]
 # Let's wrap this NumPy array in a dataframe with informative column names as
 # provided by the encoder object:
 
 # %%
-columns_encoded = encoder.get_feature_names(data_categorical.columns)
+columns_encoded = encoder.get_feature_names_out(data_categorical.columns)
 pd.DataFrame(data_encoded, columns=columns_encoded).head()
 
 # %% [markdown]
-# Look at how the "workclass" variable of the 3 first records has been encoded
-# and compare this to the original string representation.
+# Look at how the `"workclass"` variable of the 3 first records has been
+# encoded and compare this to the original string representation.
 #
 # The number of features after the encoding is more than 10 times larger than
 # in the original data because some variables such as `occupation` and
 # `native-country` have many possible categories.
+
+# %% [markdown]
+# ### Choosing an encoding strategy
 #
+# Choosing an encoding strategy will depend on the underlying models and the
+# type of categories (i.e. ordinal vs. nominal).
+
+# %% [markdown]
+# ```{note}
+# In general `OneHotEncoder` is the encoding strategy used when the
+# downstream models are **linear models** while `OrdinalEncoder` is often a
+# good strategy with **tree-based models**.
+# ```
+
+# %% [markdown]
+#
+# Using an `OrdinalEncoder` will output ordinal categories. This means
+# that there is an order in the resulting categories (e.g. `0 < 1 < 2`). The
+# impact of violating this ordering assumption is really dependent on the
+# downstream models. Linear models will be impacted by misordered categories
+# while tree-based models will not.
+#
+# You can still use an `OrdinalEncoder` with linear models but you need to be
+# sure that:
+# - the original categories (before encoding) have an ordering;
+# - the encoded categories follow the same ordering than the original
+#   categories.
+# The **next exercise** highlights the issue of misusing `OrdinalEncoder` with
+# a linear model.
+#
+# One-hot encoding categorical variables with high cardinality can cause 
+# computational inefficiency in tree-based models. Because of this, it is not recommended
+# to use `OneHotEncoder` in such cases even if the original categories do not 
+# have a given order. We will show this in the **final exercise** of this sequence.
+
+# %% [markdown]
 # ## Evaluate our predictive pipeline
 #
 # We can now integrate this encoder inside a machine learning pipeline like we
 # did with numerical data: let's train a linear classifier on the encoded data
-# and check the statistical performance of this machine learning pipeline using
+# and check the generalization performance of this machine learning pipeline using
 # cross-validation.
 #
 # Before we create the pipeline, we have to linger on the `native-country`.
@@ -276,24 +281,31 @@ pd.DataFrame(data_encoded, columns=columns_encoded).head()
 data["native-country"].value_counts()
 
 # %% [markdown]
-# We see that the `Holand-Netherlands` category is occuring rarely. This will
+# We see that the `Holand-Netherlands` category is occurring rarely. This will
 # be a problem during cross-validation: if the sample ends up in the test set
 # during splitting then the classifier would not have seen the category during
 # training and will not be able to encode it.
 #
-# In scikit-learn, there is two solutions to bypass this issue:
+# In scikit-learn, there are two solutions to bypass this issue:
 #
 # * list all the possible categories and provide it to the encoder via the
 #   keyword argument `categories`;
-# * use the parameter `handle_unknown`.
+# * use the parameter `handle_unknown`, i.e. if an unknown category is encountered
+#   during transform, the resulting one-hot encoded columns for this feature will
+#   be all zeros. 
 #
 # Here, we will use the latter solution for simplicity.
 
 # %% [markdown]
 # ```{tip}
-# Be aware the the `OrdinalEncoder` exposes as well a parameter
-# `handle_unknown`. It can be set to `use_encoded_value` and by setting
-# `unknown_value` to handle rare categories.
+# Be aware the `OrdinalEncoder` exposes as well a parameter
+# `handle_unknown`. It can be set to `use_encoded_value`. If that option is chosen,
+# you can define a fixed value to which all unknowns will be set to during
+# `transform`. For example,
+# `OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=42)`
+# will set all values encountered during `transform` to `42` which are not part of
+# the data encountered during the `fit` call.
+# You are going to use these parameters in the next exercise.
 # ```
 
 # %% [markdown]
@@ -309,15 +321,15 @@ model = make_pipeline(
 
 # %% [markdown]
 # ```{note}
-# Here, we need to increase the number of maximum iteration to obtain a fully
-# converged `LogisticRegression` and silence a `ConvergenceWarning`. In the
-# contrary to numerical features, the one-hot encoded categorical feature do
-# not suffer from large variations and therefore increasing `max_iter` is the
-# right thing to do.
+# Here, we need to increase the maximum number of iterations to obtain a fully
+# converged `LogisticRegression` and silence a `ConvergenceWarning`. Contrary
+# to the numerical features, the one-hot encoded categorical features are all
+# on the same scale (values are 0 or 1), so they would not benefit from
+# scaling. In this case, increasing `max_iter` is the right thing to do.
 # ```
 
 # %% [markdown]
-# Finally, we can check the model's statistical performance only using the
+# Finally, we can check the model's generalization performance only using the
 # categorical columns.
 
 # %%
@@ -327,7 +339,7 @@ cv_results
 
 # %%
 scores = cv_results["test_score"]
-print(f"The accuracy is: {scores.mean():.3f} +/- {scores.std():.3f}")
+print(f"The accuracy is: {scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
 # As you can see, this representation of the categorical variables is

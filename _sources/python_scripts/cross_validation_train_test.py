@@ -1,5 +1,12 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
-# # The framework and why do we need it
+# # Cross-validation framework
 #
 # In the previous notebooks, we introduce some concepts regarding the
 # evaluation of predictive models. While this section could be slightly
@@ -19,13 +26,6 @@ housing = fetch_california_housing(as_frame=True)
 data, target = housing.data, housing.target
 
 # %% [markdown]
-# ```{caution}
-# Here and later, we use the name `data` and `target` to be explicit. In
-# scikit-learn, documentation `data` is commonly named `X` and `target` is
-# commonly called `y`.
-# ```
-
-# %% [markdown]
 # In this dataset, the aim is to predict the median value of houses in an area
 # in California. The features collected are based on general real-estate and
 # geographical information.
@@ -34,7 +34,7 @@ data, target = housing.data, housing.target
 # notebook. The target to be predicted is a continuous variable and not anymore
 # discrete. This task is called regression.
 #
-# Therefore, we will use predictive model specific to regression and not to
+# This, we will use a predictive model specific to regression and not to
 # classification.
 
 # %%
@@ -45,7 +45,7 @@ data.head()
 
 # %% [markdown]
 # To simplify future visualization, let's transform the prices from the
-# dollar ($) range to the thousand dollars (k$) range.
+# 100 (k\$) range to the thousand dollars (k\$) range.
 
 # %%
 target *= 100
@@ -69,7 +69,7 @@ regressor = DecisionTreeRegressor(random_state=0)
 regressor.fit(data, target)
 
 # %% [markdown]
-# After training the regressor, we would like to know its potential statistical
+# After training the regressor, we would like to know its potential generalization
 # performance once deployed in production. For this purpose, we use the mean
 # absolute error, which gives us an error in the native unit, i.e. k\$.
 
@@ -93,7 +93,7 @@ print(f"On average, our regressor makes an error of {score:.2f} k$")
 # error**.
 #
 # ```{note}
-# In this MOOC, we will use consistently the term "training error".
+# In this MOOC, we will consistently use the term "training error".
 # ```
 #
 # We trained a predictive model to minimize the training error but our aim is
@@ -103,7 +103,7 @@ print(f"On average, our regressor makes an error of {score:.2f} k$")
 # **testing error**.
 #
 # ```{note}
-# In this MOOC, we will use consistently the term "testing error".
+# In this MOOC, we will consistently use the term "testing error".
 # ```
 #
 # Thus, the most basic evaluation involves:
@@ -153,34 +153,51 @@ print(f"The testing error of our model is {score:.2f} k$")
 #
 # When doing a single train-test split we don't give any indication regarding
 # the robustness of the evaluation of our predictive model: in particular, if
-# the test set is small, this estimate of the testing error will be
-# unstable and wouldn't reflect the "true error rate" we would have observed
-# with the same model on an unlimited amount of test data.
+# the test set is small, this estimate of the testing error will be unstable and
+# wouldn't reflect the "true error rate" we would have observed with the same
+# model on an unlimited amount of test data.
 #
 # For instance, we could have been lucky when we did our random split of our
 # limited dataset and isolated some of the easiest cases to predict in the
 # testing set just by chance: the estimation of the testing error would be
 # overly optimistic, in this case.
 #
-# **Cross-validation** allows estimating the robustness of a predictive model
-# by repeating the splitting procedure. It will give several training and
-# testing errors and thus some **estimate of the variability of the
-# model statistical performance**.
+# **Cross-validation** allows estimating the robustness of a predictive model by
+# repeating the splitting procedure. It will give several training and testing
+# errors and thus some **estimate of the variability of the model generalization
+# performance**.
 #
-# There are different cross-validation strategies, for now we are going to
-# focus on one called "shuffle-split". At each iteration of this strategy we:
+# There are [different cross-validation
+# strategies](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators),
+# for now we are going to focus on one called "shuffle-split". At each iteration
+# of this strategy we:
 #
 # - randomly shuffle the order of the samples of a copy of the full dataset;
 # - split the shuffled dataset into a train and a test set;
 # - train a new model on the train set;
 # - evaluate the testing error on the test set.
 #
-# We repeat this procedure `n_splits` times. Using `n_splits=40` means that we
-# will train 40 models in total and all of them will be discarded: we just
-# record their statistical performance on each variant of the test set.
+# We repeat this procedure `n_splits` times. Keep in mind that the computational
+# cost increases with `n_splits`.
 #
-# To evaluate the statistical performance of our regressor, we can use
-# `cross_validate` with a `ShuffleSplit` object:
+# ![Cross-validation diagram](../figures/shufflesplit_diagram.png)
+#
+# ```{note}
+# This figure shows the particular case of **shuffle-split** cross-validation
+# strategy using `n_splits=5`.
+# For each cross-validation split, the procedure trains a model on all the red
+# samples and evaluate the score of the model on the blue samples.
+# ```
+#
+# In this case we will set `n_splits=40`, meaning that we will train 40 models
+# in total and all of them will be discarded: we just record their
+# generalization performance on each variant of the test set.
+#
+# To evaluate the generalization performance of our regressor, we can use
+# [`sklearn.model_selection.cross_validate`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_validate.html)
+# with a
+# [`sklearn.model_selection.ShuffleSplit`](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.ShuffleSplit.html)
+# object:
 
 # %%
 from sklearn.model_selection import cross_validate
@@ -202,9 +219,18 @@ cv_results.head()
 
 # %% [markdown]
 # ```{tip}
-# By convention, scikit-learn model evaluation tools always use a convention
-# where "higher is better", this explains we used
-# `scoring="neg_mean_absolute_error"` (meaning "negative mean absolute error").
+# A score is a metric for which higher values mean better results. On the
+# contrary, an error is a metric for which lower values mean better results.
+# The parameter `scoring` in `cross_validate` always expect a function that is
+# a score.
+#
+# To make it easy, all error metrics in scikit-learn, like
+# `mean_absolute_error`, can be transformed into a score to be used in
+# `cross_validate`. To do so, you need to pass a string of the error metric
+# with an additional `neg_` string at the front to the parameter `scoring`;
+# for instance `scoring="neg_mean_absolute_error"`. In this case, the negative
+# of the mean absolute error will be computed which would be equivalent to a
+# score.
 # ```
 #
 # Let us revert the negation to get the actual error:
@@ -219,28 +245,28 @@ cv_results["test_error"] = -cv_results["test_score"]
 cv_results.head(10)
 
 # %% [markdown]
-# We get timing information to fit and predict at each round of
-# cross-validation. Also, we get the test score, which corresponds to the
-# testing error on each of the split.
+# We get timing information to fit and predict at each cross-validation
+# iteration. Also, we get the test score, which corresponds to the testing error
+# on each of the splits.
 
 # %%
 len(cv_results)
 
 # %% [markdown]
-# We get 40 entries in our resulting dataframe because we performed 40
-# splits. Therefore, we can show the testing error distribution and thus, have
-# an estimate of its variability.
+# We get 40 entries in our resulting dataframe because we performed 40 splits.
+# Therefore, we can show the testing error distribution and thus, have an
+# estimate of its variability.
 
 # %%
 import matplotlib.pyplot as plt
 
-cv_results["test_error"].plot.hist(bins=10, edgecolor="black", density=True)
+cv_results["test_error"].plot.hist(bins=10, edgecolor="black")
 plt.xlabel("Mean absolute error (k$)")
 _ = plt.title("Test error distribution")
 
 # %% [markdown]
-# We observe that the testing error is clustered around 47 k\$ and
-# ranges from 43 k\$ to 50 k\$.
+# We observe that the testing error is clustered around 47 k\$ and ranges from
+# 43 k\$ to 50 k\$.
 
 # %%
 print(f"The mean cross-validated testing error is: "
@@ -252,13 +278,12 @@ print(f"The standard deviation of the testing error is: "
 
 # %% [markdown]
 # Note that the standard deviation is much smaller than the mean: we could
-# summarize that our cross-validation estimate of the testing error is
-# 46.36 +/- 1.17 k\$.
+# summarize that our cross-validation estimate of the testing error is 46.36 ±
+# 1.17 k\$.
 #
 # If we were to train a single model on the full dataset (without
-# cross-validation) and then had later access to an unlimited amount of test
-# data, we would expect its true testing error to fall close to that
-# region.
+# cross-validation) and then later had access to an unlimited amount of test
+# data, we would expect its true testing error to fall close to that region.
 #
 # While this information is interesting in itself, it should be contrasted to
 # the scale of the natural variability of the vector `target` in our dataset.
@@ -266,7 +291,7 @@ print(f"The standard deviation of the testing error is: "
 # Let us plot the distribution of the target variable:
 
 # %%
-target.plot.hist(bins=20, edgecolor="black", density=True)
+target.plot.hist(bins=20, edgecolor="black")
 plt.xlabel("Median House Value (k$)")
 _ = plt.title("Target distribution")
 
@@ -279,7 +304,7 @@ print(f"The standard deviation of the target is: {target.std():.2f} k$")
 #
 # We notice that the mean estimate of the testing error obtained by
 # cross-validation is a bit smaller than the natural scale of variation of the
-# target variable. Furthermore the standard deviation of the cross validation
+# target variable. Furthermore, the standard deviation of the cross validation
 # estimate of the testing error is even smaller.
 #
 # This is a good start, but not necessarily enough to decide whether the
@@ -296,15 +321,15 @@ print(f"The standard deviation of the target is: {target.std():.2f} k$")
 # mean absolute percentage error would have been a much better choice.
 #
 # But in all cases, an error of 47 k\$ might be too large to automatically use
-# our model to tag house value without expert supervision.
+# our model to tag house values without expert supervision.
 #
 # ## More detail regarding `cross_validate`
 #
 # During cross-validation, many models are trained and evaluated. Indeed, the
 # number of elements in each array of the output of `cross_validate` is a
-# result from one of this `fit`/`score`. To make it explicit, it is possible
-# to retrieve theses fitted models for each of the fold by passing the option
-# `return_estimator=True` in `cross_validate`.
+# result from one of these `fit`/`score` procedures. To make it explicit, it is
+# possible to retrieve these fitted models for each of the splits/folds by
+# passing the option `return_estimator=True` in `cross_validate`.
 
 # %%
 cv_results = cross_validate(regressor, data, target, return_estimator=True)
@@ -319,7 +344,7 @@ cv_results["estimator"]
 # because it allows to inspect the internal fitted parameters of these
 # regressors.
 #
-# In the case where you are interested only about the test score, scikit-learn
+# In the case where you only are interested in the test score, scikit-learn
 # provide a `cross_val_score` function. It is identical to calling the
 # `cross_validate` function and to select the `test_score` only (as we
 # extensively did in the previous notebooks).
@@ -338,4 +363,4 @@ scores
 # * the necessity of splitting the data into a train and test set;
 # * the meaning of the training and testing errors;
 # * the overall cross-validation framework with the possibility to study
-#   statistical performance variations;
+#   generalization performance variations.

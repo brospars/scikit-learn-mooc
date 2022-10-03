@@ -1,9 +1,16 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # The blood transfusion dataset
 #
 # In this notebook, we will present the "blood transfusion" dataset. This
 # dataset is locally available in the directory `datasets` and it is stored as
-# a comma separeted value (CSV) file. We start by loading the entire dataset.
+# a comma separated value (CSV) file. We start by loading the entire dataset.
 
 # %%
 import pandas as pd
@@ -56,7 +63,7 @@ data.info()
 # distributions.
 
 # %%
-_ = data.hist(figsize=(12, 10), bins=30, edgecolor="black", density=True)
+_ = data.hist(figsize=(12, 10), bins=30, edgecolor="black")
 
 # %% [markdown]
 # There is nothing shocking regarding the distributions. We only observe a high
@@ -90,7 +97,7 @@ target.value_counts(normalize=True)
 # important: a classifier that would predict always this `"not donated"` class
 # would achieve an accuracy of 76% of good classification without using any
 # information from the data itself. This issue is known as class imbalance. One
-# should take care about the statistical performance metric used to evaluate a
+# should take care about the generalization performance metric used to evaluate a
 # model as well as the predictive model chosen itself.
 #
 # Now, let's have a naive analysis to see if there is a link between features
@@ -104,7 +111,7 @@ _ = sns.pairplot(blood_transfusion, hue="Class")
 # %% [markdown]
 # Looking at the diagonal plots, we don't see any feature that individually
 # could help at separating the two classes. When looking at a pair of feature,
-# we don't see any stricking combinations as well. However, we can note that
+# we don't see any striking combinations as well. However, we can note that
 # the `"Monetary"` and `"Frequency"` features are perfectly correlated: all the
 # data points are aligned on a diagonal.
 #

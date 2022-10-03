@@ -1,8 +1,22 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Classification
 #
+# Machine learning models rely on optimizing an objective function, by seeking
+# its minimum or maximum. It is important to understand that this objective
+# function is usually decoupled from the evaluation metric that we want to
+# optimize in practice. The objective function serves as a proxy for the
+# evaluation metric. Therefore, in the upcoming notebooks, we will present
+# the different evaluation metrics used in machine learning.
+#
 # This notebook aims at giving an overview of the classification metrics that
-# can be used to evaluate the predictive model statistical performance. We can
+# can be used to evaluate the predictive model generalization performance. We can
 # recall that in a classification setting, the vector `target` is categorical
 # rather than continuous.
 #
@@ -33,7 +47,7 @@ _ = plt.title("Number of samples per classes present\n in the target")
 
 # %% [markdown]
 # We can see that the vector `target` contains two classes corresponding to
-# whether a subject gave blood We will use a logistic regression classifier to
+# whether a subject gave blood. We will use a logistic regression classifier to
 # predict this outcome.
 #
 # To focus on the metrics presentation, we will only use a single split instead
@@ -58,15 +72,22 @@ classifier.fit(data_train, target_train)
 
 # %% [markdown]
 # ## Classifier predictions
-# Before we go into details regarding the metrics, we will recall what type
-# of predictions a classifier can provide.
+# Before we go into details regarding the metrics, we will recall what type of
+# predictions a classifier can provide.
 #
 # For this reason, we will create a synthetic sample for a new potential donor:
-# he/she donated blood twice in the past (1000 c.c. each time). The last time
-# was 6 months ago, and the first time goes back to 20 months ago.
+# they donated blood twice in the past (1000 c.c. each time). The last time was
+# 6 months ago, and the first time goes back to 20 months ago.
 
 # %%
-new_donor = [[6, 2, 1000, 20]]
+new_donor = pd.DataFrame(
+    {
+        "Recency": [6],
+        "Frequency": [2],
+        "Monetary": [1000],
+        "Time": [20],
+    }
+)
 
 # %% [markdown]
 # We can get the class predicted by the classifier by calling the method
@@ -100,7 +121,7 @@ target_test == target_predicted
 # In the comparison above, a `True` value means that the value predicted by our
 # classifier is identical to the real value, while a `False` means that our
 # classifier made a mistake. One way of getting an overall rate representing
-# the statistical performance of our classifier would be to compute how many
+# the generalization performance of our classifier would be to compute how many
 # times our classifier was right and divide it by the number of samples in our
 # set.
 
@@ -130,18 +151,18 @@ classifier.score(data_test, target_test)
 # %% [markdown]
 # ## Confusion matrix and derived metrics
 # The comparison that we did above and the accuracy that we calculated did not
-# take into account the type of error our classifier was making. Accuracy
-# is an aggregate of the errors made by the classifier. We may be interested
-# in finer granularity - to know independently what the error is for each of
-# the two following cases:
+# take into account the type of error our classifier was making. Accuracy is an
+# aggregate of the errors made by the classifier. We may be interested in finer
+# granularity - to know independently what the error is for each of the two
+# following cases:
 #
-# - we predicted that a person will give blood but she/he did not;
-# - we predicted that a person will not give blood but she/he did.
+# - we predicted that a person will give blood but they did not;
+# - we predicted that a person will not give blood but they did.
 
 # %%
-from sklearn.metrics import plot_confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
 
-_ = plot_confusion_matrix(classifier, data_test, target_test)
+_ = ConfusionMatrixDisplay.from_estimator(classifier, data_test, target_test)
 
 # %% [markdown]
 # The in-diagonal numbers are related to predictions that were correct
@@ -160,7 +181,7 @@ _ = plot_confusion_matrix(classifier, data_test, target_test)
 #   people who did not give blood but were predicted to have given blood.
 #
 # Once we have split this information, we can compute metrics to highlight the
-# statistical performance of our classifier in a particular setting. For
+# generalization performance of our classifier in a particular setting. For
 # instance, we could be interested in the fraction of people who really gave
 # blood when the classifier predicted so or the fraction of people predicted to
 # have given blood out of the total population that actually did so.
@@ -269,7 +290,7 @@ np.all(equivalence_pred_proba)
 
 # %% [markdown]
 # The default decision threshold (0.5) might not be the best threshold that
-# leads to optimal statistical performance of our classifier. In this case, one
+# leads to optimal generalization performance of our classifier. In this case, one
 # can vary the decision threshold, and therefore the underlying prediction, and
 # compute the same statistics presented earlier. Usually, the two metrics
 # recall and precision are computed and plotted on a graph. Each metric plotted
@@ -277,12 +298,13 @@ np.all(equivalence_pred_proba)
 # decision threshold. Let's start by computing the precision-recall curve.
 
 # %%
-from sklearn.metrics import plot_precision_recall_curve
+from sklearn.metrics import PrecisionRecallDisplay
 
-disp = plot_precision_recall_curve(
+disp = PrecisionRecallDisplay.from_estimator(
     classifier, data_test, target_test, pos_label='donated',
     marker="+"
 )
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
 _ = disp.ax_.set_title("Precision-recall curve")
 
 # %% [markdown]
@@ -314,192 +336,23 @@ _ = disp.ax_.set_title("Precision-recall curve")
 # (ROC) curve. Below is such a curve:
 
 # %%
-from sklearn.metrics import plot_roc_curve
+from sklearn.metrics import RocCurveDisplay
 
-disp = plot_roc_curve(
+disp = RocCurveDisplay.from_estimator(
     classifier, data_test, target_test, pos_label='donated',
     marker="+")
-disp = plot_roc_curve(
+disp = RocCurveDisplay.from_estimator(
     dummy_classifier, data_test, target_test, pos_label='donated',
     color="tab:orange", linestyle="--", ax=disp.ax_)
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
 _ = disp.ax_.set_title("ROC AUC curve")
 
 # %% [markdown]
 # This curve was built using the same principle as the precision-recall curve:
 # we vary the probability threshold for determining "hard" prediction and
 # compute the metrics. As with the precision-recall curve, we can compute the
-# area under the ROC (ROC-AUC) to characterize the statistical performance of
+# area under the ROC (ROC-AUC) to characterize the generalization performance of
 # our classifier. However, it is important to observe that the lower bound of
-# the ROC-AUC is 0.5. Indeed, we show the statistical performance of a dummy
-# classifier (the orange dashed line) to show that even the worst statistical
+# the ROC-AUC is 0.5. Indeed, we show the generalization performance of a dummy
+# classifier (the orange dashed line) to show that even the worst generalization
 # performance obtained will be above this line.
-#
-# ## Link between confusion matrix, precision-recall curve and ROC curve
-#
-# TODO: ipywidgets to play with interactive curve
-
-
-# %%
-import matplotlib.pyplot as plt
-from sklearn.metrics import precision_recall_curve
-from sklearn.metrics import average_precision_score
-
-
-def plot_pr_curve(classifier, X_test, y_test, pos_label,
-                  probability_threshold, ax):
-    y_pred = classifier.predict_proba(X_test)
-    precision, recall, threshold = precision_recall_curve(
-        y_test, y_pred[:, 0], pos_label=pos_label,
-    )
-    average_precision = average_precision_score(
-        y_test, y_pred[:, 0], pos_label=pos_label,
-    )
-    ax.plot(
-        recall, precision,
-        color="tab:orange", linewidth=3,
-        label=f"Average Precision: {average_precision:.2f}",
-    )
-    threshold_idx = np.searchsorted(
-        threshold, probability_threshold,
-    )
-    ax.plot(
-        recall[threshold_idx], precision[threshold_idx],
-        color="tab:blue", marker=".", markersize=10,
-    )
-    ax.plot(
-        [recall[threshold_idx], recall[threshold_idx]],
-        [0, precision[threshold_idx]],
-        '--', color="tab:blue",
-    )
-    ax.plot(
-        [0, recall[threshold_idx]],
-        [precision[threshold_idx], precision[threshold_idx]],
-        '--', color="tab:blue",
-    )
-    ax.set_xlabel(f"Recall")
-    ax.set_ylabel(f"Precision")
-    ax.set_xlim([0, 1])
-    ax.set_ylim([0, 1])
-    ax.legend()
-    return ax
-
-
-# %%
-from sklearn.metrics import roc_auc_score
-from sklearn.metrics import roc_curve
-
-
-def plot_roc_curve(classifier, X_test, y_test, pos_label,
-                   probability_threshold, ax):
-    y_pred = classifier.predict_proba(X_test)
-    fpr, tpr, threshold = roc_curve(y_test, y_pred[:, 0], pos_label=pos_label)
-    roc_auc = roc_auc_score(y_test, y_pred[:, 1])
-    ax.plot(
-        fpr, tpr,
-        color="tab:orange", linewidth=3,
-        label=f"ROC-AUC: {roc_auc:.2f}"
-    )
-    ax.plot([0, 1], [0, 1], "--", color="tab:green", label="Chance")
-    threshold_idx = np.searchsorted(
-        threshold[::-1], probability_threshold,
-    )
-    threshold_idx = len(threshold) - threshold_idx - 1
-    ax.plot(
-        fpr[threshold_idx], tpr[threshold_idx],
-        color="tab:blue", marker=".", markersize=10,
-    )
-    ax.plot(
-        [fpr[threshold_idx], fpr[threshold_idx]],
-        [0, tpr[threshold_idx]],
-        '--', color="tab:blue",
-    )
-    ax.plot(
-        [0, fpr[threshold_idx]],
-        [tpr[threshold_idx], tpr[threshold_idx]],
-        '--', color="tab:blue",
-    )
-    ax.set_xlabel(f"1 - Specificity")
-    ax.set_ylabel(f"Sensitivity")
-    ax.set_xlim([0, 1])
-    ax.set_ylim([0, 1])
-    ax.legend()
-    return ax
-
-
-# %%
-def plot_confusion_matrix_with_threshold(classifier, X_test, y_test, pos_label,
-                                         probability_threshold, ax):
-    from itertools import product
-    from sklearn.metrics import confusion_matrix
-
-    class_idx = np.where(classifier.classes_ == pos_label)[0][0]
-    n_classes = len(classifier.classes_)
-
-    y_pred = classifier.predict_proba(X_test)
-    y_pred = (y_pred[:, class_idx] > probability_threshold).astype(int)
-
-    cm = confusion_matrix(
-        (y_test == pos_label).astype(int), y_pred,
-    )
-    im_ = ax.imshow(cm, interpolation='nearest')
-
-    text_ = None
-    cmap_min, cmap_max = im_.cmap(0), im_.cmap(256)
-
-    text_ = np.empty_like(cm, dtype=object)
-
-    # print text with appropriate color depending on background
-    thresh = (cm.max() + cm.min()) / 2.0
-
-    for i, j in product(range(n_classes), range(n_classes)):
-        color = cmap_max if cm[i, j] < thresh else cmap_min
-
-        text_cm = format(cm[i, j], '.2g')
-        if cm.dtype.kind != 'f':
-            text_d = format(cm[i, j], 'd')
-            if len(text_d) < len(text_cm):
-                text_cm = text_d
-
-        text_[i, j] = ax.text(
-            j, i, text_cm, ha="center", va="center", color=color
-        )
-
-    ax.set(
-        xticks=np.arange(n_classes),
-        yticks=np.arange(n_classes),
-        xticklabels=classifier.classes_[[int(not bool(class_idx)), class_idx]],
-        yticklabels=classifier.classes_[[int(not bool(class_idx)), class_idx]],
-        ylabel="True label",
-        xlabel="Predicted label"
-    )
-
-
-# %%
-def plot_pr_roc(threshold):
-    # FIXME: we could optimize the plotting by only updating the the
-    fig, axs = plt.subplots(ncols=3, figsize=(21, 6))
-    plot_pr_curve(
-        classifier, data_test, target_test, pos_label="donated",
-        probability_threshold=threshold, ax=axs[0],
-    )
-    plot_roc_curve(
-        classifier, data_test, target_test, pos_label="donated",
-        probability_threshold=threshold, ax=axs[1]
-    )
-    plot_confusion_matrix_with_threshold(
-        classifier, data_test, target_test, pos_label="donated",
-        probability_threshold=threshold, ax=axs[2]
-    )
-    fig.suptitle(
-        "Overall statistical performance with positive class 'donated'")
-
-
-# %%
-def plot_pr_roc_interactive():
-    from ipywidgets import interactive, FloatSlider
-    slider = FloatSlider(min=0, max=1, step=0.01, value=0.5)
-    return interactive(plot_pr_roc, threshold=slider)
-
-
-# %%
-plot_pr_roc_interactive()

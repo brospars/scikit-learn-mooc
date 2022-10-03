@@ -1,10 +1,17 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Regression
 #
 # In this notebook, we will present the metrics that can be used in regression.
 #
 # A set of metrics are dedicated to regression. Indeed, classification metrics
-# cannot be used to evaluate the statistical performance of regression models
+# cannot be used to evaluate the generalization performance of regression models
 # because there is a fundamental difference between their target type `target`:
 # it is a continuous variable in regression, while a discrete variable in
 # classification.
@@ -112,7 +119,7 @@ print(f"Mean absolute error: "
 
 # %% [markdown]
 # By computing the mean absolute error, we can interpret that our model is
-# predicting on average 22.6 k$ away from the true house price. A disadvantage
+# predicting on average 22.6 k\$ away from the true house price. A disadvantage
 # of this metric is that the mean can be impacted by large error. For some
 # applications, we might not want these large errors to have such a big
 # influence on our metric. In this case we can use the median absolute error.
@@ -125,8 +132,8 @@ print(f"Median absolute error: "
 
 # %% [markdown]
 # The mean absolute error (or median absolute error) still have a known
-# limitation: committing an error of 50 k$ for an house valued at 50 k$ has the
-# same impact than committing an error of 50 k$ for an house valued at 500 k$.
+# limitation: committing an error of 50 k\$ for a house valued at 50 k\$ has the
+# same impact than committing an error of 50 k\$ for a house valued at 500 k\$.
 # Indeed, the mean absolute error is not relative.
 #
 # The mean absolute percentage error introduce this relative scaling.
@@ -151,8 +158,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 sns.scatterplot(data=predicted_actual,
-                x="True values (k$)", y="Predicted values (k$)")
-plt.axline((0, 0), slope=1, color="tab:orange", label="Perfect fit")
+                x="True values (k$)", y="Predicted values (k$)",
+                color="black", alpha=0.5)
+plt.axline((0, 0), slope=1, label="Perfect fit")
 plt.axis('square')
 _ = plt.title("Regression using a model without \ntarget transformation")
 
@@ -184,8 +192,9 @@ predicted_actual = pd.DataFrame(predicted_actual)
 
 # %%
 sns.scatterplot(data=predicted_actual,
-                x="True values (k$)", y="Predicted values (k$)")
-plt.axline((0, 0), slope=1, color="tab:orange", label="Perfect fit")
+                x="True values (k$)", y="Predicted values (k$)",
+                color="black", alpha=0.5)
+plt.axline((0, 0), slope=1, label="Perfect fit")
 plt.axis('square')
 plt.legend()
 _ = plt.title("Regression using a model that\n transform the target before "

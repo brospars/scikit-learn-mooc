@@ -1,3 +1,10 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Gradient-boosting decision tree (GBDT)
 #
@@ -64,12 +71,18 @@ tree.fit(data_train, target_train)
 target_train_predicted = tree.predict(data_train)
 target_test_predicted = tree.predict(data_test)
 
+# %% [markdown]
+# Using the term "test" here refers to data that was not used for training.
+# It should not be confused with data coming from a train-test split, as it
+# was generated in equally-spaced intervals for the visual evaluation of the
+# predictions.
+
 # %%
 # plot the data
 sns.scatterplot(x=data_train["Feature"], y=target_train, color="black",
                 alpha=0.5)
 # plot the predictions
-line_predictions = plt.plot(data_test, target_test_predicted, "--")
+line_predictions = plt.plot(data_test["Feature"], target_test_predicted, "--")
 
 # plot the residuals
 for value, true, predicted in zip(data_train["Feature"],
@@ -110,7 +123,8 @@ target_test_predicted_residuals = tree_residuals.predict(data_test)
 
 # %%
 sns.scatterplot(x=data_train["Feature"], y=residuals, color="black", alpha=0.5)
-line_predictions = plt.plot(data_test, target_test_predicted_residuals, "--")
+line_predictions = plt.plot(
+    data_test["Feature"], target_test_predicted_residuals, "--")
 
 # plot the residuals of the predicted residuals
 for value, true, predicted in zip(data_train["Feature"],
@@ -119,18 +133,22 @@ for value, true, predicted in zip(data_train["Feature"],
     lines_residuals = plt.plot([value, value], [true, predicted], color="red")
 
 plt.legend([line_predictions[0], lines_residuals[0]],
-           ["Fitted tree", "Residuals"])
+           ["Fitted tree", "Residuals"], bbox_to_anchor=(1.05, 0.8),
+           loc="upper left")
 _ = plt.title("Prediction of the previous residuals")
 
 # %% [markdown]
 # We see that this new tree only manages to fit some of the residuals. We will
-# focus on the last sample in `data_train` and explain how the predictions of
-# both trees are combined. Let's first select the last sample in `data_train`.
+# focus on a specific sample from the training set (i.e. we know that the
+# sample will be well predicted using two successive trees). We will use this
+# sample to explain how the predictions of both trees are combined. Let's first
+# select this sample in `data_train`.
 
 # %%
-data_max = data_train.iloc[-1, 0]
-target_true = target_train.iloc[-1]
-target_true_residual = residuals.iloc[-1]
+sample = data_train.iloc[[-2]]
+x_sample = sample['Feature'].iloc[0]
+target_true = target_train.iloc[-2]
+target_true_residual = residuals.iloc[-2]
 
 # %% [markdown]
 # Let's plot the previous information and highlight our sample of interest.
@@ -145,17 +163,17 @@ target_true_residual = residuals.iloc[-1]
 
 sns.scatterplot(x=data_train["Feature"], y=target_train, color="black",
                 alpha=0.5)
-plt.plot(data_test, target_test_predicted, "--")
+plt.plot(data_test["Feature"], target_test_predicted, "--")
 for value, true, predicted in zip(data_train["Feature"],
                                   target_train,
                                   target_train_predicted):
     lines_residuals = plt.plot([value, value], [true, predicted], color="red")
 
 # Highlight the sample of interest
-plt.scatter(data_max, target_true, label="Sample of interest",
+plt.scatter(sample, target_true, label="Sample of interest",
             color="tab:orange", s=200)
-plt.xlim([-0.5, 0])
-plt.legend()
+plt.xlim([-1, 0])
+plt.legend(bbox_to_anchor=(1.05, 0.8), loc="upper left")
 _ = plt.title("Tree predictions")
 
 # %% [markdown]
@@ -170,16 +188,16 @@ _ = plt.title("Tree predictions")
 
 sns.scatterplot(x=data_train["Feature"], y=residuals,
                 color="black", alpha=0.5)
-plt.plot(data_test, target_test_predicted_residuals, "--")
+plt.plot(data_test["Feature"], target_test_predicted_residuals, "--")
 for value, true, predicted in zip(data_train["Feature"],
                                   residuals,
                                   target_train_predicted_residuals):
     lines_residuals = plt.plot([value, value], [true, predicted], color="red")
 
 # Highlight the sample of interest
-plt.scatter(data_max, target_true_residual, label="Sample of interest",
+plt.scatter(sample, target_true_residual, label="Sample of interest",
             color="tab:orange", s=200)
-plt.xlim([-0.5, 0])
+plt.xlim([-1, 0])
 plt.legend()
 _ = plt.title("Prediction of the residuals")
 
@@ -191,10 +209,11 @@ _ = plt.title("Prediction of the residuals")
 # and compare it with the true value.
 
 # %%
-print(f"True value to predict for f(x={data_max:.3f}) = {target_true:.3f}")
+print(f"True value to predict for "
+      f"f(x={x_sample:.3f}) = {target_true:.3f}")
 
-y_pred_first_tree = tree.predict([[data_max]])[0]
-print(f"Prediction of the first decision tree for x={data_max:.3f}: "
+y_pred_first_tree = tree.predict(sample)[0]
+print(f"Prediction of the first decision tree for x={x_sample:.3f}: "
       f"y={y_pred_first_tree:.3f}")
 print(f"Error of the tree: {target_true - y_pred_first_tree:.3f}")
 
@@ -203,31 +222,31 @@ print(f"Error of the tree: {target_true - y_pred_first_tree:.3f}")
 # tree to try to predict this residual.
 
 # %%
-print(f"Prediction of the residual for x={data_max:.3f}: "
-      f"{tree_residuals.predict([[data_max]])[0]:.3f}")
+print(f"Prediction of the residual for x={x_sample:.3f}: "
+      f"{tree_residuals.predict(sample)[0]:.3f}")
 
 # %% [markdown]
 # We see that our second tree is capable of predicting the exact residual
 # (error) of our first tree. Therefore, we can predict the value of `x` by
-# summing the prediction of the all trees in the ensemble.
+# summing the prediction of all the trees in the ensemble.
 
 # %%
 y_pred_first_and_second_tree = (
-    y_pred_first_tree + tree_residuals.predict([[data_max]])[0]
+    y_pred_first_tree + tree_residuals.predict(sample)[0]
 )
 print(f"Prediction of the first and second decision trees combined for "
-      f"x={data_max:.3f}: y={y_pred_first_and_second_tree:.3f}")
+      f"x={x_sample:.3f}: y={y_pred_first_and_second_tree:.3f}")
 print(f"Error of the tree: {target_true - y_pred_first_and_second_tree:.3f}")
 
 # %% [markdown]
 # We chose a sample for which only two trees were enough to make the perfect
 # prediction. However, we saw in the previous plot that two trees were not
 # enough to correct the residuals of all samples. Therefore, one needs to
-# add several trees to the ensemble to successfully correct the error.
+# add several trees to the ensemble to successfully correct the error
 # (i.e. the second tree corrects the first tree's error, while the third tree
-# corrects the second tree's error and so on.)
+# corrects the second tree's error and so on).
 #
-# We will compare the statistical performance of random-forest and gradient
+# We will compare the generalization performance of random-forest and gradient
 # boosting on the California housing dataset.
 
 # %%
@@ -241,13 +260,16 @@ target *= 100  # rescale the target in k$
 from sklearn.ensemble import GradientBoostingRegressor
 
 gradient_boosting = GradientBoostingRegressor(n_estimators=200)
-cv_results_gbdt = cross_validate(gradient_boosting, data, target, n_jobs=-1)
+cv_results_gbdt = cross_validate(
+    gradient_boosting, data, target, scoring="neg_mean_absolute_error",
+    n_jobs=2,
+)
 
 # %%
 print("Gradient Boosting Decision Tree")
-print(f"R2 score via cross-validation: "
-      f"{cv_results_gbdt['test_score'].mean():.3f} +/- "
-      f"{cv_results_gbdt['test_score'].std():.3f}")
+print(f"Mean absolute error via cross-validation: "
+      f"{-cv_results_gbdt['test_score'].mean():.3f} ± "
+      f"{cv_results_gbdt['test_score'].std():.3f} k$")
 print(f"Average fit time: "
       f"{cv_results_gbdt['fit_time'].mean():.3f} seconds")
 print(f"Average score time: "
@@ -256,14 +278,17 @@ print(f"Average score time: "
 # %%
 from sklearn.ensemble import RandomForestRegressor
 
-random_forest = RandomForestRegressor(n_estimators=200, n_jobs=-1)
-cv_results_rf = cross_validate(gradient_boosting, data, target, n_jobs=-1)
+random_forest = RandomForestRegressor(n_estimators=200, n_jobs=2)
+cv_results_rf = cross_validate(
+    random_forest, data, target, scoring="neg_mean_absolute_error",
+    n_jobs=2,
+)
 
 # %%
 print("Random Forest")
-print(f"R2 score via cross-validation: "
-      f"{cv_results_rf['test_score'].mean():.3f} +/- "
-      f"{cv_results_rf['test_score'].std():.3f}")
+print(f"Mean absolute error via cross-validation: "
+      f"{-cv_results_rf['test_score'].mean():.3f} ± "
+      f"{cv_results_rf['test_score'].std():.3f} k$")
 print(f"Average fit time: "
       f"{cv_results_rf['fit_time'].mean():.3f} seconds")
 print(f"Average score time: "

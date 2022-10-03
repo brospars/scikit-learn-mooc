@@ -1,7 +1,25 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Set and get hyperparameters in scikit-learn
 #
-# This notebook shows how one can get and set the value of hyperparameter in
+# The process of learning a predictive model is driven by a set of internal
+# parameters and a set of training data. These internal parameters are called
+# hyperparameters and are specific for each family of models. In addition, a
+# specific set of hyperparameters are optimal for a specific dataset and thus
+# they need to be optimized.
+#
+# ```{note}
+# In this notebook we will use the words "hyperparameters" and "parameters"
+# interchangeably.
+# ```
+#
+# This notebook shows how one can get and set the value of a hyperparameter in
 # a scikit-learn estimator. We recall that hyperparameters refer to the
 # parameter that will control the learning process.
 #
@@ -10,7 +28,7 @@
 # they are spelled with a final underscore `_`, for instance `model.coef_`.
 #
 # We will start by loading the adult census dataset and only use the numerical
-# feature.
+# features.
 
 # %%
 import pandas as pd
@@ -23,13 +41,6 @@ numerical_columns = [
 
 target = adult_census[target_name]
 data = adult_census[numerical_columns]
-
-# %% [markdown]
-# ```{caution}
-# Here and later, we use the name `data` and `target` to be explicit. In
-# scikit-learn, documentation `data` is commonly named `X` and `target` is
-# commonly called `y`.
-# ```
 
 # %% [markdown]
 # Our data is only numerical.
@@ -56,7 +67,7 @@ model = Pipeline(steps=[
 ])
 
 # %% [markdown]
-# We can evaluate the statistical performance of the model via
+# We can evaluate the generalization performance of the model via
 # cross-validation.
 
 # %%
@@ -65,25 +76,29 @@ from sklearn.model_selection import cross_validate
 cv_results = cross_validate(model, data, target)
 scores = cv_results["test_score"]
 print(f"Accuracy score via cross-validation:\n"
-      f"{scores.mean():.3f} +/- {scores.std():.3f}")
+      f"{scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
-# We created a model with the default `C` value that is equal to 1. We saw in
-# the previous exercise that we will be interested to set the value of an
-# hyperparameter. One possibility is to set the parameter when we create the
-# model instance. However, we might be interested to set the value of the
-# parameter after the instance is created.
+# We created a model with the default `C` value that is equal to 1. If we
+# wanted to use a different `C` parameter we could have done so when we created
+# the `LogisticRegression` object with something like `LogisticRegression(C=1e-3)`.
 #
-# Actually scikit-learn estimators have a `set_params` method that allows you
-# to change the parameter of a model after it has been created. For example, we
-# can set `C=1e-3` and fit and evaluate the model:
+# ```{note}
+# For more information on the model hyperparameter `C`, refer to the
+# [documentation](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html).
+# Be aware that we will focus on linear models in an upcoming module.
+# ```
+#
+# We can also change the parameter of a model after it has been created with
+# the `set_params` method, which is available for all scikit-learn estimators.
+# For example, we can set `C=1e-3`, fit and evaluate the model:
 
 # %%
 model.set_params(classifier__C=1e-3)
 cv_results = cross_validate(model, data, target)
 scores = cv_results["test_score"]
 print(f"Accuracy score via cross-validation:\n"
-      f"{scores.mean():.3f} +/- {scores.std():.3f}")
+      f"{scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
 # When the model of interest is a `Pipeline`, the parameter names are of the
@@ -108,7 +123,7 @@ for parameter in model.get_params():
 model.get_params()['classifier__C']
 
 # %% [markdown]
-# We can vary systematically the value of C to see if there is an optimal
+# We can systematically vary the value of C to see if there is an optimal
 # value.
 
 # %%
@@ -117,7 +132,7 @@ for C in [1e-3, 1e-2, 1e-1, 1, 10]:
     cv_results = cross_validate(model, data, target)
     scores = cv_results["test_score"]
     print(f"Accuracy score via cross-validation with C={C}:\n"
-          f"{scores.mean():.3f} +/- {scores.std():.3f}")
+          f"{scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
 # We can see that as long as C is high enough, the model seems to perform

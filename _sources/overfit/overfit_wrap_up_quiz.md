@@ -1,10 +1,10 @@
-# 🏁 Wrap-up quiz
+# 🏁 Wrap-up quiz 2
 
 **This quiz requires some programming to be answered.**
 
 Open the dataset `blood_transfusion.csv` with the following command:
 
-```py
+```python
 import pandas as pd
 
 blood_transfusion = pd.read_csv("../datasets/blood_transfusion.csv")
@@ -24,12 +24,10 @@ Select the correct answers from the following proposals.
   (exactly 2 possible classes)
 - c) The problem to be solved is a multiclass classification problem
   (more than 2 possible classes)
-- d) The proportions of the class counts are balanced: there are approximately
-  the same number of rows for each class
-- e) The proportions of the class counts are imbalanced: some classes have more
-  than twice as many rows than others)
+- d) The proportions of the class counts are imbalanced: some classes have more
+  than twice as many rows than others
 
-_Select several answers_
+_Select all answers that apply_
 
 Hint: `target.unique()`, and `target.value_counts()` are methods
 that are helpful to answer to this question.
@@ -60,7 +58,7 @@ and `sklearn.model_selection.cross_validate`
 ```{admonition} Question
 Repeat the previous experiment but compute the balanced accuracy instead of
 the accuracy score. Pass `scoring="balanced_accuracy"` when calling
-`cross_validate` or `cross_val_score` functions?
+`cross_validate` or `cross_val_score` functions, the mean score is:
 
 - a) ~25%
 - b) ~50%
@@ -77,7 +75,7 @@ for the remainder of this quiz.
 
 ```{admonition} Question
 Why is it relevant to add a preprocessing step to scale the data using a
-`StandardScaler` when working with a `KNearestNeighborsClassifier`?
+`StandardScaler` when working with a `KNeighborsClassifier`?
 
 - a) faster to compute the list of neighbors on scaled data
 - b) k-nearest neighbors is based on computing some distances. Features need
@@ -115,8 +113,9 @@ estimator.
 +++
 
 ```{admonition} Question
-Evaluate the previous model with a 10-fold cross-validation. What can you
-say about this model? Compare the train and test scores to argument your
+Set `n_neighbors=1` in the previous model and evaluate it using a 10-fold
+cross-validation. Use the balanced accuracy as a score. What can you say about
+this model? Compare the average of the train and test scores to argument your
 answer.
 
 - a) The model clearly underfits
@@ -135,7 +134,7 @@ function to also compute the train score.
 We will now study the effect of the parameter `n_neighbors` on the train and
 test score using a validation curve. You can use the following parameter range:
 
-```py
+```python
 param_range = [1, 2, 5, 10, 20, 50, 100, 200, 500]
 ```
 
@@ -151,12 +150,30 @@ Select the true affirmations stated below:
 - a) The model underfits for a range of `n_neighbors` values between 1 to 10
 - b) The model underfits for a range of `n_neighbors` values between 10 to 100
 - c) The model underfits for a range of `n_neighbors` values between 100 to 500
-- d) The model overfits for a range of `n_neighbors` values between 1 to 10
-- e) The model overfits for a range of `n_neighbors` values between 10 to 100
-- f) The model overfits for a range of `n_neighbors` values between 100 to 500
-- g) The model best generalizes for a range of `n_neighbors` values between 1 to 10
-- h) The model best generalizes for a range of `n_neighbors` values between 10 to 100
-- j) The model best generalizes for a range of `n_neighbors` values between 100 to 500
-
-_Select several answers_
 ```
+
+_Select a single answer_
+
++++
+
+```{admonition} Question
+Select the true affirmations stated below:
+
+- a) The model overfits for a range of `n_neighbors` values between 1 to 10
+- b) The model overfits for a range of `n_neighbors` values between 10 to 100
+- c) The model overfits for a range of `n_neighbors` values between 100 to 500
+```
+
+_Select a single answer_
+
++++
+
+```{admonition} Question
+Select which of the following statements are true:
+
+- a) The model best generalizes for a range of `n_neighbors` values between 1 to 10
+- b) The model best generalizes for a range of `n_neighbors` values between 10 to 100
+- c) The model best generalizes for a range of `n_neighbors` values between 100 to 500
+```
+
+_Select a single answer_

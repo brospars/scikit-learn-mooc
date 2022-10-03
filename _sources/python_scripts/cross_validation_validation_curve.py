@@ -1,3 +1,10 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Overfit-generalization-underfit
 #
@@ -6,7 +13,7 @@
 # as their fluctuations.
 #
 # In this notebook, we will put these two errors into perspective and show how
-# they can help us know if our model generalizes, overfit, or underfit.
+# they can help us know if our model generalizes, overfits, or underfits.
 #
 # Let's first load the data and create the same model as in the previous
 # notebook.
@@ -32,7 +39,7 @@ regressor = DecisionTreeRegressor()
 # %% [markdown]
 # ## Overfitting vs. underfitting
 #
-# To better understand the statistical performance of our model and maybe find
+# To better understand the generalization performance of our model and maybe find
 # insights on how to improve it, we will compare the testing error with the
 # training error. Thus, we need to compute the error on the training set,
 # which is possible using the `cross_validate` function.
@@ -48,7 +55,8 @@ cv_results = cross_validate(regressor, data, target,
 cv_results = pd.DataFrame(cv_results)
 
 # %% [markdown]
-# We will select the train and test score and take the error instead.
+# The cross-validation used the negative mean absolute error. We transform
+# the negative mean absolute error into a positive mean absolute error.
 
 # %%
 scores = pd.DataFrame()
@@ -58,7 +66,7 @@ scores[["train error", "test error"]] = -cv_results[
 # %%
 import matplotlib.pyplot as plt
 
-scores.plot.hist(bins=50, edgecolor="black", density=True)
+scores.plot.hist(bins=50, edgecolor="black")
 plt.xlabel("Mean absolute error (k$)")
 _ = plt.title("Train and test errors distribution via cross-validation")
 
@@ -81,8 +89,8 @@ _ = plt.title("Train and test errors distribution via cross-validation")
 # Some model hyperparameters are usually the key to go from a model that
 # underfits to a model that overfits, hopefully going through a region were we
 # can get a good balance between the two. We can acquire knowledge by plotting
-# a curve called the validation curve. This curve applies the above experiment
-# and varies the value of a hyperparameter.
+# a curve called the validation curve. This curve can also be applied to the
+# above experiment and varies the value of a hyperparameter.
 #
 # For the decision tree, the `max_depth` parameter is used to control the
 # tradeoff between under-fitting and over-fitting.
@@ -125,14 +133,14 @@ _ = plt.title("Validation curve for decision tree")
 #
 # - For `max_depth > 10`, the decision tree overfits. The training error
 #   becomes very small, while the testing error increases. In this
-#   region, the models create decision specifically for noisy samples harming
+#   region, the models create decisions specifically for noisy samples harming
 #   its ability to generalize to test data.
 #
 # Note that for `max_depth = 10`, the model overfits a bit as there is a gap
 # between the training error and the testing error. It can also
 # potentially underfit also a bit at the same time, because the training error
 # is still far from zero (more than 30 k\$), meaning that the model might
-# still be too constrained to model interesting parts of the data. However the
+# still be too constrained to model interesting parts of the data. However, the
 # testing error is minimal, and this is what really matters. This is the
 # best compromise we could reach by just tuning this parameter.
 #
@@ -164,5 +172,5 @@ _ = plt.title("Validation curve for decision tree")
 #
 # * how to identify whether a model is generalizing, overfitting, or
 #   underfitting;
-# * how to check influence of an hyperparameter on the tradeoff
+# * how to check influence of a hyperparameter on the tradeoff
 #   underfit/overfit.

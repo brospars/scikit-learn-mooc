@@ -1,8 +1,22 @@
+# -*- coding: utf-8 -*-
+# ---
+# jupyter:
+#   jupytext:
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.5
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
-# # 📝 Exercise 02
+# # 📝 Exercise M6.02
 #
 # The aim of this exercise it to explore some attributes available in
-# scikit-learn random forest.
+# scikit-learn's random forest.
 #
 # First, we will fit the penguins regression dataset.
 
@@ -11,9 +25,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 penguins = pd.read_csv("../datasets/penguins_regression.csv")
-feature_names = ["Flipper Length (mm)"]
+feature_name = "Flipper Length (mm)"
 target_name = "Body Mass (g)"
-data, target = penguins[feature_names], penguins[target_name]
+data, target = penguins[[feature_name]], penguins[target_name]
 data_train, data_test, target_train, target_test = train_test_split(
     data, target, random_state=0)
 
@@ -25,25 +39,35 @@ data_train, data_test, target_train, target_test = train_test_split(
 
 # %% [markdown]
 # Create a random forest containing three trees. Train the forest and
-# check the statistical performance on the testing set.
+# check the generalization performance on the testing set in terms of mean
+# absolute error.
 
 # %%
 # Write your code here.
 
 # %% [markdown]
-# The next steps of this exercise are to:
-#
-# - create a new dataset containing the penguins with a flipper length
-#   between 170 mm and 230 mm;
-# - plot the training data using a scatter plot;
-# - plot the decision of each individual tree by predicting on the newly
-#   created dataset;
-# - plot the decision of the random forest using this newly created dataset.
+# We now aim to plot the predictions from the individual trees in the forest.
+# For that purpose you have to create first a new dataset containing evenly
+# spaced values for the flipper length over the interval between 170 mm and 230
+# mm.
 
-# ```{tip}
-# The trees contained in the forest that you created can be accessed
-# with the attribute `estimators_`.
-# ```
+# %%
+# Write your code here.
+
+# %% [markdown]
+# The trees contained in the forest that you created can be accessed with the
+# attribute `estimators_`. Use them to predict the body mass corresponding to
+# the values in this newly created dataset. Similarly find the predictions of
+# the random forest in this dataset.
+
+# %%
+# Write your code here.
+
+# %% [markdown]
+# Now make a plot that displays:
+# - the whole `data` using a scatter plot;
+# - the decision of each individual tree;
+# - the decision of the random forest.
 
 # %%
 # Write your code here.

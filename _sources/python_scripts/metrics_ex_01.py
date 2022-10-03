@@ -1,5 +1,19 @@
+# -*- coding: utf-8 -*-
+# ---
+# jupyter:
+#   jupytext:
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.5
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
-# # 📝 Exercise 01
+# # 📝 Exercise M7.02
 #
 # We presented different classification metrics in the previous notebook.
 # However, we did not use it with a cross-validation. This exercise aims at

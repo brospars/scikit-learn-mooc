@@ -1,5 +1,19 @@
+# -*- coding: utf-8 -*-
+# ---
+# jupyter:
+#   jupytext:
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.5
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
-# # 📝 Exercise 04
+# # 📝 Exercise M4.04
 #
 # In the previous notebook, we saw the effect of applying some regularization
 # on the coefficient of a linear model.
@@ -14,8 +28,13 @@
 from sklearn.datasets import make_regression
 
 data, target, coef = make_regression(
-    n_samples=2_000, n_features=5, n_informative=2, shuffle=False,
-    coef=True, random_state=0, noise=30,
+    n_samples=2_000,
+    n_features=5,
+    n_informative=2,
+    shuffle=False,
+    coef=True,
+    random_state=0,
+    noise=30,
 )
 
 # %% [markdown]
@@ -25,7 +44,13 @@ data, target, coef = make_regression(
 # %%
 import pandas as pd
 
-feature_names = [f"Features {i}" for i in range(data.shape[1])]
+feature_names = [
+    "Relevant feature #0",
+    "Relevant feature #1",
+    "Noisy feature #0",
+    "Noisy feature #1",
+    "Noisy feature #2",
+]
 coef = pd.Series(coef, index=feature_names)
 coef.plot.barh()
 coef
@@ -36,21 +61,7 @@ coef
 # regressor close to the coefficients used to generate the dataset?
 
 # %%
-from sklearn.linear_model import LinearRegression
-
-linear_regression = LinearRegression()
-linear_regression.fit(data, target)
-linear_regression.coef_
-
-# %%
-feature_names = [f"Features {i}" for i in range(data.shape[1])]
-coef = pd.Series(linear_regression.coef_, index=feature_names)
-_ = coef.plot.barh()
-
-# %% [markdown]
-# We see that the coefficients are close to the coefficients used to generate
-# the dataset. The dispersion is indeed cause by the noise injected during the
-# dataset generation.
+# Write your code here.
 
 # %% [markdown]
 # Now, create a new dataset that will be the same as `data` with 4 additional

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
@@ -5,22 +6,21 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.11.5
 #   kernelspec:
 #     display_name: Python 3
-#     language: python
 #     name: python3
 # ---
 
 # %% [markdown]
-# # 📝 Exercise 02
+# # 📝 Exercise M1.05
 #
 # The goal of this exercise is to evaluate the impact of feature preprocessing
-# on a pipeline that uses a decision-tree-based classifier instead of logistic
+# on a pipeline that uses a decision-tree-based classifier instead of a logistic
 # regression.
 #
 # - The first question is to empirically evaluate whether scaling numerical
-#   feature is helpful or not;
+#   features is helpful or not;
 # - The second question is to evaluate whether it is empirically better (both
 #   from a computational and a statistical perspective) to use integer coded or
 #   one-hot encoded categories.
@@ -33,11 +33,11 @@ adult_census = pd.read_csv("../datasets/adult-census.csv")
 # %%
 target_name = "class"
 target = adult_census[target_name]
-data = adult_census.drop(columns=[target_name, "fnlwgt", "education-num"])
+data = adult_census.drop(columns=[target_name, "education-num"])
 
 # %% [markdown]
 # As in the previous notebooks, we use the utility `make_column_selector`
-# to only select column with a specific data type. Besides, we list in
+# to select only columns with a specific data type. Besides, we list in
 # advance all categories for the categorical columns.
 
 # %%
@@ -55,12 +55,12 @@ categorical_columns = categorical_columns_selector(data)
 # reference:
 
 # %%
-# %%time
+import time
+
 from sklearn.model_selection import cross_validate
 from sklearn.pipeline import make_pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OrdinalEncoder
-from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingClassifier
 
 categorical_preprocessor = OrdinalEncoder(handle_unknown="use_encoded_value",
@@ -70,10 +70,16 @@ preprocessor = ColumnTransformer([
     remainder="passthrough")
 
 model = make_pipeline(preprocessor, HistGradientBoostingClassifier())
+
+start = time.time()
 cv_results = cross_validate(model, data, target)
+elapsed_time = time.time() - start
+
 scores = cv_results["test_score"]
-print(f"The different scores obtained are: \n{scores}")
-print(f"The accuracy is: {scores.mean():.3f} +- {scores.std():.3f}")
+
+print("The mean cross-validation accuracy is: "
+      f"{scores.mean():.3f} ± {scores.std():.3f} "
+      f"with a fitting time of {elapsed_time:.3f}")
 
 # %% [markdown]
 # ## Scaling numerical features
@@ -87,16 +93,16 @@ print(f"The accuracy is: {scores.mean():.3f} +- {scores.std():.3f}")
 # %% [markdown]
 # ## One-hot encoding of categorical variables
 #
-# For linear models, we have observed that integer coding of categorical
-# variables can be very detrimental. However for
-# `HistGradientBoostingClassifier` models, it does not seem to be the case as
-# the cross-validation of the reference pipeline with `OrdinalEncoder` is good.
+# We observed that integer coding of categorical variables can be very
+# detrimental for linear models. However, it does not seem to be the case for
+# `HistGradientBoostingClassifier` models, as the cross-validation score
+# of the reference pipeline with `OrdinalEncoder` is reasonably good.
 #
 # Let's see if we can get an even better accuracy with `OneHotEncoder`.
 #
 # Hint: `HistGradientBoostingClassifier` does not yet support sparse input
 # data. You might want to use
-# `OneHotEncoder(handle_unknown="ignore", sparse=False)` to force the use a
+# `OneHotEncoder(handle_unknown="ignore", sparse=False)` to force the use of a
 # dense representation as a workaround.
 
 # %%

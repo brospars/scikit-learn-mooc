@@ -1,3 +1,10 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # The California housing dataset
 #
@@ -23,9 +30,9 @@ print(california_housing.DESCR)
 california_housing.frame.head()
 
 # %% [markdown]
-# A written in the descritpion, the dataset contains aggregated data regarding
-# each district in California. Let's have a close look at the features that
-# can be used by a predictive model.
+# As written in the description, the dataset contains aggregated data regarding
+# each district in California. Let's have a close look at the features that can
+# be used by a predictive model.
 
 # %%
 california_housing.data.head()
@@ -96,7 +103,7 @@ california_housing.frame[features_of_interest].describe()
 
 # %% [markdown]
 # For each of these features, comparing the `max` and `75%` values, we can see
-# an huge difference. It confirms the intuitions that there are a couple of
+# a huge difference. It confirms the intuitions that there are a couple of
 # extreme values.
 #
 # Up to know, we discarded the longitude and latitude that carry geographical
@@ -119,7 +126,7 @@ _ = plt.title("Median house value depending of\n their spatial location")
 # %% [markdown]
 # If you are not familiar with the state of California, it is interesting to
 # notice that all datapoints show a graphical representation of this state.
-# We note that the high-valued houses will be located on the cost, where the
+# We note that the high-valued houses will be located on the coast, where the
 # big cities from California are located: San Diego, Los Angeles, San Jose, or
 # San Francisco.
 #
@@ -183,11 +190,11 @@ alphas = np.logspace(-3, 1, num=30)
 model = make_pipeline(StandardScaler(), RidgeCV(alphas=alphas))
 cv_results = cross_validate(
     model, california_housing.data, california_housing.target,
-    return_estimator=True, n_jobs=-1)
+    return_estimator=True, n_jobs=2)
 
 # %%
 score = cv_results["test_score"]
-print(f"R2 score: {score.mean():.3f} +/- {score.std():.3f}")
+print(f"R2 score: {score.mean():.3f} ± {score.std():.3f}")
 
 # %%
 import pandas as pd

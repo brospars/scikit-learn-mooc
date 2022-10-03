@@ -1,3 +1,10 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Working with numerical data
 #
@@ -27,6 +34,8 @@
 import pandas as pd
 
 adult_census = pd.read_csv("../datasets/adult-census.csv")
+# drop the duplicated column `"education-num"` as stated in the first notebook
+adult_census = adult_census.drop(columns="education-num")
 adult_census.head()
 
 # %% [markdown]
@@ -43,9 +52,9 @@ data.head()
 target
 
 # %% [markdown]
-# ```{caution}
+# ```{note}
 # Here and later, we use the name `data` and `target` to be explicit. In
-# scikit-learn, documentation `data` is commonly named `X` and `target` is
+# scikit-learn documentation, `data` is commonly named `X` and `target` is
 # commonly called `y`.
 # ```
 
@@ -77,14 +86,14 @@ target
 data.dtypes
 
 # %% [markdown]
-# We seem to have only two data types. We can make sure by checking the unique
-# data types.
+# We seem to have only two data types: `int64` and `object`. We can make
+# sure by checking for unique data types.
 
 # %%
 data.dtypes.unique()
 
 # %% [markdown]
-# Indeed, the only two types in the dataset are integer and object.
+# Indeed, the only two types in the dataset are integer `int64` and `object`.
 # We can look at the first few lines of the dataframe to understand the
 # meaning of the `object` data type.
 
@@ -98,15 +107,13 @@ data.head()
 # integers and check their content.
 
 # %%
-numerical_columns = [
-    "age", "education-num", "capital-gain", "capital-loss",
-    "hours-per-week", "fnlwgt"]
+numerical_columns = ["age", "capital-gain", "capital-loss", "hours-per-week"]
 data[numerical_columns].head()
 
 # %% [markdown]
 # Now that we limited the dataset to numerical columns only,
-# we can analyse these numbers to figure out what they represent.
-# Discarding `"fnlwgt"` for the moment, we can identify two types of usage.
+# we can analyse these numbers to figure out what they represent. We can
+# identify two types of usage.
 #
 # The first column, `"age"`, is self-explanatory. We can note that the values
 # are continuous, meaning they can take up any number in a given range. Let's
@@ -119,106 +126,112 @@ data["age"].describe()
 # We can see the age varies between 17 and 90 years.
 #
 # We could extend our analysis and we will find that `"capital-gain"`,
-# `"capital-loss"`, `"hours-per-week"` and `"fnlwgt"` are also representing
-# quantitative data.
+# `"capital-loss"`, and `"hours-per-week"` are also representing quantitative
+# data.
 #
-# However, the column `"education-num"` is different. It corresponds to the
-# educational stage that is not necessarily the number of years studied, and
-# thus not a quantitative measurement. This feature is a categorical feature
-# already encoded with discrete numerical values. To see this specificity, we
-# will look at the count for each educational stage:
+# Now, we store the subset of numerical columns in a new dataframe.
 
 # %%
-data["education-num"].value_counts().sort_index()
-
-# %% [markdown]
-# This feature is indeed a nominal categorical feature. We exclude it from
-# our analysis since particular attention is required when dealing with
-# categorical features. This topic will be discussed in depth in the subsequent
-# notebook.
-#
-# In addition, we decide to ignore the column `"fnlwgt"`. This decision is not
-# linked with the feature being numerical or categorical. Indeed, this feature
-# is derived from a combination other features, as mentioned in the description
-# of the dataset. Thus, we will only focus on the original data collected
-# during the survey.
-#
-# Now, we can select the subset of numerical columns and store them inside a
-# new dataframe.
-
-# %%
-numerical_columns = [
-    "age", "capital-gain", "capital-loss", "hours-per-week"]
-
 data_numeric = data[numerical_columns]
 
 # %% [markdown]
 # ## Train-test split the dataset
 #
 # In the previous notebook, we loaded two separate datasets: a training one and
-# a testing one. However, as mentioned earlier, having separate datasets like
-# that is unusual: most of the time, we have a single one, which we will
-# subdivide.
+# a testing one. However, having separate datasets in two distincts files is
+# unusual: most of the time, we have a single file containing all the data that
+# we need to split once loaded in the memory.
 #
-# We also mentioned that scikit-learn provides the helper function
+# Scikit-learn provides the helper function
 # `sklearn.model_selection.train_test_split` which is used to automatically
-# split the data.
+# split the dataset into two subsets.
 
 # %%
 from sklearn.model_selection import train_test_split
 
 data_train, data_test, target_train, target_test = train_test_split(
-    data_numeric, target, random_state=42)
+    data_numeric, target, random_state=42, test_size=0.25)
 
 # %% [markdown]
 # ```{tip}
-# `random_state` parameter allows to get a deterministic results even if we
-# use some random process (i.e. data shuffling).
+# In scikit-learn setting the `random_state` parameter allows to get
+# deterministic results when we use a random number generator. In the
+# `train_test_split` case the randomness comes from shuffling the data, which
+# decides how the dataset is split into a train and a test set).
 # ```
-#
-# In the previous notebook, we used a k-nearest neighbors predictor. While this
-# model is really intuitive to understand, it is not widely used.
-# Here, we will make a predictive model belonging to the linear models family.
+
+# %% [markdown]
+# When calling the function `train_test_split`, we specified that we would like
+# to have 25% of samples in the testing set while the remaining samples (75%)
+# will be available in the training set. We can check quickly if we got
+# what we expected.
+
+# %%
+print(f"Number of samples in testing: {data_test.shape[0]} => "
+      f"{data_test.shape[0] / data_numeric.shape[0] * 100:.1f}% of the"
+      f" original set")
+
+# %%
+print(f"Number of samples in training: {data_train.shape[0]} => "
+      f"{data_train.shape[0] / data_numeric.shape[0] * 100:.1f}% of the"
+      f" original set")
+
+# %% [markdown]
+# In the previous notebook, we used a k-nearest neighbors model. While this
+# model is intuitive to understand, it is not widely used in practice. Now, we
+# will use a more useful model, called a logistic regression, which belongs to
+# the linear models family.
 #
 # ```{note}
-# In short, these models find a set of weights to combine each column in the
-# data matrix to predict the target. For instance, the model can come up with
-# rules such as `0.1 * age + 3.3 * hours-per-week - 15.1 > 0.5` means that
-# `high-income` is predicted.
+# In short, linear models find a set of weights to combine features linearly
+# and predict the target. For instance, the model can come up with a rule such
+# as:
+# * if `0.1 * age + 3.3 * hours-per-week - 15.1 > 0`, predict `high-income`
+# * otherwise predict `low-income`
+#
+# Linear models, and in particular the logistic regression, will be covered in
+# more details in the "Linear models" module later in this course. For now the
+# focus is to use this logistic regression model in scikit-learn rather than
+# understand how it works in details.
 # ```
 #
-# Thus, as we are trying to predict a qualitative property,
-# we will use a logistic regression classifier.
+# To create a logistic regression model in scikit-learn you can do:
 
 # %%
 from sklearn.linear_model import LogisticRegression
 
 model = LogisticRegression()
+
+# %% [markdown]
+# Now that the model has been created, you can use it exactly the same way as
+# we used the k-nearest neighbors model in the previous notebook. In
+# particular, we can use the `fit` method to train the model using the training
+# data and labels:
+
+# %%
 model.fit(data_train, target_train)
 
 # %% [markdown]
-# We can now check the statistical performance of the model using the test set
-# which we left out until now.
+# We can also use the `score` method to check the model generalization performance
+# on the test set.
 
 # %%
 accuracy = model.score(data_test, target_test)
 print(f"Accuracy of logistic regression: {accuracy:.3f}")
 
 # %% [markdown]
+# ## Notebook recap
 #
-# ```{caution}
-# Be aware you should use cross-validation instead of `train_test_split` in
-# practice. We used a single split, to highlight the scikit-learn API and the
-# methods `fit`, `predict`, and `score`. In the module "Select the best model"
-# we will go into details regarding cross-validation.
-# ```
+# In scikit-learn, the `score` method of a classification model returns the accuracy,
+# i.e. the fraction of correctly classified samples. In this case, around
+# 8 / 10 of the times the logistic regression predicts the right income of a
+# person. Now the real question is: is this generalization performance relevant
+# of a good predictive model? Find out by solving the next exercise!
 #
-# Now the real question is: is this statitical performance relevant of a good
-# predictive model? Find out by solving the next exercise!.
-#
-# In this notebook, we learned:
+# In this notebook, we learned to:
 #
 # * identify numerical data in a heterogeneous dataset;
 # * select the subset of columns corresponding to numerical data;
-# * use scikit-learn helper to separate data into train-test sets;
-# * train and evaluate a more complex scikit-learn model.
+# * use the scikit-learn `train_test_split` function to separate data into
+#   a train and a test set;
+# * train and evaluate a logistic regression model.

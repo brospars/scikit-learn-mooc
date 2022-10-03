@@ -1,3 +1,10 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Introductory example to ensemble models
 #
@@ -22,13 +29,7 @@ data, target = fetch_california_housing(as_frame=True, return_X_y=True)
 target *= 100  # rescale the target in k$
 
 # %% [markdown]
-# ```{caution}
-# Here and later, we use the name `data` and `target` to be explicit. In
-# scikit-learn, documentation `data` is commonly named `X` and `target` is
-# commonly called `y`.
-
-# %% [markdown]
-# We will check the statistical performance of decision tree regressor with
+# We will check the generalization performance of decision tree regressor with
 # default parameters.
 
 # %%
@@ -36,11 +37,11 @@ from sklearn.model_selection import cross_validate
 from sklearn.tree import DecisionTreeRegressor
 
 tree = DecisionTreeRegressor(random_state=0)
-cv_results = cross_validate(tree, data, target, n_jobs=-1)
+cv_results = cross_validate(tree, data, target, n_jobs=2)
 scores = cv_results["test_score"]
 
 print(f"R2 score obtained by cross-validation: "
-      f"{scores.mean():.3f} +/- {scores.std():.3f}")
+      f"{scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
 # We obtain fair results. However, as we previously presented in the "tree in
@@ -70,17 +71,17 @@ param_grid = {
 cv = 3
 
 tree = GridSearchCV(DecisionTreeRegressor(random_state=0),
-                    param_grid=param_grid, cv=cv, n_jobs=-1)
-cv_results = cross_validate(tree, data, target, n_jobs=-1,
+                    param_grid=param_grid, cv=cv, n_jobs=2)
+cv_results = cross_validate(tree, data, target, n_jobs=2,
                             return_estimator=True)
 scores = cv_results["test_score"]
 
 print(f"R2 score obtained by cross-validation: "
-      f"{scores.mean():.3f} +/- {scores.std():.3f}")
+      f"{scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
 # We see that optimizing the hyperparameters will have a positive effect
-# on the statistical performance. However, it comes with a higher computational
+# on the generalization performance. However, it comes with a higher computational
 # cost.
 
 # %% [markdown]
@@ -93,8 +94,8 @@ print(f"R2 score obtained by cross-validation: "
 # them on a slightly modified version of the training set. Then, the
 # predictions of all these base regressors will be combined by averaging.
 #
-# Here, we will use 50 decision trees and check the fitting time as well as the
-# statistical performance on the left-out testing data. It is important to note
+# Here, we will use 20 decision trees and check the fitting time as well as the
+# generalization performance on the left-out testing data. It is important to note
 # that we are not going to tune any parameter of the decision tree.
 
 # %%
@@ -105,20 +106,20 @@ base_estimator = DecisionTreeRegressor(random_state=0)
 bagging_regressor = BaggingRegressor(
     base_estimator=base_estimator, n_estimators=20, random_state=0)
 
-cv_results = cross_validate(bagging_regressor, data, target, n_jobs=-1)
+cv_results = cross_validate(bagging_regressor, data, target, n_jobs=2)
 scores = cv_results["test_score"]
 
 print(f"R2 score obtained by cross-validation: "
-      f"{scores.mean():.3f} +/- {scores.std():.3f}")
+      f"{scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
-# Without searching for optimal hyperparameters, the overall statistical
+# Without searching for optimal hyperparameters, the overall generalization
 # performance of the bagging regressor is better than a single decision tree.
 # In addition, the computational cost is reduced in comparison of seeking
 # for the optimal hyperparameters.
 #
 # This shows the motivation behind the use of an ensemble learner: it gives a
-# relatively good baseline with decent statistical performance without any
+# relatively good baseline with decent generalization performance without any
 # parameter tuning.
 #
 # Now, we will discuss in detail two ensemble families: bagging and

@@ -1,13 +1,27 @@
+# -*- coding: utf-8 -*-
+# ---
+# jupyter:
+#   jupytext:
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.11.5
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # 📝 Exercise 01
 #
 # The aim of this exercise is to highlight caveats to have in mind when using
 # feature selection. You have to be extremely careful regarding the set of
-# data on which you will compute the statistic that help you feature algorithm
-# to decide which feature to select.
+# data on which you will compute the statistic that helps your feature
+# selection algorithm to decide which feature to select.
 #
 # On purpose, we will make you program the wrong way of doing feature selection
-# to insights.
+# to gain insights.
 #
 # First, you will create a completely random dataset using NumPy. Using the
 # function `np.random.randn`, generate a matrix `data` containing 100 samples
@@ -16,17 +30,18 @@
 #
 # This type of dimensionality is typical in bioinformatics when dealing with
 # RNA-seq. However, we will use completely randomized features such that we
-# don't have a link between the data and the target. Thus, the statistical
-# performance of any machine learning model should not perform better than the
+# don't have a link between the data and the target. Thus, the generalization
+# performance of any machine-learning model should not perform better than the
 # chance-level.
 
 # %%
 import numpy as np
+
 # Write your code here.
 
 # %% [markdown]
 # Now, create a logistic regression model and use cross-validation to check
-# the score of such model. It will allow use to confirm that our model cannot
+# the score of such a model. It will allow use to confirm that our model cannot
 # predict anything meaningful from random data.
 
 # %%
@@ -48,20 +63,12 @@ import numpy as np
 # Now, we will make you program the **right** way to do the feature selection.
 # First, split the dataset into a training and testing set. Then, fit the
 # feature selector on the training set. Then, transform both the training and
-# testing sets before to train and test the logistic regression.
+# testing sets before you train and test the logistic regression.
 
 # %%
 # Write your code here.
 
 # %% [markdown]
-# This is not a surprise that our model is not working. We see that selecting
-# feature only on the training set will not help when testing our model. In
-# this case, we obtained the expected results.
-#
-# Therefore, as with hyperparameters optimization or model selection, tuning
-# the feature space should be done solely on the training set, keeping a part
-# of the data left-out.
-#
 # However, the previous case is not perfect. For instance, if we were asking
 # to perform cross-validation, the manual `fit`/`transform` of the datasets
 # will make our life hard. Indeed, the solution here is to use a scikit-learn
@@ -70,7 +77,7 @@ import numpy as np
 #
 # Thus, start by creating a pipeline with the feature selector and the logistic
 # regression. Then, use cross-validation to get an estimate of the uncertainty
-# of your model statistical performance.
+# of your model generalization performance.
 
 # %%
 # Write your code here.

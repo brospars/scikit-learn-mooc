@@ -1,14 +1,7 @@
 # ---
 # jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.6.0
 #   kernelspec:
 #     display_name: Python 3
-#     language: python
 #     name: python3
 # ---
 
@@ -26,26 +19,13 @@
 import pandas as pd
 
 adult_census = pd.read_csv("../datasets/adult-census.csv")
+# drop the duplicated column `"education-num"` as stated in the first notebook
+adult_census = adult_census.drop(columns="education-num")
 
 target_name = "class"
 target = adult_census[target_name]
 
-data = adult_census.drop(columns=[target_name, "fnlwgt"])
-
-# %% [markdown]
-# ```{caution}
-# Here and later, we use the name `data` and `target` to be explicit. In
-# scikit-learn, documentation `data` is commonly named `X` and `target` is
-# commonly called `y`.
-# ```
-
-# %% [markdown]
-# We recall that both `"education-num"` and `"education"` contain the same
-# information. In the previous notebook, we dropped `"education-num"` and
-# used `"education"` instead; we will do the same processing here.
-
-# %%
-data = data.drop(columns="education-num")
+data = adult_census.drop(columns=[target_name])
 
 # %% [markdown]
 # ## Selection based on data types
@@ -63,6 +43,18 @@ categorical_columns_selector = selector(dtype_include=object)
 
 numerical_columns = numerical_columns_selector(data)
 categorical_columns = categorical_columns_selector(data)
+
+# %% [markdown]
+# ```{caution}
+# Here, we know that `object` data type is used to represent strings and thus
+# categorical features. Be aware that this is not always the case. Sometimes
+# `object` data type could contain other types of information, such as dates that
+# were not properly formatted (strings) and yet relate to a quantity of
+# elapsed  time.
+#
+# In a more general scenario you should manually introspect the content of your
+# dataframe not to wrongly use `make_column_selector`.
+# ```
 
 # %% [markdown]
 # ## Dispatch columns to a specific processor
@@ -102,7 +94,7 @@ from sklearn.compose import ColumnTransformer
 
 preprocessor = ColumnTransformer([
     ('one-hot-encoder', categorical_preprocessor, categorical_columns),
-    ('standard-scaler', numerical_preprocessor, numerical_columns)])
+    ('standard_scaler', numerical_preprocessor, numerical_columns)])
 
 # %% [markdown]
 # We can take a minute to represent graphically the structure of a
@@ -110,51 +102,34 @@ preprocessor = ColumnTransformer([
 #
 # ![columntransformer diagram](../figures/api_diagram-columntransformer.svg)
 #
-# The `ColumnTransformer` will be a transformer that should do the following
-# steps:
+# A `ColumnTransformer` does the following:
 #
-# * **split the columns** of the original dataset based on the column names
-#   or indices provided. Thus, we will obtain as many subsets as the number of
-#   transformers in the `ColumnTransformer`;
-# * **transform each subset of data**. Indeed, each subset that has been
-#   created will is affected a specific transformer. Each transformer will
-#   internally call `fit_transform` or `transform`. Thus, the output of this
-#   transformation will be a set of transformed dataset.
-# * **concatenate all transformed dataset**. Once all input data transformed by
-#   their respective transformers, all datasets are concatenated and provided
-#   as an output.
-#
-# Thus, a `ColumnTransformer` is just another transformer: it get some input
-# data and will output some transformed data. However, columns will be
-# transformed differently depending on how a user defines the relationship
-# between columns and transformers.
-#
-# Now, that we know that our `preprocessor` can be seen as any scikit-learn
-# transformer, we define a pipeline to stack our `preprocessor` with our
-# classifier (logistic regression).
+# * It **splits the columns** of the original dataset based on the column names
+#   or indices provided. We will obtain as many subsets as the number of
+#   transformers passed into the `ColumnTransformer`.
+# * It **transforms each subsets**. A specific transformer is applied to
+#   each subset: it will internally call `fit_transform` or `transform`. The
+#   output of this step is a set of transformed datasets.
+# * It then **concatenates the transformed datasets** into a single dataset.
+
+# The important thing is that `ColumnTransformer` is like any other
+# scikit-learn transformer. In particular it can be combined with a classifier
+# in a `Pipeline`:
 
 # %%
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 
 model = make_pipeline(preprocessor, LogisticRegression(max_iter=500))
-
-# %% [markdown]
-# Starting from `scikit-learn 0.23`, the notebooks can display an interactive
-# view of the pipelines.
-
-# %%
-from sklearn import set_config
-set_config(display='diagram')
 model
 
 # %% [markdown]
 # The final model is more complex than the previous models but still follows
 # the same API (the same set of methods that can be called by the user):
 #
-# - the `fit` method is called to preprocess the data then train the
-#   classifier;
-# - the `predict` method make predictions on new data;
+# - the `fit` method is called to preprocess the data and then train the
+#   classifier of the preprocessed data;
+# - the `predict` method makes predictions on new data;
 # - the `score` method is used to predict on the test data and compare the
 #   predictions to the expected test labels to compute the accuracy.
 #
@@ -170,7 +145,10 @@ data_train, data_test, target_train, target_test = train_test_split(
 #
 # ```{caution}
 # Be aware that we use `train_test_split` here for didactic purposes, to show
-# the scikit-learn API.
+# the scikit-learn API. In a real setting one might prefer to use
+# cross-validation to also be able to evaluate the uncertainty of
+# our estimation of the generalization performance of a model,
+# as previously demonstrated.
 # ```
 #
 # Now, we can train the model on the train set.
@@ -216,7 +194,8 @@ cv_results
 
 # %%
 scores = cv_results["test_score"]
-print(f"The accuracy is: {scores.mean():.3f} +- {scores.std():.3f}")
+print("The mean cross-validation accuracy is: "
+      f"{scores.mean():.3f} ± {scores.std():.3f}")
 
 # %% [markdown]
 # The compound model has a higher predictive accuracy than the two models that
@@ -229,18 +208,22 @@ print(f"The accuracy is: {scores.mean():.3f} +- {scores.std():.3f}")
 # **small** to deploy, **fast** to predict and give a **good baseline**.
 #
 # However, it is often useful to check whether more complex models such as an
-# ensemble of decision trees can lead to higher predictive performance.
+# ensemble of decision trees can lead to higher predictive performance. In this
+# section we will use such a model called **gradient-boosting trees** and
+# evaluate its generalization performance. More precisely, the scikit-learn model
+# we will use is called `HistGradientBoostingClassifier`. Note that boosting
+# models will be covered in more detail in a future module.
 #
-# In the following cell we try a scalable implementation of the **Gradient
-# Boosting Machine** algorithm. For this class of models, we know that contrary
-# to linear models, it is **useless to scale the numerical features** and
-# furthermore it is both safe and significantly more computationally efficient
-# to use an arbitrary **integer encoding for the categorical variables** even
-# if the ordering is arbitrary. Therefore we adapt the preprocessing pipeline
-# as follows:
+# For tree-based models, the handling of numerical and categorical variables is
+# simpler than for linear models:
+# * we do **not need to scale the numerical features**
+# * using an **ordinal encoding for the categorical variables** is fine even if
+#   the encoding results in an arbitrary ordering
+#
+# Therefore, for `HistGradientBoostingClassifier`, the preprocessing pipeline
+# is slightly simpler than the one we saw earlier for the `LogisticRegression`:
 
 # %%
-from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.preprocessing import OrdinalEncoder
 
@@ -254,7 +237,7 @@ preprocessor = ColumnTransformer([
 model = make_pipeline(preprocessor, HistGradientBoostingClassifier())
 
 # %% [markdown]
-# Now that we created our model, we can check its statistical performance.
+# Now that we created our model, we can check its generalization performance.
 
 # %%
 # %%time
@@ -278,6 +261,6 @@ model.score(data_test, target_test)
 # * used a `ColumnTransformer` to apply different preprocessing for
 #   categorical and numerical variables;
 # * used a pipeline to chain the `ColumnTransformer` preprocessing and
-#   logistic regresssion fitting;
-# * seen that **gradient boosting methods** can outperforms the basic linear
-#   approach.
+#   logistic regression fitting;
+# * saw that **gradient boosting methods** can outperform **linear
+#   models**.

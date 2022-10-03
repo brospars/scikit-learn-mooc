@@ -1,3 +1,10 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     display_name: Python 3
+#     name: python3
+# ---
+
 # %% [markdown]
 # # Benefits of using feature selection
 #
@@ -23,14 +30,8 @@ data, target = make_classification(
 )
 
 # %% [markdown]
-# ```{caution}
-# Here and later, we use the name `data` and `target` to be explicit. In
-# scikit-learn, documentation `data` is commonly named `X` and `target` is
-# commonly called `y`.
-
-# %% [markdown]
-# We chose to create a dataset with two informative features among a hundred.
-# To simplify our example, we did not include either redundant or repeated
+# We choose to create a dataset with two informative features among a hundred.
+# To simplify our example, we do not include either redundant or repeated
 # features.
 #
 # We will create two machine learning pipelines. The former will be a random
@@ -45,7 +46,7 @@ data, target = make_classification(
 # %%
 from sklearn.ensemble import RandomForestClassifier
 
-model_without_selection = RandomForestClassifier(n_jobs=-1)
+model_without_selection = RandomForestClassifier(n_jobs=2)
 
 # %% [markdown]
 # Then, let's create a pipeline where the first stage will make the feature
@@ -59,7 +60,7 @@ from sklearn.pipeline import make_pipeline
 
 model_with_selection = make_pipeline(
     SelectKBest(score_func=f_classif, k=2),
-    RandomForestClassifier(n_jobs=-1),
+    RandomForestClassifier(n_jobs=2),
 )
 
 # %% [markdown]
@@ -120,7 +121,7 @@ _ = plt.title("Time to make prediction")
 # We can draw the same conclusions for both training and scoring elapsed time:
 # selecting the most informative features speed-up our pipeline.
 #
-# Of course, such speed-up is beneficial only if the statistical performance in
+# Of course, such speed-up is beneficial only if the generalization performance in
 # terms of metrics remain the same. Let's check the testing score.
 
 # %%
@@ -129,7 +130,7 @@ plt.xlabel("Accuracy score")
 _ = plt.title("Test score via cross-validation")
 
 # %% [markdown]
-# We can observe that the model's statistical performance selecting a subset of
+# We can observe that the model's generalization performance selecting a subset of
 # features decreases compared with the model using all available features.
 # Since we generated the dataset, we can infer that the decrease is because of
 # the selection. The feature selection algorithm did not choose the two
@@ -151,7 +152,7 @@ for idx, pipeline in enumerate(cv_results_with_selection["estimator"]):
 # We see that the feature `53` is always selected while the other feature
 # varies depending on the cross-validation fold.
 #
-# If we would like to keep our score with similar statistical performance, we
+# If we would like to keep our score with similar generalization performance, we
 # could choose another metric to perform the test or select more features. For
 # instance, we could select the number of features based on a specific
 # percentile of the highest scores. Besides, we should keep in mind that we
