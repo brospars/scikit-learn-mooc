@@ -32,12 +32,14 @@ interpreting their predictions.
 <div class="container">
   <div class="row">
     <div class="col-xl">
-      A new session of the
+      The latest version of the MOOC
       <a href="https://www.fun-mooc.fr/en/courses/machine-learning-python-scikit-learn">
-        "Machine learning in Python with scikit-learn MOOC"
+        here
+      "Machine learning in Python with scikit-learn"
       </a>,
-      is available starting on Feb. 15, 2022 and will last for 3 months. Enroll for
-      the full MOOC experience (quizz solutions, executable notebooks, discussion
+      is available for self-paced learning and is continuously updated to run
+      with the latest version of scikit-learn.
+      Enroll for the full MOOC experience (quiz solutions, executable notebooks, discussion
       forum, etc ...) !
       </br>
       The MOOC is free and the platform does not use the student data for any other purpose
@@ -72,15 +74,18 @@ or use the following resources:
 
 ## MOOC material
 
-The MOOC material is developed publicly under the [CC-By license](
-https://github.com/INRIA/scikit-learn-mooc/blob/main/LICENSE),
-including the notebooks, exercises and solutions to the exercises
-(but not the quizz solutions ;) via the following GitHub
-repository:
+The MOOC material is developed publicly under the [CC-BY license](
+https://github.com/INRIA/scikit-learn-mooc/blob/main/LICENSE).
+
+You can cite us through the project's Zenodo archive using the following DOI:
+[10.5281/zenodo.7220306](https://doi.org/10.5281/zenodo.7220306).
+
+The following repository includes the notebooks, exercises and solutions to the
+exercises (but not the quizzes' solutions ;):
 
   https://github.com/INRIA/scikit-learn-mooc/
 
-This is also published as a static website at:
+The MOOC material is also published as a static website at:
 
   https://inria.github.io/scikit-learn-mooc/
 
